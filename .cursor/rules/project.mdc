@@ -1,0 +1,265 @@
+---
+# Rally Project Rules (project.mdc)
+# Scope: Project-specific coding standards, architecture, security, and process for Rally.
+# These rules override or supplement user-level rules.
+scope: project
+name: Rally
+version: 1.0.0
+priority: high
+description: >
+  Rally is a two-sided marketplace connecting campus influencers (students) with brands/startups.
+  These rules codify engineering standards, best practices, and safety requirements.
+alwaysApply: true
+---
+
+# ---------- CORE PRINCIPLES ----------
+---
+id: rally.core-principles
+trigger: always_on
+description: |
+  - Code must be production-grade, minimal, and scalable.
+  - Enforce security, privacy, and compliance at every layer.
+  - Optimize for clarity and maintainability over cleverness.
+  - Favor deterministic, testable code and reproducible builds.
+  - Every feature must be shippable to 1M+ users without major rewrites.
+---
+
+# ---------- TECH STACK GUARDRAILS ----------
+---
+id: rally.stack
+trigger: always_on
+description: |
+  Frontend:
+    - Next.js (App Router), React 18+, TailwindCSS, shadcn/ui
+    - All components must be functional, not class-based
+    - Use server components when possible, client components only when necessary
+  Backend:
+    - FastAPI (Python) or Fastify (Node.js); enforce async-first patterns
+    - No blocking I/O in API handlers
+  Database:
+    - PostgreSQL (primary data)
+    - pgvector OR Pinecone for embeddings
+    - Migrations managed via Alembic (Python) or Prisma (Node.js)
+  Auth:
+    - Clerk/Auth0 SSO; enforce .edu verification for students
+  Payments:
+    - Stripe Connect for payouts; never roll custom payments
+  Storage:
+    - S3/Cloudflare R2 for resumes/media
+  AI/Embeddings:
+    - OpenAI/Cohere embeddings
+    - Cosine similarity via pgvector/Pinecone
+---
+
+# ---------- DATA MODELS & VALIDATION ----------
+---
+id: rally.models
+trigger: always_on
+description: |
+  - All models must be explicitly typed.
+  - Database schemas must match API contract.
+  - Validation enforced with pydantic (Python) or zod (TS).
+  - Never accept unchecked JSON; always validate payloads.
+  - Required fields: enforce NOT NULL in DB + schema validation.
+  - Embeddings must be recomputed on profile/campaign updates.
+---
+
+# ---------- API DESIGN ----------
+---
+id: rally.api
+trigger: always_on
+description: |
+  RESTful conventions:
+    - POST for creation, GET for retrieval, PATCH for updates, DELETE for removal
+    - Use plural nouns (/students, /brands, /campaigns)
+  Authentication:
+    - All endpoints require JWT (Clerk/Auth0) except /auth routes
+  Versioning:
+    - Prefix with /v1; do not remove old versions, deprecate gracefully
+  Error Handling:
+    - Return standardized JSON errors: { "error": { "code": "INVALID_INPUT", "message": "..." } }
+  Rate Limiting:
+    - Apply per-user + per-IP rate limits on all endpoints (e.g., 100 req/min)
+---
+
+# ---------- MATCHING ENGINE ----------
+---
+id: rally.matching
+trigger: always_on
+description: |
+  - Embedding generation must be idempotent and cached (avoid duplicate API calls).
+  - Use cosine similarity search via vector DB.
+  - Apply post-filters (budget, college, orgs) after similarity ranking.
+  - Return matches with deterministic ordering.
+  - Store embeddings in DB with lastUpdated timestamp.
+  - Ensure safe fallback if vector DB unavailable (e.g., degrade to keyword search).
+---
+
+# ---------- SECURITY & COMPLIANCE ----------
+---
+id: rally.security
+trigger: always_on
+description: |
+  - Enforce .edu verification for students at signup.
+  - Encrypt resumes and sensitive documents at rest (AES-256).
+  - All API traffic must be over HTTPS.
+  - Payments:
+      - Always use Stripe Connect; never store card data.
+      - Follow PCI DSS compliance rules (handled by Stripe).
+  - Privacy:
+      - Mask PII in logs.
+      - Never expose raw embeddings via API.
+  - JWT tokens must expire (≤ 1 hour access tokens, refresh via Clerk/Auth0).
+---
+
+# ---------- FRONTEND RULES ----------
+---
+id: rally.frontend
+trigger: always_on
+description: |
+  - All components should be written with TypeScript.
+  - Use Tailwind utility classes; avoid inline styles.
+  - Use shadcn/ui primitives for consistency.
+  - Pages:
+      - /dashboard (student + brand)
+      - /campaigns/[id]
+      - /profile (student/brand)
+      - /auth (login/signup)
+  - Forms:
+      - Use React Hook Form + zod validation.
+  - State Management:
+      - Use React Query for server state; avoid Redux unless justified.
+---
+
+# ---------- BACKEND RULES ----------
+---
+id: rally.backend
+trigger: always_on
+description: |
+  - Must be stateless; scale horizontally.
+  - No business logic in controllers; separate service layer.
+  - Logging:
+      - Use structured JSON logs.
+      - Never log secrets or PII.
+  - Monitoring:
+      - Expose /healthz and /readyz endpoints.
+  - Background Jobs:
+      - Use Celery (Python) or BullMQ (Node.js) for async tasks (e.g., embedding generation).
+---
+
+# ---------- PAYMENTS ----------
+---
+id: rally.payments
+trigger: always_on
+description: |
+  - Must use Stripe Connect for student payouts.
+  - All payment operations must log transaction ID.
+  - Payouts should confirm campaign deliverables before release.
+  - Provide webhook handlers for payout events.
+---
+
+# ---------- TESTING & QA ----------
+---
+id: rally.testing
+trigger: always_on
+description: |
+  - Unit tests required for all core services.
+  - Integration tests for API endpoints.
+  - E2E tests for signup → campaign match → payout.
+  - Code coverage ≥ 80% for backend, ≥ 70% for frontend.
+  - Use Playwright or Cypress for frontend E2E.
+---
+
+# ---------- CI/CD ----------
+---
+id: rally.ci-cd
+trigger: always_on
+description: |
+  - Use GitHub Actions or similar CI.
+  - Required checks before merge:
+      - Lint
+      - Type-check
+      - Tests
+      - Build
+  - CD:
+      - Staging environment auto-deploys from main.
+      - Production deploys require manual approval.
+---
+
+# ---------- DOCUMENTATION ----------
+---
+id: rally.docs
+trigger: always_on
+description: |
+  - README must include:
+      - Quickstart (local setup in ≤ 5 steps)
+      - Tech stack overview
+      - API routes summary
+      - Deployment steps
+  - API docs auto-generated via OpenAPI/Swagger.
+  - Keep architecture diagram updated in /docs.
+---
+
+# ---------- ANALYTICS & METRICS ----------
+---
+id: rally.analytics
+trigger: always_on
+description: |
+  - Track:
+      - Campaign applications
+      - Matches shown vs. accepted
+      - Payout completions
+  - Use PostHog or Segment for event tracking.
+  - Privacy: No personal identifiers in analytics events.
+---
+
+# ---------- ROADMAP & EVOLUTION ----------
+---
+id: rally.roadmap
+trigger: always_on
+description: |
+  MVP must include:
+    - Student onboarding
+    - Brand onboarding
+    - Campaign creation
+    - Matching engine (embeddings)
+    - Contracts + payments
+    - Dashboards
+  Future iterations may extend:
+    - Social graph inference
+    - AI campaign brief generator
+    - Engagement quality metrics
+---
+
+# ---------- CODE REVIEW STANDARDS ----------
+---
+id: rally.review
+trigger: always_on
+description: |
+  - PRs must be ≤ 400 lines of diff.
+  - Must include description + test plan.
+  - All code must be reviewed by at least 1 other engineer.
+  - No direct commits to main branch.
+---
+
+# ---------- DISASTER RECOVERY ----------
+---
+id: rally.recovery
+trigger: always_on
+description: |
+  - Daily backups for PostgreSQL and object storage.
+  - Restore tests run weekly.
+  - Embedding DB can be rebuilt from source if corrupted.
+---
+
+# ---------- NON-FUNCTIONAL REQUIREMENTS ----------
+---
+id: rally.nfr
+trigger: always_on
+description: |
+  - Latency: API requests must respond < 200ms at P95 (excluding embedding generation).
+  - Uptime: ≥ 99.9% SLA for production.
+  - Scale: Designed to support 1M users without major re-architecture.
+---
+
+# End of Rally Project Rules
