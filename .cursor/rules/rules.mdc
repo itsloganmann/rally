@@ -1,0 +1,133 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+Technical Spec Sheet: Campus Brand–Student Matching Platform
+Overview
+A two-sided marketplace that connects college students (with campus influence) to brands/startups (seeking growth, sponsorships, or marketing reach). Matching is powered by vector embeddings of student resumes, social presence, and affiliations, aligned with brand campaign needs.
+1. User Types
+Students
+Create profile with:
+College (for geo-specific targeting)
+Clubs/orgs/teams (e.g., frats, athletics, academic societies)
+Social media handles + follower counts (TikTok, IG, Twitter/X, LinkedIn)
+Interests + availability
+Browse opportunities and apply
+Receive payouts (via Stripe integration)
+Build portfolio of completed campaigns
+Brands
+Create profile with:
+Company name, industry, size, logo, description
+Budget preference (nano, micro, mid-tier campaigns)
+Launch campaigns with targeting filters
+Receive student matches + apply filters
+Track campaign performance
+2. Core Features
+Students
+Profile creation wizard (college, clubs, social reach, resume/experience)
+Dashboard with recommended campaigns
+In-app messaging with brands
+Application + contract management
+Reputation/ratings system
+Brands
+Campaign creation wizard:
+Goal (awareness, launch, event, lead gen)
+Target filters (college, orgs, demographics, influencer tier)
+Deliverables (IG post, TikTok video, event promo, etc.)
+Budget + timeline
+Dashboard with student match cards
+Contract + payment integration (Stripe Connect)
+Post-campaign analytics
+Matching Engine
+Use embeddings to place students and campaigns in shared vector space.
+Inputs:
+Student profile → embedding (clubs, social presence, resume)
+Campaign description → embedding (keywords, deliverables, goals)
+Matching: cosine similarity search via vector DB (Pinecone/Weaviate/pgvector).
+3. Tech Stack
+Frontend: Next.js (React, TailwindCSS, shadcn/ui)
+Backend: Node.js (Express/Fastify) or Django/FastAPI if Python preferred
+Database:
+PostgreSQL (user + campaign data)
+pgvector / Pinecone for embeddings
+Embeddings/AI: OpenAI or Cohere text embeddings (profile + campaign data)
+Auth: Clerk/Auth0 (SSO + student verification via .edu email)
+Payments: Stripe Connect (for brand → student payouts)
+Storage: S3/Cloudflare R2 (for resumes, media uploads)
+4. Data Models
+Student
+
+Student {
+  id: UUID
+  name: string
+  email: string
+  college: string
+  clubs: string[]
+  socials: {
+    platform: string
+    handle: string
+    followers: number
+  }[]
+  resume_url: string
+  reputation_score: float
+  embedding: vector
+}
+Brand
+
+Brand {
+  id: UUID
+  name: string
+  industry: string
+  size: string
+  description: string
+  logo_url: string
+}
+Campaign
+
+Campaign {
+  id: UUID
+  brand_id: UUID
+  goal: string
+  target_filters: {
+    colleges: string[]
+    clubs: string[]
+    min_followers: number
+    max_followers: number
+  }
+  deliverables: string[]
+  budget: float
+  start_date: date
+  end_date: date
+  embedding: vector
+}
+5. Matching Workflow
+Student profile → embedding generated on signup/update.
+Brand campaign → embedding generated on creation.
+Matching function: cosine similarity search (vector DB).
+Results ranked + filtered by constraints (budget, location, orgs, etc.).
+Display match cards to brand dashboard.
+6. Key APIs
+POST /students → create student profile + generate embedding
+POST /brands → create brand profile
+POST /campaigns → create campaign + embedding
+GET /campaigns/recommendations?studentId= → return ranked campaigns
+GET /students/recommendations?campaignId= → return ranked students
+POST /contracts → initiate student-brand agreement
+POST /payments → handle Stripe payout
+7. Security
+Student verification via .edu email
+JWT-based auth
+Stripe for secure payments
+Data encryption for resumes/social handles
+8. Roadmap
+MVP (3–4 months):
+Student onboarding + profile
+Brand onboarding + campaign creation
+Vector matching engine (basic embeddings)
+Contracts + payments (Stripe)
+Dashboards for both sides
+Future:
+Social graph inference (who knows who on campus)
+Automated engagement analytics (follower quality, reach estimation)
+AI campaign brief generator for brands
