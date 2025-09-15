@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rally Waitlist | Coming Soon</title>
+    <meta name="description" content="Join the Rally waitlist to get early access and exclusive updates." />
+    <meta name="theme-color" content="#0b0f19" />
+
+    <!-- Pico CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+
+    <!-- App Styles -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="bg-orbs">
+      <div class="orb-conic"></div>
+      <div class="orb-radial"></div>
+      <div class="inset-overlay" style="position:absolute; inset:0; background: radial-gradient(ellipse at top, rgba(255,255,255,0.06), transparent 60%);"></div>
+    </div>
+
+    <main class="container fade-in" style="position: relative; min-height: 100vh;">
+
+      <div class="split">
+        <section class="hero">
+          <span class="badge">Campus marketplace • AI matching</span>
+          <h1>Rally matches students and brands for elite campus campaigns</h1>
+          <!--<p class="subtitle">Apply once with your resume and socials. Smart vector matching brings the right campaigns to you.</p>-->
+        </section>
+
+        <section class="signup" aria-labelledby="waitlist-title">
+          <h2 id="waitlist-title">Join the waitlist</h2>
+          <p>Get early access and exclusive updates.</p>
+
+          <form id="waitlist-form">
+            <fieldset role="group">
+              <input
+                type="email"
+                id="email"
+                name="user_email"
+                placeholder="Your professional email"
+                autocomplete="email"
+                required
+              />
+              <button type="submit" id="submit-btn" class="contrast">Secure My Spot</button>
+            </fieldset>
+            <input type="hidden" id="signup-date" name="date" />
+            <input type="hidden" id="role" name="role" value="" />
+            <input type="hidden" id="reply_to" name="reply_to" />
+            <input type="hidden" id="summary" name="summary" />
+            <input type="hidden" id="source" name="source" value="rally-waitlist" />
+
+            <details class="optional">
+              <summary>Optional: help us match you better</summary>
+
+              <div class="segmented" role="tablist" aria-label="Role selection">
+                <input type="radio" id="role-student" name="role-tab" value="student" />
+                <label for="role-student">Student</label>
+                <input type="radio" id="role-brand" name="role-tab" value="brand" />
+                <label for="role-brand">Brand</label>
+              </div>
+
+              <div class="role-sections">
+                <div class="role-student" hidden>
+                  <div class="grid-2">
+                    <input type="text" name="college" placeholder="College" />
+                    <input type="text" name="clubs" placeholder="Clubs/Orgs" />
+                  </div>
+                  <div class="grid-3">
+                    <input type="text" name="platform" placeholder="Primary platform" />
+                    <input type="number" name="followers" placeholder="Followers" min="0" />
+                    <input type="text" name="interests" placeholder="Interests" />
+                  </div>
+                </div>
+
+                <div class="role-brand" hidden>
+                  <div class="grid-2">
+                    <input type="text" name="company" placeholder="Company" />
+                    <input type="text" name="industry" placeholder="Industry" />
+                  </div>
+                  <div class="grid-3">
+                    <input type="text" name="goal" placeholder="Campaign goal" />
+                    <input type="text" name="target_colleges" placeholder="Target colleges" />
+                    <input type="text" name="deliverables" placeholder="Deliverables" />
+                  </div>
+                  <div class="grid-2">
+                    <input type="number" name="min_followers" placeholder="Min followers" min="0" />
+                    <input type="text" name="budget" placeholder="Budget" />
+                  </div>
+                </div>
+              </div>
+            </details>
+          </form>
+
+          <small class="disclaimer">
+            By joining, you agree to our
+            <a href="#" aria-disabled="true">Privacy Policy</a>.
+          </small>
+
+          <div id="form-message" role="status" aria-live="polite"></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- App Script -->
+    <script src="./script.js"></script>
+  </body>
+  </html>
+
+

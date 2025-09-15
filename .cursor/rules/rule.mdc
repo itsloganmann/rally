@@ -243,4 +243,9 @@ description: |
   - Latency: API requests must respond < 200ms at P95 (excluding embedding generation).
   - Uptime: ≥ 99.9% SLA for production.
   - Scale: Designed to support 1M users without major re-architecture.
+<<<<<<< Updated upstream:.cursor/rules/rule.mdc
 ---
+=======
+---
+# End of Rally Project Rules (edited) 
+>>>>>>> Stashed changes:.cursor/rules/project.mdc
