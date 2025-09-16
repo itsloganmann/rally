@@ -121,7 +121,7 @@ export default function AuthPage() {
           {/* Footer */}
           <div className="text-center mt-6">
             <p className="text-gray-400 text-sm">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <button 
                 onClick={handleSignUp}
                 className="text-white hover:text-cyan-400 transition-colors underline"

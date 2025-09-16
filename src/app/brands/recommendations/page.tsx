@@ -242,7 +242,7 @@ function InfluencerCard({
   isFocused: boolean;
   onSelect: () => void;
 }) {
-  const totalFollowers = calculateTotalFollowers(influencer);
+  const totalFollowers = influencer.socials.reduce((sum, social) => sum + social.followers, 0);
   const tier = getInfluencerTier(totalFollowers);
   const formattedFollowers = formatFollowerCount(totalFollowers);
 

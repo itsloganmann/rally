@@ -25,7 +25,7 @@ type Profile = {
 const DEMO_DEALS: Deal[] = [
   {
     id: "1",
-    title: "\"Campus Launch Tour\" – Energy drink launch → looking for frat social chairs at USC.",
+    title: "&quot;Campus Launch Tour&quot; – Energy drink launch → looking for frat social chairs at USC.",
     brand: "LaunchPad Energy ⚡️",
     location: "On‑Campus",
     notes: `Deliverables: 1 TikTok video promoting a sponsored party; host one branded event during the semester; distribute product samples at the event.\nWhy it matches: Directly targets Social Chair role and Nightlife interest.`,
@@ -35,7 +35,7 @@ const DEMO_DEALS: Deal[] = [
   },
   {
     id: "2",
-    title: "\"Student Ambassador Program\" – New investing app → seeking ambassadors in top business programs.",
+    title: "&quot;Student Ambassador Program&quot; – New investing app → seeking ambassadors in top business programs.",
     brand: "PortfolioPal Investing 📈",
     location: "On‑Campus",
     notes: `Deliverables: 2 Instagram story series with unique sign-up link; on-campus promotion within the business school.\nWhy it matches: Aligns with Business major, Investment Club affiliation, and Entrepreneurship interest.`,
@@ -44,10 +44,10 @@ const DEMO_DEALS: Deal[] = [
   },
   {
     id: "3",
-    title: "\"Fall Collection Drop\" – Men's fashion brand → micro-influencers for our new apparel line.",
+    title: "&quot;Fall Collection Drop&quot; – Men's fashion brand → micro-influencers for our new apparel line.",
     brand: "Coastal Threads Co. 👕",
     location: "Remote",
-    notes: `Deliverables: 1 Instagram grid post; 1 TikTok \"Get Ready With Me\" video.\nWhy it matches: Taps into Fashion interest and leverages TikTok micro‑influencer status.`,
+    notes: `Deliverables: 1 Instagram grid post; 1 TikTok &quot;Get Ready With Me&quot; video.\nWhy it matches: Taps into Fashion interest and leverages TikTok micro‑influencer status.`,
     payout: "$250 + Free Apparel ($300 value)",
   },
 ];
@@ -120,7 +120,7 @@ export default function StudentDashboard() {
           {deals.length === 0 && (
             <div className="md:col-span-2 rounded-2xl border border-dashed border-white/10 bg-white/5 p-10 text-center">
               <div className="text-lg font-medium">No opportunities match your filters (yet)</div>
-              <div className="mt-2 text-sm text-white/70">Try clearing search or switching location to "All".</div>
+              <div className="mt-2 text-sm text-white/70">Try clearing search or switching location to &quot;All&quot;.</div>
             </div>
           )}
           {deals.map((d) => (

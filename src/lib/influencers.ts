@@ -26,8 +26,25 @@ export interface Influencer {
     baseConversions: number;
     targetViews: number;
     targetConversions: number;
+    description: string;
   }>;
 }
+
+// Generate placeholder image URLs based on platform and content type
+const generatePostImageUrl = (platform: string, contentType: string, seed: number): string => {
+  const size = platform === 'TikTok' ? '400x600' : '600x600';
+  const colors = [
+    'ff6b6b,4ecdc4', // coral & teal
+    'a8e6cf,ffd93d', // mint & yellow
+    'ff8b94,b4a7d6', // pink & lavender
+    '87ceeb,ffa07a', // sky blue & salmon
+    '98d8c8,f7dc6f', // seafoam & light gold
+    'dda0dd,87cefa', // plum & light sky blue
+  ];
+  const colorPair = colors[seed % colors.length];
+  
+  return `https://via.placeholder.com/${size}/${colorPair}/ffffff?text=${encodeURIComponent(contentType)}`;
+};
 
 export const influencers: Influencer[] = [
   {
@@ -36,412 +53,88 @@ export const influencers: Influencer[] = [
     college: "Stanford University",
     year: "Junior",
     orgs: [
-      { org: "Kappa Alpha Theta", role: "Social Chair" },
-      { org: "Stanford Entrepreneurship Club", role: "Member" }
+      { org: "Stanford Fashion Society", role: "President" },
+      { org: "Delta Gamma", role: "Social Chair" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@mayapatelpatel", followers: 12500 },
-      { platform: "Instagram", handle: "@maya.stanford", followers: 8200 },
-      { platform: "LinkedIn", handle: "Maya Patel", followers: 1800 }
+      { platform: "TikTok", handle: "@mayastyle", followers: 15200 },
+      { platform: "Instagram", handle: "@maya.fits", followers: 8900 },
+      { platform: "LinkedIn", handle: "maya-patel-stanford", followers: 1200 }
     ],
-    interests: ["Fashion", "Entrepreneurship", "Tech", "Greek Life"],
+    interests: ["Fashion", "Tech", "Sustainability"],
     lat: 37.4419,
     lng: -122.1430,
     engagement: "high",
     fitScore: 94,
-    explanation: "Perfect fit for fashion/lifestyle brands - Greek life social chair with strong engagement in fashion and entrepreneurship communities.",
+    explanation: "Top fashion influencer with strong tech background - perfect for tech-fashion crossover brands targeting aspirational college market.",
     examplePosts: [
       {
-        id: "post-001-1",
-        mediaUrl: "/example-posts/fashion-tiktok-1.jpg",
+        id: "tiktok-1",
+        mediaUrl: generatePostImageUrl("TikTok", "Fashion+Haul", 1),
         platform: "TikTok",
         baseViews: 8500,
         baseConversions: 127,
         targetViews: 25000,
-        targetConversions: 380
+        targetConversions: 380,
+        description: "Fashion try-on haul with sustainable brands"
       },
       {
-        id: "post-001-2", 
-        mediaUrl: "/example-posts/outfit-ig-1.jpg",
+        id: "instagram-1", 
+        mediaUrl: generatePostImageUrl("Instagram", "OOTD+Post", 1),
         platform: "Instagram",
-        baseViews: 3200,
-        baseConversions: 89,
+        baseViews: 4200,
+        baseConversions: 84,
         targetViews: 12000,
-        targetConversions: 245
+        targetConversions: 245,
+        description: "Outfit of the day featuring eco-friendly accessories"
       }
     ]
   },
   {
     id: "inf-002",
-    name: "Marcus Johnson",
+    name: "Jake Thompson",
     college: "University of Michigan",
     year: "Senior",
     orgs: [
-      { org: "Alpha Phi Alpha", role: "President" },
-      { org: "Michigan Athletic Department", role: "Student Manager" }
+      { org: "Michigan Football", role: "Starting QB" },
+      { org: "Student Athletes Advisory Committee", role: "Vice President" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@marcusmichigan", followers: 18700 },
-      { platform: "Instagram", handle: "@marcus.umich", followers: 15300 },
-      { platform: "Twitter", handle: "@MarcusJ_UM", followers: 4200 }
+      { platform: "TikTok", handle: "@jakethrows", followers: 28500 },
+      { platform: "Instagram", handle: "@jthompson_qb", followers: 22100 },
+      { platform: "LinkedIn", handle: "jake-thompson-umich", followers: 3400 }
     ],
-    interests: ["Sports", "Fitness", "Leadership", "Greek Life"],
-    lat: 42.2780,
-    lng: -83.7382,
+    interests: ["Football", "Fitness", "Business"],
+    lat: 42.2808,
+    lng: -83.7430,
     engagement: "high",
-    fitScore: 92,
-    explanation: "Strong athletic and leadership presence - ideal for sports/fitness brands targeting college athletes and Greek life.",
+    fitScore: 91,
+    explanation: "High-profile college athlete with massive reach - ideal for sports, fitness, and lifestyle brands targeting competitive college demographic.",
     examplePosts: [
       {
-        id: "post-002-1",
-        mediaUrl: "/example-posts/workout-tiktok-1.jpg",
+        id: "tiktok-2",
+        mediaUrl: generatePostImageUrl("TikTok", "Workout+Tips", 2),
         platform: "TikTok",
-        baseViews: 12300,
-        baseConversions: 185,
-        targetViews: 35000,
-        targetConversions: 520
+        baseViews: 15200,
+        baseConversions: 304,
+        targetViews: 45000,
+        targetConversions: 900,
+        description: "Pre-game workout routine and nutrition tips"
       },
       {
-        id: "post-002-2",
-        mediaUrl: "/example-posts/gameday-ig-1.jpg", 
-        platform: "Instagram",
-        baseViews: 6800,
-        baseConversions: 134,
-        targetViews: 18000,
-        targetConversions: 310
+        id: "instagram-2",
+        mediaUrl: generatePostImageUrl("Instagram", "Game+Day", 2),
+        platform: "Instagram", 
+        baseViews: 9800,
+        baseConversions: 196,
+        targetViews: 28000,
+        targetConversions: 560,
+        description: "Game day preparation and mindset"
       }
     ]
   },
   {
     id: "inf-003",
-    name: "Sofia Chen",
-    college: "UC Berkeley",
-    year: "Sophomore",
-    orgs: [
-      { org: "Berkeley Consulting", role: "Analyst" },
-      { org: "Asian Student Union", role: "Secretary" }
-    ],
-    socials: [
-      { platform: "TikTok", handle: "@sofiacberk", followers: 9800 },
-      { platform: "Instagram", handle: "@sofia.berkeley", followers: 11200 },
-      { platform: "LinkedIn", handle: "Sofia Chen", followers: 2600 }
-    ],
-    interests: ["Business", "Tech", "Study Tips", "Culture"],
-    lat: 37.8719,
-    lng: -122.2585,
-    engagement: "medium",
-    fitScore: 88,
-    explanation: "Rising star in business/tech content - strong academic focus appeals to productivity and educational brands.",
-    examplePosts: [
-      {
-        id: "post-003-1",
-        mediaUrl: "/example-posts/study-tips-tiktok-1.jpg",
-        platform: "TikTok", 
-        baseViews: 5400,
-        baseConversions: 76,
-        targetViews: 15000,
-        targetConversions: 210
-      },
-      {
-        id: "post-003-2",
-        mediaUrl: "/example-posts/berkeley-campus-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 4100,
-        baseConversions: 92,
-        targetViews: 11000,
-        targetConversions: 180
-      }
-    ]
-  },
-  {
-    id: "inf-004",
-    name: "Jake Williams",
-    college: "University of Texas at Austin",
-    year: "Junior",
-    orgs: [
-      { org: "Sigma Chi", role: "Rush Chair" },
-      { org: "Texas Cowboys", role: "Member" }
-    ],
-    socials: [
-      { platform: "TikTok", handle: "@jakeutaustin", followers: 22000 },
-      { platform: "Instagram", handle: "@jake.longhorns", followers: 16800 },
-      { platform: "Snapchat", handle: "@jakewilliams", followers: 8500 }
-    ],
-    interests: ["Nightlife", "Music", "Greek Life", "Sports"],
-    lat: 30.2849,
-    lng: -97.7341,
-    engagement: "high",
-    fitScore: 91,
-    explanation: "Top performer in lifestyle/party content - excellent reach for entertainment, alcohol, and lifestyle brands targeting college social scene.",
-    examplePosts: [
-      {
-        id: "post-004-1",
-        mediaUrl: "/example-posts/party-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 15600,
-        baseConversions: 234,
-        targetViews: 42000,
-        targetConversions: 630
-      },
-      {
-        id: "post-004-2",
-        mediaUrl: "/example-posts/tailgate-ig-1.jpg",
-        platform: "Instagram", 
-        baseViews: 8900,
-        baseConversions: 167,
-        targetViews: 24000,
-        targetConversions: 380
-      }
-    ]
-  },
-  {
-    id: "inf-005",
-    name: "Emma Rodriguez",
-    college: "New York University",
-    year: "Senior",
-    orgs: [
-      { org: "NYU Student Government", role: "VP Communications" },
-      { org: "Pre-Law Society", role: "President" }
-    ],
-    socials: [
-      { platform: "TikTok", handle: "@emmanyc", followers: 14200 },
-      { platform: "Instagram", handle: "@emma.nyu", followers: 19500 },
-      { platform: "LinkedIn", handle: "Emma Rodriguez", followers: 3400 }
-    ],
-    interests: ["Politics", "Law", "NYC", "Leadership"],
-    lat: 40.7295,
-    lng: -73.9965,
-    engagement: "high",
-    fitScore: 89,
-    explanation: "Strong political/academic voice in NYC - perfect for professional services, educational, and civic engagement brands.",
-    examplePosts: [
-      {
-        id: "post-005-1",
-        mediaUrl: "/example-posts/nyc-life-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 9800,
-        baseConversions: 147,
-        targetViews: 28000,
-        targetConversions: 420
-      },
-      {
-        id: "post-005-2",
-        mediaUrl: "/example-posts/law-school-prep-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 7200,
-        baseConversions: 156,
-        targetViews: 19000,
-        targetConversions: 285
-      }
-    ]
-  },
-  {
-    id: "inf-006",
-    name: "Tyler Brooks",
-    college: "University of Georgia",
-    year: "Junior",
-    orgs: [
-      { org: "Kappa Sigma", role: "Social Chair" },
-      { org: "UGA Club Baseball", role: "Captain" }
-    ],
-    socials: [
-      { platform: "TikTok", handle: "@tyleruga", followers: 16900 },
-      { platform: "Instagram", handle: "@tyler.dawgs", followers: 13400 },
-      { platform: "Twitter", handle: "@TylerB_UGA", followers: 5200 }
-    ],
-    interests: ["Sports", "Greek Life", "Southern Culture", "Fitness"],
-    lat: 33.9519,
-    lng: -83.3576,
-    engagement: "high", 
-    fitScore: 90,
-    explanation: "Quintessential southern college experience - ideal for sports apparel, outdoor brands, and southern lifestyle products.",
-    examplePosts: [
-      {
-        id: "post-006-1",
-        mediaUrl: "/example-posts/gameday-southern-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 11200,
-        baseConversions: 168,
-        targetViews: 32000,
-        targetConversions: 480
-      },
-      {
-        id: "post-006-2",
-        mediaUrl: "/example-posts/baseball-practice-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 6700,
-        baseConversions: 123,
-        targetViews: 17000,
-        targetConversions: 290
-      }
-    ]
-  },
-  {
-    id: "inf-007",
-    name: "Zoe Kim",
-    college: "UCLA",
-    year: "Sophomore",
-    orgs: [
-      { org: "Korean Student Association", role: "Social Media Manager" },
-      { org: "UCLA Dance Team", role: "Member" }
-    ],
-    socials: [
-      { platform: "TikTok", handle: "@zoeucla", followers: 21500 },
-      { platform: "Instagram", handle: "@zoe.ucla", followers: 18700 },
-      { platform: "YouTube", handle: "ZoeKimDance", followers: 6300 }
-    ],
-    interests: ["Dance", "K-Pop", "Beauty", "Fashion"],
-    lat: 34.0689,
-    lng: -118.4452,
-    engagement: "high",
-    fitScore: 93,
-    explanation: "Viral dance content creator - perfect for beauty, fashion, and lifestyle brands targeting Gen Z with strong K-pop/dance culture appeal.",
-    examplePosts: [
-      {
-        id: "post-007-1",
-        mediaUrl: "/example-posts/dance-trend-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 18400,
-        baseConversions: 276,
-        targetViews: 52000,
-        targetConversions: 780
-      },
-      {
-        id: "post-007-2",
-        mediaUrl: "/example-posts/kpop-inspired-outfit-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 9600,
-        baseConversions: 192,
-        targetViews: 26000,
-        targetConversions: 390
-      }
-    ]
-  },
-  {
-    id: "inf-008", 
-    name: "Connor O'Brien",
-    college: "Boston College",
-    year: "Senior",
-    orgs: [
-      { org: "Boston College Student Government", role: "Treasurer" },
-      { org: "Finance Club", role: "President" }
-    ],
-    socials: [
-      { platform: "LinkedIn", handle: "Connor O'Brien", followers: 4200 },
-      { platform: "Instagram", handle: "@connor.bc", followers: 7800 },
-      { platform: "TikTok", handle: "@connorfinance", followers: 8900 }
-    ],
-    interests: ["Finance", "Business", "Networking", "Boston"],
-    lat: 42.3355,
-    lng: -71.1677,
-    engagement: "medium",
-    fitScore: 85,
-    explanation: "Rising finance professional - strong appeal for fintech, professional services, and business education brands targeting ambitious students.",
-    examplePosts: [
-      {
-        id: "post-008-1",
-        mediaUrl: "/example-posts/finance-tips-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 6200,
-        baseConversions: 93,
-        targetViews: 17000,
-        targetConversions: 255
-      },
-      {
-        id: "post-008-2",
-        mediaUrl: "/example-posts/boston-professional-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 3800,
-        baseConversions: 76,
-        targetViews: 10000,
-        targetConversions: 150
-      }
-    ]
-  },
-  {
-    id: "inf-009",
-    name: "Aaliyah Washington",
-    college: "Howard University",
-    year: "Junior",
-    orgs: [
-      { org: "Delta Sigma Theta", role: "Vice President" },
-      { org: "Howard Business School Association", role: "Events Chair" }
-    ],
-    socials: [
-      { platform: "TikTok", handle: "@aaliyahhoward", followers: 15600 },
-      { platform: "Instagram", handle: "@aaliyah.hu", followers: 12300 },
-      { platform: "LinkedIn", handle: "Aaliyah Washington", followers: 2800 }
-    ],
-    interests: ["Business", "Greek Life", "Empowerment", "Culture"],
-    lat: 38.9217,
-    lng: -77.0198,
-    engagement: "high",
-    fitScore: 87,
-    explanation: "Influential voice in HBCU community - excellent for diversity-focused brands, professional development, and empowerment messaging.",
-    examplePosts: [
-      {
-        id: "post-009-1", 
-        mediaUrl: "/example-posts/hbcu-pride-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 8900,
-        baseConversions: 134,
-        targetViews: 25000,
-        targetConversions: 375
-      },
-      {
-        id: "post-009-2",
-        mediaUrl: "/example-posts/business-woman-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 5400,
-        baseConversions: 108,
-        targetViews: 14000,
-        targetConversions: 210
-      }
-    ]
-  },
-  {
-    id: "inf-010",
-    name: "Alex Thompson",
-    college: "University of Washington",
-    year: "Sophomore",
-    orgs: [
-      { org: "UW Gaming Club", role: "President" },
-      { org: "Computer Science Student Association", role: "Social Chair" }
-    ],
-    socials: [
-      { platform: "Twitch", handle: "AlexThompsonGames", followers: 18200 },
-      { platform: "TikTok", handle: "@alexuwgaming", followers: 11700 },
-      { platform: "Discord", handle: "AlexT#1337", followers: 9500 }
-    ],
-    interests: ["Gaming", "Tech", "Programming", "Esports"],
-    lat: 47.6553,
-    lng: -122.3035,
-    engagement: "high",
-    fitScore: 86,
-    explanation: "Leading gaming influencer in college space - perfect for gaming hardware, tech products, and digital entertainment brands.",
-    examplePosts: [
-      {
-        id: "post-010-1",
-        mediaUrl: "/example-posts/gaming-setup-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 7800,
-        baseConversions: 117,
-        targetViews: 22000,
-        targetConversions: 330
-      },
-      {
-        id: "post-010-2",
-        mediaUrl: "/example-posts/coding-session-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 4600,
-        baseConversions: 92,
-        targetViews: 12000,
-        targetConversions: 180
-      }
-    ]
-  },
-  {
-    id: "inf-011",
     name: "Isabella Martinez",
     college: "University of Miami",
     year: "Junior",
@@ -450,867 +143,1255 @@ export const influencers: Influencer[] = [
       { org: "Miami Fashion Society", role: "Creative Director" }
     ],
     socials: [
-      { platform: "Instagram", handle: "@bella.miami", followers: 24500 },
       { platform: "TikTok", handle: "@bellamiami", followers: 19200 },
+      { platform: "Instagram", handle: "@bella.martinez", followers: 24600 },
       { platform: "Pinterest", handle: "BellaMiamiFashion", followers: 7800 }
     ],
     interests: ["Fashion", "Beauty", "Miami Lifestyle", "Greek Life"],
-    lat: 25.7217,
-    lng: -80.2794,
+    lat: 25.7617,
+    lng: -80.1918,
     engagement: "high",
     fitScore: 95,
     explanation: "Top fashion influencer with Miami aesthetic - ideal for luxury fashion, beauty, swimwear, and lifestyle brands targeting aspirational college market.",
     examplePosts: [
       {
-        id: "post-011-1",
-        mediaUrl: "/example-posts/miami-fashion-tiktok-1.jpg",
+        id: "tiktok-3",
+        mediaUrl: generatePostImageUrl("TikTok", "Miami+Style", 3),
         platform: "TikTok",
-        baseViews: 16800,
-        baseConversions: 252,
-        targetViews: 48000,
-        targetConversions: 720
+        baseViews: 12800,
+        baseConversions: 256,
+        targetViews: 38000,
+        targetConversions: 760,
+        description: "Miami summer fashion essentials and styling tips"
       },
       {
-        id: "post-011-2",
-        mediaUrl: "/example-posts/beach-outfit-ig-1.jpg",
+        id: "instagram-3",
+        mediaUrl: generatePostImageUrl("Instagram", "Beach+Vibes", 3),
         platform: "Instagram",
-        baseViews: 11200,
-        baseConversions: 224,
+        baseViews: 11500,
+        baseConversions: 345,
         targetViews: 32000,
-        targetConversions: 480
+        targetConversions: 960,
+        description: "Beach day outfit and lifestyle content"
+      }
+    ]
+  },
+  {
+    id: "inf-004", 
+    name: "Alex Chen",
+    college: "MIT",
+    year: "Graduate Student",
+    orgs: [
+      { org: "MIT Entrepreneurship Club", role: "President" },
+      { org: "Computer Science Graduate Association", role: "Treasurer" }
+    ],
+    socials: [
+      { platform: "LinkedIn", handle: "alex-chen-mit", followers: 8900 },
+      { platform: "TikTok", handle: "@alexcodes", followers: 6700 },
+      { platform: "Twitter", handle: "@alexchen_dev", followers: 4200 }
+    ],
+    interests: ["Technology", "Entrepreneurship", "AI/ML", "Productivity"],
+    lat: 42.3601,
+    lng: -71.0942,
+    engagement: "medium",
+    fitScore: 89,
+    explanation: "Tech thought leader with strong professional network - perfect for B2B SaaS, productivity tools, and tech education targeting ambitious students.",
+    examplePosts: [
+      {
+        id: "linkedin-1",
+        mediaUrl: generatePostImageUrl("LinkedIn", "Tech+Insights", 4),
+        platform: "LinkedIn",
+        baseViews: 3200,
+        baseConversions: 128,
+        targetViews: 8500,
+        targetConversions: 340,
+        description: "Latest trends in AI and machine learning for students"
+      },
+      {
+        id: "tiktok-4",
+        mediaUrl: generatePostImageUrl("TikTok", "Coding+Tips", 4),
+        platform: "TikTok",
+        baseViews: 5400,
+        baseConversions: 81,
+        targetViews: 15000,
+        targetConversions: 225,
+        description: "Quick coding tips and productivity hacks"
+      }
+    ]
+  },
+  {
+    id: "inf-005",
+    name: "Emma Johnson",
+    college: "UCLA",
+    year: "Sophomore",
+    orgs: [
+      { org: "UCLA Dance Team", role: "Captain" },
+      { org: "Kappa Alpha Theta", role: "Philanthropy Chair" }
+    ],
+    socials: [
+      { platform: "TikTok", handle: "@emmadances", followers: 23400 },
+      { platform: "Instagram", handle: "@emma.johnson", followers: 16800 },
+      { platform: "YouTube", handle: "EmmaJDance", followers: 5200 }
+    ],
+    interests: ["Dance", "Fitness", "UCLA Spirit", "Greek Life"],
+    lat: 34.0689,
+    lng: -118.4452,
+    engagement: "high",
+    fitScore: 88,
+    explanation: "High-energy dance content creator with strong UCLA presence - ideal for fitness, activewear, and lifestyle brands targeting energetic college demographic.",
+    examplePosts: [
+      {
+        id: "tiktok-5",
+        mediaUrl: generatePostImageUrl("TikTok", "Dance+Routine", 5),
+        platform: "TikTok",
+        baseViews: 18600,
+        baseConversions: 279,
+        targetViews: 52000,
+        targetConversions: 780,
+        description: "Trending dance routine with workout elements"
+      },
+      {
+        id: "instagram-4",
+        mediaUrl: generatePostImageUrl("Instagram", "Fitness+Inspo", 5),
+        platform: "Instagram",
+        baseViews: 7200,
+        baseConversions: 144,
+        targetViews: 20000,
+        targetConversions: 400,
+        description: "Daily fitness motivation and dance practice"
+      }
+    ]
+  },
+  {
+    id: "inf-006",
+    name: "Ryan O'Connor",
+    college: "Boston University",
+    year: "Senior",
+    orgs: [
+      { org: "BU Hockey Team", role: "Alternate Captain" },
+      { org: "Student Government", role: "Athletics Representative" }
+    ],
+    socials: [
+      { platform: "TikTok", handle: "@ryanhockey", followers: 12100 },
+      { platform: "Instagram", handle: "@roconnor_hockey", followers: 9800 },
+      { platform: "LinkedIn", handle: "ryan-oconnor-bu", followers: 2100 }
+    ],
+    interests: ["Hockey", "Boston Sports", "Business", "Leadership"],
+    lat: 42.3505,
+    lng: -71.1054,
+    engagement: "medium",
+    fitScore: 85,
+    explanation: "Boston sports culture ambassador with leadership experience - great for sports equipment, energy drinks, and professional development brands.",
+    examplePosts: [
+      {
+        id: "tiktok-6",
+        mediaUrl: generatePostImageUrl("TikTok", "Hockey+Skills", 6),
+        platform: "TikTok",
+        baseViews: 8900,
+        baseConversions: 133,
+        targetViews: 24000,
+        targetConversions: 360,
+        description: "Hockey training techniques and game highlights"
+      },
+      {
+        id: "instagram-5",
+        mediaUrl: generatePostImageUrl("Instagram", "Team+Spirit", 6),
+        platform: "Instagram",
+        baseViews: 4100,
+        baseConversions: 82,
+        targetViews: 11500,
+        targetConversions: 230,
+        description: "Team bonding and Boston sports culture"
+      }
+    ]
+  },
+  {
+    id: "inf-007",
+    name: "Sofia Rodriguez",
+    college: "University of Texas at Austin",
+    year: "Junior",
+    orgs: [
+      { org: "UT Film Society", role: "Creative Director" },
+      { org: "Hispanic Business Student Association", role: "Vice President" }
+    ],
+    socials: [
+      { platform: "TikTok", handle: "@sofiafilms", followers: 14700 },
+      { platform: "Instagram", handle: "@sofia.creates", followers: 11200 },
+      { platform: "YouTube", handle: "SofiaCreates", followers: 3800 }
+    ],
+    interests: ["Film", "Creative Content", "Austin Culture", "Business"],
+    lat: 30.2849,
+    lng: -97.7341,
+    engagement: "high",
+    fitScore: 87,
+    explanation: "Creative content specialist with strong Austin/Texas following - perfect for creative tools, tech products, and lifestyle brands targeting artistic students.",
+    examplePosts: [
+      {
+        id: "tiktok-7",
+        mediaUrl: generatePostImageUrl("TikTok", "Film+Tips", 7),
+        platform: "TikTok",
+        baseViews: 9600,
+        baseConversions: 192,
+        targetViews: 27000,
+        targetConversions: 540,
+        description: "Behind-the-scenes filmmaking tips and Austin spots"
+      },
+      {
+        id: "instagram-6",
+        mediaUrl: generatePostImageUrl("Instagram", "Austin+Vibes", 7),
+        platform: "Instagram",
+        baseViews: 5800,
+        baseConversions: 116,
+        targetViews: 16000,
+        targetConversions: 320,
+        description: "Austin lifestyle and creative project updates"
+      }
+    ]
+  },
+  {
+    id: "inf-008",
+    name: "Marcus Williams",
+    college: "Duke University",
+    year: "Senior",
+    orgs: [
+      { org: "Duke Basketball", role: "Starting Forward" },
+      { org: "Black Student Alliance", role: "President" }
+    ],
+    socials: [
+      { platform: "TikTok", handle: "@marcushoops", followers: 31200 },
+      { platform: "Instagram", handle: "@mwilliams_duke", followers: 27400 },
+      { platform: "LinkedIn", handle: "marcus-williams-duke", followers: 4100 }
+    ],
+    interests: ["Basketball", "Leadership", "Social Justice", "Business"],
+    lat: 36.0014,
+    lng: -78.9382,
+    engagement: "high",
+    fitScore: 93,
+    explanation: "High-profile Duke basketball player with strong social presence - ideal for athletic brands, leadership development, and social impact companies.",
+    examplePosts: [
+      {
+        id: "tiktok-8",
+        mediaUrl: generatePostImageUrl("TikTok", "Basketball+Training", 8),
+        platform: "TikTok",
+        baseViews: 22100,
+        baseConversions: 442,
+        targetViews: 62000,
+        targetConversions: 1240,
+        description: "Elite basketball training and mindset content"
+      },
+      {
+        id: "instagram-7",
+        mediaUrl: generatePostImageUrl("Instagram", "Duke+Pride", 8),
+        platform: "Instagram",
+        baseViews: 13500,
+        baseConversions: 405,
+        targetViews: 38000,
+        targetConversions: 1140,
+        description: "Duke basketball highlights and campus life"
+      }
+    ]
+  },
+  {
+    id: "inf-009",
+    name: "Zoe Kim",
+    college: "Northwestern University",
+    year: "Junior",
+    orgs: [
+      { org: "Northwestern Business Review", role: "Editor-in-Chief" },
+      { org: "Kappa Kappa Gamma", role: "Treasurer" }
+    ],
+    socials: [
+      { platform: "LinkedIn", handle: "zoe-kim-northwestern", followers: 6800 },
+      { platform: "TikTok", handle: "@zoetalks", followers: 9400 },
+      { platform: "Medium", handle: "@zoekim_nu", followers: 2100 }
+    ],
+    interests: ["Business", "Finance", "Writing", "Consulting"],
+    lat: 42.0565,
+    lng: -87.6753,
+    engagement: "medium",
+    fitScore: 86,
+    explanation: "Business-focused thought leader with strong professional network - excellent for B2B services, financial products, and career development platforms.",
+    examplePosts: [
+      {
+        id: "linkedin-2",
+        mediaUrl: generatePostImageUrl("LinkedIn", "Business+Insights", 9),
+        platform: "LinkedIn",
+        baseViews: 4200,
+        baseConversions: 168,
+        targetViews: 11000,
+        targetConversions: 440,
+        description: "Career advice and business insights for students"
+      },
+      {
+        id: "tiktok-9",
+        mediaUrl: generatePostImageUrl("TikTok", "Finance+Tips", 9),
+        platform: "TikTok",
+        baseViews: 6300,
+        baseConversions: 94,
+        targetViews: 17500,
+        targetConversions: 262,
+        description: "Personal finance tips for college students"
+      }
+    ]
+  },
+  {
+    id: "inf-010",
+    name: "Tyler Brooks",
+    college: "University of Georgia",
+    year: "Senior",
+    orgs: [
+      { org: "UGA Football", role: "Defensive End" },
+      { org: "Fellowship of Christian Athletes", role: "Chapter President" }
+    ],
+    socials: [
+      { platform: "TikTok", handle: "@tylerbrooks", followers: 18900 },
+      { platform: "Instagram", handle: "@tbrooks_uga", followers: 15600 },
+      { platform: "Twitter", handle: "@TylerBrooksUGA", followers: 8200 }
+    ],
+    interests: ["Football", "Faith", "Southern Culture", "Community Service"],
+    lat: 33.9480,
+    lng: -83.3773,
+    engagement: "high",
+    fitScore: 84,
+    explanation: "Southern football culture ambassador with strong community ties - great for athletic brands, Southern lifestyle, and faith-based organizations.",
+    examplePosts: [
+      {
+        id: "tiktok-10",
+        mediaUrl: generatePostImageUrl("TikTok", "Football+Life", 10),
+        platform: "TikTok",
+        baseViews: 11800,
+        baseConversions: 177,
+        targetViews: 33000,
+        targetConversions: 495,
+        description: "SEC football culture and training insights"
+      },
+      {
+        id: "instagram-8",
+        mediaUrl: generatePostImageUrl("Instagram", "UGA+Spirit", 10),
+        platform: "Instagram",
+        baseViews: 6900,
+        baseConversions: 138,
+        targetViews: 19000,
+        targetConversions: 380,
+        description: "UGA gameday experience and team culture"
+      }
+    ]
+  },
+  {
+    id: "inf-011",
+    name: "Lily Anderson",
+    college: "Vanderbilt University",
+    year: "Sophomore",
+    orgs: [
+      { org: "Vanderbilt Student Government", role: "Freshman Class President" },
+      { org: "Chi Omega", role: "New Member Coordinator" }
+    ],
+    socials: [
+      { platform: "TikTok", handle: "@lilyvandy", followers: 13500 },
+      { platform: "Instagram", handle: "@lily.anderson", followers: 10700 },
+      { platform: "LinkedIn", handle: "lily-anderson-vanderbilt", followers: 1800 }
+    ],
+    interests: ["Politics", "Southern Culture", "Leadership", "Greek Life"],
+    lat: 36.1447,
+    lng: -86.8027,
+    engagement: "medium",
+    fitScore: 82,
+    explanation: "Rising political leader with strong Southern campus influence - ideal for professional development, political organizations, and Southern lifestyle brands.",
+    examplePosts: [
+      {
+        id: "tiktok-11",
+        mediaUrl: generatePostImageUrl("TikTok", "Campus+Politics", 11),
+        platform: "TikTok",
+        baseViews: 7400,
+        baseConversions: 111,
+        targetViews: 20500,
+        targetConversions: 307,
+        description: "Student government insights and campus leadership"
+      },
+      {
+        id: "instagram-9",
+        mediaUrl: generatePostImageUrl("Instagram", "Vandy+Life", 11),
+        platform: "Instagram",
+        baseViews: 4800,
+        baseConversions: 96,
+        targetViews: 13500,
+        targetConversions: 270,
+        description: "Vanderbilt campus culture and Greek life"
       }
     ]
   },
   {
     id: "inf-012",
-    name: "Ryan Mitchell",
-    college: "University of Colorado Boulder",
-    year: "Senior",
+    name: "David Park",
+    college: "UC Berkeley",
+    year: "Graduate Student",
     orgs: [
-      { org: "Outdoor Recreation Club", role: "President" },
-      { org: "Environmental Action Group", role: "Co-founder" }
+      { org: "Berkeley Tech Entrepreneurs", role: "Co-Founder" },
+      { org: "Korean American Student Association", role: "Alumni Relations Chair" }
     ],
     socials: [
-      { platform: "Instagram", handle: "@ryan.colorado", followers: 13400 },
-      { platform: "TikTok", handle: "@ryancolorado", followers: 10200 },
-      { platform: "YouTube", handle: "RyanOutdoorAdventures", followers: 5600 }
+      { platform: "LinkedIn", handle: "david-park-berkeley", followers: 7200 },
+      { platform: "TikTok", handle: "@davidbuilds", followers: 8100 },
+      { platform: "YouTube", handle: "DavidBuilds", followers: 2900 }
     ],
-    interests: ["Outdoors", "Hiking", "Sustainability", "Adventure"],
-    lat: 40.0150,
-    lng: -105.2705,
-    engagement: "medium",
-    fitScore: 88,
-    explanation: "Authentic outdoor enthusiast - perfect for outdoor gear, sustainable products, and adventure travel brands targeting eco-conscious students.",
+    interests: ["Entrepreneurship", "Technology", "Startups", "Bay Area Culture"],
+    lat: 37.8719,
+    lng: -122.2585,
+    engagement: "high",
+    fitScore: 90,
+    explanation: "Silicon Valley entrepreneur with strong tech network - perfect for B2B SaaS, startup tools, and entrepreneurship education targeting ambitious students.",
     examplePosts: [
       {
-        id: "post-012-1",
-        mediaUrl: "/example-posts/hiking-colorado-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 7200,
-        baseConversions: 108,
-        targetViews: 20000,
-        targetConversions: 300
+        id: "linkedin-3",
+        mediaUrl: generatePostImageUrl("LinkedIn", "Startup+Journey", 12),
+        platform: "LinkedIn",
+        baseViews: 5100,
+        baseConversions: 204,
+        targetViews: 14000,
+        targetConversions: 560,
+        description: "Startup journey and entrepreneurship lessons"
       },
       {
-        id: "post-012-2",
-        mediaUrl: "/example-posts/sustainable-gear-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 5800,
-        baseConversions: 116,
-        targetViews: 16000,
-        targetConversions: 240
+        id: "tiktok-12",
+        mediaUrl: generatePostImageUrl("TikTok", "Tech+Entrepreneur", 12),
+        platform: "TikTok",
+        baseViews: 6800,
+        baseConversions: 102,
+        targetViews: 19000,
+        targetConversions: 285,
+        description: "Day in the life of a student entrepreneur"
       }
     ]
   },
   {
     id: "inf-013",
-    name: "Hannah Lee",
-    college: "Vanderbilt University",
-    year: "Sophomore",
+    name: "Ashley Thompson",
+    college: "University of Alabama",
+    year: "Junior",
     orgs: [
-      { org: "Chi Omega", role: "Social Chair" },
-      { org: "Vanderbilt Student Communications", role: "Content Creator" }
+      { org: "Alabama Crimson Tide Cheerleading", role: "Co-Captain" },
+      { org: "Alpha Delta Pi", role: "Social Media Chair" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@hannahvandy", followers: 17800 },
-      { platform: "Instagram", handle: "@hannah.vandy", followers: 14600 },
-      { platform: "VSCO", handle: "hannahlee", followers: 8200 }
+      { platform: "TikTok", handle: "@ashleycheers", followers: 21600 },
+      { platform: "Instagram", handle: "@ashley.thompson", followers: 18900 },
+      { platform: "Pinterest", handle: "AshleyBamaStyle", followers: 5400 }
     ],
-    interests: ["Southern Style", "Greek Life", "Photography", "Nashville"],
-    lat: 36.1447,
-    lng: -86.8027,
+    interests: ["Cheerleading", "Alabama Football", "Southern Fashion", "Greek Life"],
+    lat: 32.6098,
+    lng: -87.5692,
     engagement: "high",
-    fitScore: 91,
-    explanation: "Southern charm with sophisticated aesthetic - great for fashion, lifestyle, and luxury brands targeting affluent college market.",
+    fitScore: 88,
+    explanation: "High-visibility Alabama cheerleader with strong SEC following - excellent for athletic wear, Southern lifestyle brands, and college sports merchandise.",
     examplePosts: [
       {
-        id: "post-013-1",
-        mediaUrl: "/example-posts/southern-style-tiktok-1.jpg",
+        id: "tiktok-13",
+        mediaUrl: generatePostImageUrl("TikTok", "Cheer+Routine", 13),
         platform: "TikTok",
-        baseViews: 12600,
-        baseConversions: 189,
-        targetViews: 36000,
-        targetConversions: 540
+        baseViews: 16200,
+        baseConversions: 243,
+        targetViews: 45000,
+        targetConversions: 675,
+        description: "Game day cheer routines and team spirit"
       },
       {
-        id: "post-013-2",
-        mediaUrl: "/example-posts/nashville-lifestyle-ig-1.jpg",
+        id: "instagram-10",
+        mediaUrl: generatePostImageUrl("Instagram", "Game+Day+Style", 13),
         platform: "Instagram",
-        baseViews: 8400,
-        baseConversions: 168,
-        targetViews: 22000,
-        targetConversions: 330
+        baseViews: 8700,
+        baseConversions: 174,
+        targetViews: 24000,
+        targetConversions: 480,
+        description: "Game day outfits and Alabama traditions"
       }
     ]
   },
   {
     id: "inf-014",
-    name: "Jordan Davis",
-    college: "University of North Carolina at Chapel Hill",
-    year: "Junior",
+    name: "Carlos Mendoza",
+    college: "University of Southern California",
+    year: "Senior",
     orgs: [
-      { org: "UNC Basketball Student Section", role: "Leader" },
-      { org: "Phi Beta Sigma", role: "Secretary" }
+      { org: "USC Film School", role: "Student Advisory Board" },
+      { org: "Latino Student Assembly", role: "Cultural Events Coordinator" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@jordanunc", followers: 14200 },
-      { platform: "Instagram", handle: "@jordan.tarheels", followers: 11800 },
-      { platform: "Twitter", handle: "@JordanD_UNC", followers: 6300 }
+      { platform: "TikTok", handle: "@carlosfilms", followers: 16800 },
+      { platform: "Instagram", handle: "@carlos.mendoza", followers: 12400 },
+      { platform: "YouTube", handle: "CarlosMendozaFilms", followers: 4600 }
     ],
-    interests: ["Basketball", "Sports", "Greek Life", "School Spirit"],
-    lat: 35.9132,
-    lng: -79.0558,
+    interests: ["Film", "Los Angeles Culture", "Creative Arts", "Latino Culture"],
+    lat: 34.0224,
+    lng: -118.2851,
     engagement: "high",
     fitScore: 89,
-    explanation: "High-energy sports content with strong school spirit - excellent for sports brands, athletic wear, and products targeting college sports fans.",
+    explanation: "Hollywood-adjacent content creator with strong LA presence - ideal for creative software, entertainment brands, and multicultural lifestyle companies.",
     examplePosts: [
       {
-        id: "post-014-1",
-        mediaUrl: "/example-posts/basketball-hype-tiktok-1.jpg",
+        id: "tiktok-14",
+        mediaUrl: generatePostImageUrl("TikTok", "LA+Film+Life", 14),
         platform: "TikTok",
-        baseViews: 10200,
-        baseConversions: 153,
-        targetViews: 29000,
-        targetConversions: 435
+        baseViews: 12100,
+        baseConversions: 181,
+        targetViews: 34000,
+        targetConversions: 510,
+        description: "Behind the scenes of USC film projects and LA culture"
       },
       {
-        id: "post-014-2",
-        mediaUrl: "/example-posts/gameday-unc-ig-1.jpg",
+        id: "instagram-11",
+        mediaUrl: generatePostImageUrl("Instagram", "USC+Creative", 14),
         platform: "Instagram",
-        baseViews: 6800,
-        baseConversions: 136,
-        targetViews: 18000,
-        targetConversions: 270
+        baseViews: 5900,
+        baseConversions: 118,
+        targetViews: 16500,
+        targetConversions: 330,
+        description: "Creative projects and USC film school life"
       }
     ]
   },
   {
     id: "inf-015",
-    name: "Grace Wilson",
-    college: "Northwestern University",
-    year: "Senior",
+    name: "Grace Liu",
+    college: "Harvard University",
+    year: "Junior",
     orgs: [
-      { org: "Daily Northwestern", role: "Editor-in-Chief" },
-      { org: "Kappa Kappa Gamma", role: "Vice President" }
+      { org: "Harvard Business Review Student Contributors", role: "Lead Writer" },
+      { org: "Harvard Undergraduate Women in Business", role: "President" }
     ],
     socials: [
-      { platform: "LinkedIn", handle: "Grace Wilson", followers: 3800 },
-      { platform: "TikTok", handle: "@gracenorthwestern", followers: 9400 },
-      { platform: "Instagram", handle: "@grace.northwestern", followers: 8700 }
+      { platform: "LinkedIn", handle: "grace-liu-harvard", followers: 9600 },
+      { platform: "TikTok", handle: "@gracethinks", followers: 11200 },
+      { platform: "Medium", handle: "@graceliu_harvard", followers: 3400 }
     ],
-    interests: ["Journalism", "Media", "Politics", "Chicago"],
-    lat: 42.0564,
-    lng: -87.6753,
-    engagement: "medium",
-    fitScore: 84,
-    explanation: "Future media professional with strong journalism background - ideal for news organizations, media companies, and professional development brands.",
+    interests: ["Business Strategy", "Women in Leadership", "Academia", "Consulting"],
+    lat: 42.3770,
+    lng: -71.1167,
+    engagement: "high",
+    fitScore: 92,
+    explanation: "Harvard business thought leader with strong professional presence - perfect for B2B services, professional development, and women-focused brands.",
     examplePosts: [
       {
-        id: "post-015-1",
-        mediaUrl: "/example-posts/journalism-tips-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 5600,
-        baseConversions: 84,
-        targetViews: 15000,
-        targetConversions: 225
+        id: "linkedin-4",
+        mediaUrl: generatePostImageUrl("LinkedIn", "Harvard+Business", 15),
+        platform: "LinkedIn",
+        baseViews: 6200,
+        baseConversions: 248,
+        targetViews: 17000,
+        targetConversions: 680,
+        description: "Business strategy insights from Harvard case studies"
       },
       {
-        id: "post-015-2",
-        mediaUrl: "/example-posts/chicago-internship-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 4200,
-        baseConversions: 84,
-        targetViews: 11000,
-        targetConversions: 165
+        id: "tiktok-15",
+        mediaUrl: generatePostImageUrl("TikTok", "Harvard+Life", 15),
+        platform: "TikTok",
+        baseViews: 8400,
+        baseConversions: 126,
+        targetViews: 23500,
+        targetConversions: 352,
+        description: "Day in the life at Harvard Business School"
       }
     ]
   },
   {
     id: "inf-016",
-    name: "Carlos Ramirez",
-    college: "Arizona State University",
-    year: "Junior",
+    name: "Jordan Miller",
+    college: "University of Wisconsin-Madison",
+    year: "Senior",
     orgs: [
-      { org: "Lambda Chi Alpha", role: "Rush Chair" },
-      { org: "ASU Business Fraternity", role: "Professional Development Chair" }
+      { org: "Wisconsin Badgers Football", role: "Linebacker" },
+      { org: "Student Athlete Advisory Committee", role: "Secretary" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@carlosasu", followers: 20100 },
-      { platform: "Instagram", handle: "@carlos.asu", followers: 16200 },
-      { platform: "Snapchat", handle: "@carlosramirez", followers: 9800 }
+      { platform: "TikTok", handle: "@jordanfootball", followers: 14300 },
+      { platform: "Instagram", handle: "@jmiller_wisc", followers: 11800 },
+      { platform: "LinkedIn", handle: "jordan-miller-wisconsin", followers: 2600 }
     ],
-    interests: ["Party Scene", "Desert Life", "Business", "Greek Life"],
-    lat: 33.4255,
-    lng: -111.9400,
-    engagement: "high",
-    fitScore: 90,
-    explanation: "Ultimate party school influencer - perfect for beverage brands, entertainment, travel, and lifestyle products targeting college party culture.",
+    interests: ["Football", "Midwest Culture", "Fitness", "Agricultural Business"],
+    lat: 43.0731,
+    lng: -89.4012,
+    engagement: "medium",
+    fitScore: 83,
+    explanation: "Midwest football culture representative with strong Wisconsin following - great for athletic brands, Midwest lifestyle, and agricultural products.",
     examplePosts: [
       {
-        id: "post-016-1",
-        mediaUrl: "/example-posts/asu-party-tiktok-1.jpg",
+        id: "tiktok-16",
+        mediaUrl: generatePostImageUrl("TikTok", "Badger+Football", 16),
         platform: "TikTok",
-        baseViews: 14800,
-        baseConversions: 222,
-        targetViews: 42000,
-        targetConversions: 630
+        baseViews: 9700,
+        baseConversions: 145,
+        targetViews: 27000,
+        targetConversions: 405,
+        description: "Big Ten football training and Wisconsin traditions"
       },
       {
-        id: "post-016-2",
-        mediaUrl: "/example-posts/desert-adventure-ig-1.jpg",
+        id: "instagram-12",
+        mediaUrl: generatePostImageUrl("Instagram", "Wisconsin+Pride", 16),
         platform: "Instagram",
-        baseViews: 9200,
-        baseConversions: 184,
-        targetViews: 25000,
-        targetConversions: 375
+        baseViews: 5200,
+        baseConversions: 104,
+        targetViews: 14500,
+        targetConversions: 290,
+        description: "Wisconsin gameday experience and team culture"
       }
     ]
   },
   {
     id: "inf-017",
-    name: "Lily Chang",
-    college: "UC San Diego",
+    name: "Samantha Davis",
+    college: "New York University",
     year: "Sophomore",
     orgs: [
-      { org: "UCSD Pre-Med Society", role: "Vice President" },
-      { org: "Asian Pacific Student Alliance", role: "Cultural Chair" }
+      { org: "NYU Fashion Business Society", role: "Marketing Director" },
+      { org: "Washington Square News", role: "Style Columnist" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@lilyucsd", followers: 8700 },
-      { platform: "Instagram", handle: "@lily.ucsd", followers: 10300 },
-      { platform: "LinkedIn", handle: "Lily Chang", followers: 2100 }
+      { platform: "TikTok", handle: "@samnyc", followers: 17200 },
+      { platform: "Instagram", handle: "@sam.davis", followers: 13600 },
+      { platform: "Pinterest", handle: "SamNYCStyle", followers: 6100 }
     ],
-    interests: ["Medicine", "Study Tips", "Wellness", "STEM"],
-    lat: 32.8801,
-    lng: -117.2340,
-    engagement: "medium",
-    fitScore: 82,
-    explanation: "Pre-med student with strong academic focus - excellent for educational tools, wellness products, and STEM-focused brands.",
+    interests: ["NYC Fashion", "Street Style", "Media", "Urban Culture"],
+    lat: 40.7295,
+    lng: -73.9965,
+    engagement: "high",
+    fitScore: 90,
+    explanation: "NYC fashion scene insider with strong urban influence - ideal for fashion brands, lifestyle products, and NYC-focused companies targeting trend-conscious students.",
     examplePosts: [
       {
-        id: "post-017-1",
-        mediaUrl: "/example-posts/study-motivation-tiktok-1.jpg",
+        id: "tiktok-17",
+        mediaUrl: generatePostImageUrl("TikTok", "NYC+Fashion", 17),
         platform: "TikTok",
-        baseViews: 4800,
-        baseConversions: 72,
-        targetViews: 13000,
-        targetConversions: 195
+        baseViews: 13800,
+        baseConversions: 207,
+        targetViews: 38500,
+        targetConversions: 577,
+        description: "NYC street style and fashion week insights"
       },
       {
-        id: "post-017-2",
-        mediaUrl: "/example-posts/pre-med-life-ig-1.jpg",
+        id: "instagram-13",
+        mediaUrl: generatePostImageUrl("Instagram", "NYC+Lifestyle", 17),
         platform: "Instagram",
-        baseViews: 3600,
-        baseConversions: 72,
-        targetViews: 9500,
-        targetConversions: 143
+        baseViews: 7100,
+        baseConversions: 142,
+        targetViews: 19800,
+        targetConversions: 396,
+        description: "NYC lifestyle and fashion inspiration"
       }
     ]
   },
   {
     id: "inf-018",
-    name: "Ethan Parker",
-    college: "University of Florida",
-    year: "Senior",
+    name: "Kevin Wang",
+    college: "Carnegie Mellon University",
+    year: "Junior",
     orgs: [
-      { org: "Sigma Nu", role: "President" },
-      { org: "UF Student Government", role: "Senator" }
+      { org: "CMU Robotics Club", role: "Project Lead" },
+      { org: "Asian Students Association", role: "Technical Director" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@ethanuf", followers: 19600 },
-      { platform: "Instagram", handle: "@ethan.gators", followers: 15800 },
-      { platform: "Twitter", handle: "@EthanP_UF", followers: 7200 }
+      { platform: "LinkedIn", handle: "kevin-wang-cmu", followers: 5800 },
+      { platform: "TikTok", handle: "@kevinbuilds", followers: 7900 },
+      { platform: "GitHub", handle: "kwang-cmu", followers: 1200 }
     ],
-    interests: ["Politics", "Leadership", "Florida Life", "Greek Life"],
-    lat: 29.6436,
-    lng: -82.3549,
-    engagement: "high",
-    fitScore: 88,
-    explanation: "Student leader with political aspirations - great for civic engagement, leadership development, and brands targeting future professionals.",
+    interests: ["Robotics", "AI/ML", "Engineering", "Pittsburgh Tech Scene"],
+    lat: 40.4433,
+    lng: -79.9436,
+    engagement: "medium",
+    fitScore: 87,
+    explanation: "Robotics engineer with strong tech credibility - excellent for technical products, engineering tools, and STEM education targeting technically-minded students.",
     examplePosts: [
       {
-        id: "post-018-1",
-        mediaUrl: "/example-posts/student-gov-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 11400,
-        baseConversions: 171,
-        targetViews: 32000,
-        targetConversions: 480
+        id: "linkedin-5",
+        mediaUrl: generatePostImageUrl("LinkedIn", "Robotics+Engineering", 18),
+        platform: "LinkedIn",
+        baseViews: 3800,
+        baseConversions: 152,
+        targetViews: 10500,
+        targetConversions: 420,
+        description: "Latest robotics projects and engineering insights"
       },
       {
-        id: "post-018-2",
-        mediaUrl: "/example-posts/gator-pride-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 7600,
-        baseConversions: 152,
-        targetViews: 20000,
-        targetConversions: 300
+        id: "tiktok-18",
+        mediaUrl: generatePostImageUrl("TikTok", "Robot+Builds", 18),
+        platform: "TikTok",
+        baseViews: 5600,
+        baseConversions: 84,
+        targetViews: 15600,
+        targetConversions: 234,
+        description: "Cool robotics projects and tech demonstrations"
       }
     ]
   },
   {
     id: "inf-019",
-    name: "Mia Roberts",
-    college: "University of Wisconsin-Madison",
+    name: "Madison Taylor",
+    college: "University of North Carolina at Chapel Hill",
     year: "Junior",
     orgs: [
-      { org: "Pi Beta Phi", role: "Social Chair" },
-      { org: "Wisconsin Marketing Association", role: "Events Coordinator" }
+      { org: "UNC Women's Soccer", role: "Team Captain" },
+      { org: "Pi Beta Phi", role: "VP of Community Relations" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@miawisc", followers: 13800 },
-      { platform: "Instagram", handle: "@mia.wisconsin", followers: 12100 },
-      { platform: "Pinterest", handle: "MiaRobertsTrends", followers: 6400 }
+      { platform: "TikTok", handle: "@madisonsoccer", followers: 16400 },
+      { platform: "Instagram", handle: "@madison.taylor", followers: 14200 },
+      { platform: "LinkedIn", handle: "madison-taylor-unc", followers: 2800 }
     ],
-    interests: ["Marketing", "Midwest Culture", "Greek Life", "Seasonal Fashion"],
-    lat: 43.0731,
-    lng: -89.4012,
-    engagement: "medium",
+    interests: ["Soccer", "Sports Medicine", "Southern Culture", "Community Service"],
+    lat: 35.9049,
+    lng: -79.0469,
+    engagement: "high",
     fitScore: 86,
-    explanation: "Marketing-savvy with authentic midwest appeal - perfect for seasonal brands, cozy lifestyle products, and marketing education platforms.",
+    explanation: "Elite women's soccer player with strong UNC and Southern following - ideal for women's athletic wear, sports nutrition, and health/wellness brands.",
     examplePosts: [
       {
-        id: "post-019-1",
-        mediaUrl: "/example-posts/wisconsin-winter-tiktok-1.jpg",
+        id: "tiktok-19",
+        mediaUrl: generatePostImageUrl("TikTok", "Soccer+Training", 19),
         platform: "TikTok",
-        baseViews: 8200,
-        baseConversions: 123,
-        targetViews: 23000,
-        targetConversions: 345
+        baseViews: 11900,
+        baseConversions: 178,
+        targetViews: 33000,
+        targetConversions: 495,
+        description: "Elite soccer training tips and team highlights"
       },
       {
-        id: "post-019-2",
-        mediaUrl: "/example-posts/cozy-aesthetic-ig-1.jpg",
+        id: "instagram-14",
+        mediaUrl: generatePostImageUrl("Instagram", "UNC+Soccer", 19),
         platform: "Instagram",
-        baseViews: 5800,
-        baseConversions: 116,
-        targetViews: 15000,
-        targetConversions: 225
+        baseViews: 6800,
+        baseConversions: 136,
+        targetViews: 19000,
+        targetConversions: 380,
+        description: "UNC soccer team culture and game highlights"
       }
     ]
   },
   {
     id: "inf-020",
-    name: "Jackson Smith",
-    college: "University of Alabama",
+    name: "Ethan Rodriguez",
+    college: "University of Florida",
     year: "Senior",
     orgs: [
-      { org: "Sigma Alpha Epsilon", role: "President" },
-      { org: "Alabama Football Student Advisory Board", role: "Member" }
+      { org: "UF Student Government", role: "Senate Pro Tempore" },
+      { org: "Sigma Chi", role: "Public Relations Chair" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@jacksonbama", followers: 25600 },
-      { platform: "Instagram", handle: "@jackson.alabama", followers: 21300 },
-      { platform: "Twitter", handle: "@JacksonS_Bama", followers: 8900 }
+      { platform: "TikTok", handle: "@ethanflorida", followers: 12800 },
+      { platform: "Instagram", handle: "@ethan.rodriguez", followers: 9600 },
+      { platform: "LinkedIn", handle: "ethan-rodriguez-uf", followers: 3200 }
     ],
-    interests: ["Football", "Southern Culture", "Greek Life", "Traditions"],
-    lat: 32.3617,
-    lng: -87.1348,
-    engagement: "high",
-    fitScore: 93,
-    explanation: "Elite SEC football culture influencer - top choice for sports brands, southern lifestyle products, and tradition-focused companies.",
+    interests: ["Politics", "Florida Culture", "Greek Life", "Public Policy"],
+    lat: 29.6436,
+    lng: -82.3549,
+    engagement: "medium",
+    fitScore: 84,
+    explanation: "Student government leader with strong Florida presence - great for political organizations, Florida lifestyle brands, and leadership development programs.",
     examplePosts: [
       {
-        id: "post-020-1",
-        mediaUrl: "/example-posts/bama-football-tiktok-1.jpg",
+        id: "tiktok-20",
+        mediaUrl: generatePostImageUrl("TikTok", "Student+Politics", 20),
         platform: "TikTok",
-        baseViews: 18200,
-        baseConversions: 273,
-        targetViews: 52000,
-        targetConversions: 780
+        baseViews: 8200,
+        baseConversions: 123,
+        targetViews: 23000,
+        targetConversions: 345,
+        description: "Student government insights and Florida campus life"
       },
       {
-        id: "post-020-2",
-        mediaUrl: "/example-posts/game-day-traditions-ig-1.jpg",
+        id: "instagram-15",
+        mediaUrl: generatePostImageUrl("Instagram", "Florida+Life", 20),
         platform: "Instagram",
-        baseViews: 12600,
-        baseConversions: 252,
-        targetViews: 34000,
-        targetConversions: 510
+        baseViews: 4300,
+        baseConversions: 86,
+        targetViews: 12000,
+        targetConversions: 240,
+        description: "Florida campus culture and political engagement"
       }
     ]
   },
   {
     id: "inf-021",
-    name: "Ava Johnson",
-    college: "Duke University",
+    name: "Chloe Brown",
+    college: "University of Washington",
     year: "Sophomore",
     orgs: [
-      { org: "Duke Student Government", role: "Class Representative" },
-      { org: "Kappa Alpha Theta", role: "Scholarship Chair" }
+      { org: "UW Environmental Club", role: "President" },
+      { org: "Kappa Delta", role: "Sustainability Chair" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@avaduke", followers: 11200 },
-      { platform: "Instagram", handle: "@ava.duke", followers: 9800 },
-      { platform: "LinkedIn", handle: "Ava Johnson", followers: 2400 }
+      { platform: "TikTok", handle: "@chloeecolife", followers: 15700 },
+      { platform: "Instagram", handle: "@chloe.brown", followers: 12100 },
+      { platform: "YouTube", handle: "ChloeEcoLife", followers: 3600 }
     ],
-    interests: ["Academics", "Public Policy", "Duke Basketball", "Leadership"],
-    lat: 36.0014,
-    lng: -78.9382,
-    engagement: "medium",
-    fitScore: 84,
-    explanation: "High-achieving student leader at prestigious university - excellent for educational services, leadership programs, and professional development.",
+    interests: ["Environmental Activism", "Sustainability", "Pacific Northwest", "Outdoor Activities"],
+    lat: 47.6553,
+    lng: -122.3035,
+    engagement: "high",
+    fitScore: 91,
+    explanation: "Environmental activist with strong sustainability focus - perfect for eco-friendly brands, outdoor gear, and sustainable lifestyle products targeting conscious consumers.",
     examplePosts: [
       {
-        id: "post-021-1",
-        mediaUrl: "/example-posts/duke-campus-life-tiktok-1.jpg",
+        id: "tiktok-21",
+        mediaUrl: generatePostImageUrl("TikTok", "Eco+Tips", 21),
         platform: "TikTok",
-        baseViews: 6400,
-        baseConversions: 96,
-        targetViews: 17000,
-        targetConversions: 255
+        baseViews: 12600,
+        baseConversions: 252,
+        targetViews: 35000,
+        targetConversions: 700,
+        description: "Sustainable living tips and environmental activism"
       },
       {
-        id: "post-021-2",
-        mediaUrl: "/example-posts/student-leader-ig-1.jpg",
+        id: "instagram-16",
+        mediaUrl: generatePostImageUrl("Instagram", "PNW+Nature", 21),
         platform: "Instagram",
-        baseViews: 4200,
-        baseConversions: 84,
-        targetViews: 11000,
-        targetConversions: 165
+        baseViews: 7800,
+        baseConversions: 156,
+        targetViews: 21500,
+        targetConversions: 430,
+        description: "Pacific Northwest nature and eco-friendly lifestyle"
       }
     ]
   },
   {
     id: "inf-022",
-    name: "Noah Garcia",
-    college: "University of Southern California",
+    name: "Anthony Martinez",
+    college: "Arizona State University",
     year: "Junior",
     orgs: [
-      { org: "USC Film School Association", role: "President" },
-      { org: "Lambda Theta Phi", role: "Vice President" }
+      { org: "ASU Entrepreneurship Society", role: "Vice President" },
+      { org: "Latino Business Student Association", role: "Marketing Director" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@noahusc", followers: 16800 },
-      { platform: "Instagram", handle: "@noah.usc", followers: 14200 },
-      { platform: "YouTube", handle: "NoahGarciaFilms", followers: 8700 }
+      { platform: "TikTok", handle: "@anthonyasu", followers: 11400 },
+      { platform: "Instagram", handle: "@anthony.martinez", followers: 8900 },
+      { platform: "LinkedIn", handle: "anthony-martinez-asu", followers: 4100 }
     ],
-    interests: ["Film", "Content Creation", "Los Angeles", "Latino Culture"],
-    lat: 34.0224,
-    lng: -118.2851,
-    engagement: "high",
-    fitScore: 89,
-    explanation: "Creative film student in Hollywood - perfect for entertainment brands, production equipment, and content creation tools.",
+    interests: ["Entrepreneurship", "Desert Lifestyle", "Business", "Fitness"],
+    lat: 33.4255,
+    lng: -111.9400,
+    engagement: "medium",
+    fitScore: 85,
+    explanation: "Southwest entrepreneur with strong ASU presence - ideal for business tools, Arizona lifestyle brands, and entrepreneurship education targeting ambitious students.",
     examplePosts: [
       {
-        id: "post-022-1",
-        mediaUrl: "/example-posts/film-behind-scenes-tiktok-1.jpg",
+        id: "tiktok-22",
+        mediaUrl: generatePostImageUrl("TikTok", "ASU+Entrepreneur", 22),
         platform: "TikTok",
-        baseViews: 12200,
-        baseConversions: 183,
-        targetViews: 34000,
-        targetConversions: 510
+        baseViews: 7600,
+        baseConversions: 114,
+        targetViews: 21000,
+        targetConversions: 315,
+        description: "Student entrepreneur journey and ASU life"
       },
       {
-        id: "post-022-2",
-        mediaUrl: "/example-posts/la-film-student-ig-1.jpg",
+        id: "instagram-17",
+        mediaUrl: generatePostImageUrl("Instagram", "Arizona+Life", 22),
         platform: "Instagram",
-        baseViews: 8400,
-        baseConversions: 168,
-        targetViews: 23000,
-        targetConversions: 345
+        baseViews: 4600,
+        baseConversions: 92,
+        targetViews: 12800,
+        targetConversions: 256,
+        description: "Arizona lifestyle and business networking"
       }
     ]
   },
   {
     id: "inf-023",
-    name: "Chloe Anderson",
+    name: "Natalie Green",
     college: "University of Virginia",
     year: "Senior",
     orgs: [
-      { org: "Alpha Phi", role: "President" },
-      { org: "UVA Honor Committee", role: "Representative" }
+      { org: "UVA Honor Committee", role: "Vice Chair" },
+      { org: "Delta Delta Delta", role: "Chapter President" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@chloeuva", followers: 14700 },
-      { platform: "Instagram", handle: "@chloe.virginia", followers: 17200 },
-      { platform: "VSCO", handle: "chloeanderson", followers: 9100 }
+      { platform: "TikTok", handle: "@nataliegreen", followers: 14900 },
+      { platform: "Instagram", handle: "@natalie.green", followers: 17200 },
+      { platform: "LinkedIn", handle: "natalie-green-uva", followers: 3800 }
     ],
-    interests: ["Preppy Style", "Honor Code", "Charlottesville", "Greek Life"],
+    interests: ["Honor Code", "Southern Traditions", "Greek Life", "Law"],
     lat: 38.0336,
     lng: -78.5080,
     engagement: "high",
-    fitScore: 90,
-    explanation: "Classic preppy influencer with honor society leadership - ideal for traditional fashion brands, educational institutions, and luxury lifestyle products.",
+    fitScore: 88,
+    explanation: "UVA tradition bearer with strong honor/leadership presence - excellent for professional services, Southern lifestyle brands, and leadership development programs.",
     examplePosts: [
       {
-        id: "post-023-1",
-        mediaUrl: "/example-posts/preppy-style-tiktok-1.jpg",
+        id: "tiktok-23",
+        mediaUrl: generatePostImageUrl("TikTok", "UVA+Traditions", 23),
         platform: "TikTok",
-        baseViews: 10800,
-        baseConversions: 162,
-        targetViews: 30000,
-        targetConversions: 450
+        baseViews: 10200,
+        baseConversions: 153,
+        targetViews: 28500,
+        targetConversions: 427,
+        description: "UVA traditions and honor system insights"
       },
       {
-        id: "post-023-2",
-        mediaUrl: "/example-posts/uva-traditions-ig-1.jpg",
+        id: "instagram-18",
+        mediaUrl: generatePostImageUrl("Instagram", "Southern+Grace", 23),
         platform: "Instagram",
-        baseViews: 8600,
-        baseConversions: 172,
-        targetViews: 23000,
-        targetConversions: 345
+        baseViews: 8100,
+        baseConversions: 162,
+        targetViews: 22500,
+        targetConversions: 450,
+        description: "Southern traditions and UVA campus culture"
       }
     ]
   },
   {
     id: "inf-024",
-    name: "Mason Taylor",
-    college: "Texas A&M University",
+    name: "Brandon Lee",
+    college: "University of Colorado Boulder",
     year: "Junior",
     orgs: [
-      { org: "Corps of Cadets", role: "Company Commander" },
-      { org: "Engineering Honor Society", role: "Secretary" }
+      { org: "CU Ski and Snowboard Club", role: "President" },
+      { org: "Environmental Design Student Government", role: "Representative" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@masontamu", followers: 12600 },
-      { platform: "Instagram", handle: "@mason.aggies", followers: 10400 },
-      { platform: "LinkedIn", handle: "Mason Taylor", followers: 3200 }
+      { platform: "TikTok", handle: "@brandonskis", followers: 13100 },
+      { platform: "Instagram", handle: "@brandon.lee", followers: 16800 },
+      { platform: "YouTube", handle: "BrandonSkirAdventures", followers: 4200 }
     ],
-    interests: ["Military", "Engineering", "Aggie Traditions", "Leadership"],
-    lat: 30.6280,
-    lng: -96.3344,
-    engagement: "medium",
-    fitScore: 87,
-    explanation: "Military leadership with engineering background - excellent for military/tactical gear, engineering tools, and leadership development programs.",
+    interests: ["Skiing", "Snowboarding", "Mountain Life", "Outdoor Adventure"],
+    lat: 40.0150,
+    lng: -105.2705,
+    engagement: "high",
+    fitScore: 89,
+    explanation: "Mountain sports influencer with strong outdoor community - perfect for outdoor gear, adventure brands, and Colorado lifestyle products targeting active students.",
     examplePosts: [
       {
-        id: "post-024-1",
-        mediaUrl: "/example-posts/corps-cadets-tiktok-1.jpg",
+        id: "tiktok-24",
+        mediaUrl: generatePostImageUrl("TikTok", "Ski+Adventures", 24),
         platform: "TikTok",
-        baseViews: 7800,
-        baseConversions: 117,
-        targetViews: 21000,
-        targetConversions: 315
+        baseViews: 11700,
+        baseConversions: 175,
+        targetViews: 32500,
+        targetConversions: 487,
+        description: "Epic ski runs and mountain adventures"
       },
       {
-        id: "post-024-2",
-        mediaUrl: "/example-posts/aggie-engineering-ig-1.jpg",
+        id: "instagram-19",
+        mediaUrl: generatePostImageUrl("Instagram", "Colorado+Mountains", 24),
         platform: "Instagram",
-        baseViews: 5200,
-        baseConversions: 104,
-        targetViews: 14000,
-        targetConversions: 210
+        baseViews: 9200,
+        baseConversions: 184,
+        targetViews: 25500,
+        targetConversions: 510,
+        description: "Colorado mountain lifestyle and outdoor adventures"
       }
     ]
   },
   {
     id: "inf-025",
-    name: "Olivia Brown",
-    college: "University of Oregon",
-    year: "Sophomore",
+    name: "Jessica Wong",
+    college: "University of California, Los Angeles",
+    year: "Senior",
     orgs: [
-      { org: "Oregon Track and Field", role: "Team Member" },
-      { org: "Sustainability Club", role: "Co-President" }
+      { org: "UCLA Pre-Med Society", role: "President" },
+      { org: "Asian Pacific Coalition", role: "Health & Wellness Director" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@oliviaoregon", followers: 9800 },
-      { platform: "Instagram", handle: "@olivia.oregon", followers: 12700 },
-      { platform: "Strava", handle: "OliviaBrownRuns", followers: 4200 }
+      { platform: "TikTok", handle: "@jessicamed", followers: 16200 },
+      { platform: "Instagram", handle: "@jessica.wong", followers: 11800 },
+      { platform: "LinkedIn", handle: "jessica-wong-ucla", followers: 5400 }
     ],
-    interests: ["Running", "Sustainability", "Pacific Northwest", "Health"],
-    lat: 44.0459,
-    lng: -123.0689,
-    engagement: "medium",
-    fitScore: 85,
-    explanation: "Authentic athletic sustainability advocate - perfect for eco-friendly athletic gear, outdoor brands, and health/wellness products.",
+    interests: ["Pre-Med", "Health & Wellness", "Asian American Culture", "STEM"],
+    lat: 34.0689,
+    lng: -118.4452,
+    engagement: "high",
+    fitScore: 90,
+    explanation: "Pre-med leader with strong health/wellness focus - ideal for health products, medical education, and wellness brands targeting academic high-achievers.",
     examplePosts: [
       {
-        id: "post-025-1",
-        mediaUrl: "/example-posts/sustainable-running-tiktok-1.jpg",
+        id: "tiktok-25",
+        mediaUrl: generatePostImageUrl("TikTok", "PreMed+Life", 25),
         platform: "TikTok",
-        baseViews: 6200,
-        baseConversions: 93,
-        targetViews: 17000,
-        targetConversions: 255
+        baseViews: 12400,
+        baseConversions: 186,
+        targetViews: 34500,
+        targetConversions: 517,
+        description: "Pre-med study tips and medical school prep"
       },
       {
-        id: "post-025-2",
-        mediaUrl: "/example-posts/oregon-nature-run-ig-1.jpg",
+        id: "instagram-20",
+        mediaUrl: generatePostImageUrl("Instagram", "Wellness+UCLA", 25),
         platform: "Instagram",
-        baseViews: 5400,
-        baseConversions: 108,
-        targetViews: 14000,
-        targetConversions: 210
+        baseViews: 6700,
+        baseConversions: 134,
+        targetViews: 18500,
+        targetConversions: 370,
+        description: "Health and wellness tips for busy students"
       }
     ]
   },
   {
     id: "inf-026",
-    name: "Lucas White",
-    college: "Penn State University",
+    name: "Michael O'Brien",
+    college: "University of Notre Dame",
     year: "Senior",
     orgs: [
-      { org: "Beta Theta Pi", role: "Social Chair" },
-      { org: "Penn State Blue Band", role: "Section Leader" }
+      { org: "Notre Dame Football", role: "Starting Center" },
+      { org: "Student-Athlete Advisory Committee", role: "Chairman" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@lucaspsu", followers: 18200 },
-      { platform: "Instagram", handle: "@lucas.pennstate", followers: 15600 },
-      { platform: "Snapchat", handle: "@lucaswhite", followers: 8900 }
+      { platform: "TikTok", handle: "@mikeobrien", followers: 19800 },
+      { platform: "Instagram", handle: "@mobrien_nd", followers: 15600 },
+      { platform: "LinkedIn", handle: "michael-obrien-nd", followers: 3900 }
     ],
-    interests: ["Music", "School Spirit", "Greek Life", "Pennsylvania"],
-    lat: 40.7982,
-    lng: -77.8599,
+    interests: ["Football", "Catholic Faith", "Leadership", "Irish Traditions"],
+    lat: 41.7001,
+    lng: -86.2379,
     engagement: "high",
-    fitScore: 88,
-    explanation: "High-energy school spirit with musical talent - great for musical instruments, school merchandise, and entertainment brands targeting college communities.",
+    fitScore: 87,
+    explanation: "Notre Dame football captain with strong Catholic/traditional values - excellent for athletic brands, faith-based organizations, and traditional American values companies.",
     examplePosts: [
       {
-        id: "post-026-1",
-        mediaUrl: "/example-posts/penn-state-spirit-tiktok-1.jpg",
+        id: "tiktok-26",
+        mediaUrl: generatePostImageUrl("TikTok", "ND+Football", 26),
         platform: "TikTok",
-        baseViews: 13200,
-        baseConversions: 198,
-        targetViews: 37000,
-        targetConversions: 555
+        baseViews: 14600,
+        baseConversions: 219,
+        targetViews: 40500,
+        targetConversions: 607,
+        description: "Notre Dame football tradition and team culture"
       },
       {
-        id: "post-026-2",
-        mediaUrl: "/example-posts/blue-band-performance-ig-1.jpg",
+        id: "instagram-21",
+        mediaUrl: generatePostImageUrl("Instagram", "Irish+Pride", 26),
         platform: "Instagram",
-        baseViews: 8800,
-        baseConversions: 176,
-        targetViews: 24000,
-        targetConversions: 360
+        baseViews: 8300,
+        baseConversions: 166,
+        targetViews: 23000,
+        targetConversions: 460,
+        description: "Fighting Irish pride and Catholic traditions"
       }
     ]
   },
   {
     id: "inf-027",
-    name: "Madison Turner",
-    college: "University of Tennessee",
+    name: "Rachel Stevens",
+    college: "University of Pennsylvania",
     year: "Junior",
     orgs: [
-      { org: "Zeta Tau Alpha", role: "Vice President" },
-      { org: "Tennessee Volunteers Student Section", role: "Captain" }
+      { org: "Wharton Undergraduate Finance Club", role: "VP of External Relations" },
+      { org: "Alpha Phi", role: "Standards Board Chair" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@madisonvols", followers: 16400 },
-      { platform: "Instagram", handle: "@madison.tennessee", followers: 13800 },
-      { platform: "Twitter", handle: "@MadisonT_Vols", followers: 5700 }
+      { platform: "LinkedIn", handle: "rachel-stevens-wharton", followers: 8700 },
+      { platform: "TikTok", handle: "@rachelfinance", followers: 9800 },
+      { platform: "Instagram", handle: "@rachel.stevens", followers: 7400 }
     ],
-    interests: ["SEC Football", "Southern Style", "Greek Life", "Country Music"],
-    lat: 35.9544,
-    lng: -83.9295,
+    interests: ["Finance", "Wall Street", "Business", "Philadelphia"],
+    lat: 39.9526,
+    lng: -75.1652,
     engagement: "high",
-    fitScore: 91,
-    explanation: "Quintessential SEC culture ambassador - perfect for southern lifestyle brands, country music promotion, and college sports merchandise.",
+    fitScore: 93,
+    explanation: "Wharton finance student with strong Wall Street connections - perfect for financial services, professional development, and business education targeting ambitious students.",
     examplePosts: [
       {
-        id: "post-027-1",
-        mediaUrl: "/example-posts/vols-gameday-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 11800,
-        baseConversions: 177,
-        targetViews: 33000,
-        targetConversions: 495
+        id: "linkedin-6",
+        mediaUrl: generatePostImageUrl("LinkedIn", "Wharton+Finance", 27),
+        platform: "LinkedIn",
+        baseViews: 5600,
+        baseConversions: 224,
+        targetViews: 15500,
+        targetConversions: 620,
+        description: "Finance industry insights from Wharton perspective"
       },
       {
-        id: "post-027-2",
-        mediaUrl: "/example-posts/southern-football-style-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 7600,
-        baseConversions: 152,
+        id: "tiktok-27",
+        mediaUrl: generatePostImageUrl("TikTok", "Finance+Tips", 27),
+        platform: "TikTok",
+        baseViews: 7200,
+        baseConversions: 108,
         targetViews: 20000,
-        targetConversions: 300
+        targetConversions: 300,
+        description: "Finance and investment tips for students"
       }
     ]
   },
   {
     id: "inf-028",
-    name: "Cameron Lewis",
-    college: "University of Illinois",
-    year: "Sophomore",
+    name: "Austin Clark",
+    college: "Texas A&M University",
+    year: "Senior",
     orgs: [
-      { org: "Acacia Fraternity", role: "Pledge Educator" },
-      { org: "Engineering Student Council", role: "Representative" }
+      { org: "Corps of Cadets", role: "Company Commander" },
+      { org: "Agricultural Economics Society", role: "President" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@cameronuiuc", followers: 7900 },
-      { platform: "Instagram", handle: "@cameron.illinois", followers: 6800 },
-      { platform: "LinkedIn", handle: "Cameron Lewis", followers: 1900 }
+      { platform: "TikTok", handle: "@austinaggie", followers: 12700 },
+      { platform: "Instagram", handle: "@austin.clark", followers: 10300 },
+      { platform: "LinkedIn", handle: "austin-clark-tamu", followers: 4200 }
     ],
-    interests: ["Engineering", "Midwest Life", "Greek Life", "Innovation"],
-    lat: 40.1020,
-    lng: -88.2272,
-    engagement: "low",
-    fitScore: 78,
-    explanation: "Rising engineering student with fraternity connections - good for technical brands, educational tools, and midwest-focused products.",
+    interests: ["Military", "Agriculture", "Texas Culture", "Leadership"],
+    lat: 30.6280,
+    lng: -96.3344,
+    engagement: "medium",
+    fitScore: 86,
+    explanation: "Military-style leader with strong Texas A&M tradition - ideal for military/tactical brands, agricultural products, and Texas lifestyle companies.",
     examplePosts: [
       {
-        id: "post-028-1",
-        mediaUrl: "/example-posts/engineering-project-tiktok-1.jpg",
+        id: "tiktok-28",
+        mediaUrl: generatePostImageUrl("TikTok", "Aggie+Traditions", 28),
         platform: "TikTok",
-        baseViews: 3200,
-        baseConversions: 48,
-        targetViews: 8500,
-        targetConversions: 128
+        baseViews: 8900,
+        baseConversions: 133,
+        targetViews: 24500,
+        targetConversions: 367,
+        description: "Texas A&M traditions and Corps of Cadets life"
       },
       {
-        id: "post-028-2",
-        mediaUrl: "/example-posts/illinois-campus-ig-1.jpg",
+        id: "instagram-22",
+        mediaUrl: generatePostImageUrl("Instagram", "Texas+Pride", 28),
         platform: "Instagram",
-        baseViews: 2800,
-        baseConversions: 56,
-        targetViews: 7500,
-        targetConversions: 113
+        baseViews: 5100,
+        baseConversions: 102,
+        targetViews: 14000,
+        targetConversions: 280,
+        description: "Texas A&M pride and agricultural lifestyle"
       }
     ]
   },
   {
     id: "inf-029",
-    name: "Samantha Davis",
-    college: "University of Connecticut",
-    year: "Senior",
+    name: "Olivia Johnson",
+    college: "University of Oregon",
+    year: "Sophomore",
     orgs: [
-      { org: "UConn Women's Basketball Student Manager", role: "Head Manager" },
-      { org: "Alpha Delta Pi", role: "Recruitment Chair" }
+      { org: "Oregon Track and Field", role: "Distance Runner" },
+      { org: "Environmental Studies Student Union", role: "Outreach Coordinator" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@samuconn", followers: 13500 },
-      { platform: "Instagram", handle: "@sam.uconn", followers: 11200 },
-      { platform: "Twitter", handle: "@SamD_UConn", followers: 4600 }
+      { platform: "TikTok", handle: "@oliviaruns", followers: 14800 },
+      { platform: "Instagram", handle: "@olivia.johnson", followers: 13200 },
+      { platform: "Strava", handle: "OliviaRunsUO", followers: 2100 }
     ],
-    interests: ["Women's Basketball", "Sports Management", "New England", "Greek Life"],
-    lat: 41.8077,
-    lng: -72.2540,
-    engagement: "medium",
-    fitScore: 86,
-    explanation: "Women's sports advocate with management experience - excellent for sports brands, women's empowerment products, and athletic management tools.",
+    interests: ["Track and Field", "Environmental Science", "Oregon Nature", "Running"],
+    lat: 44.0459,
+    lng: -123.0351,
+    engagement: "high",
+    fitScore: 88,
+    explanation: "Elite distance runner with environmental consciousness - perfect for running gear, eco-friendly products, and Pacific Northwest lifestyle brands.",
     examplePosts: [
       {
-        id: "post-029-1",
-        mediaUrl: "/example-posts/womens-basketball-tiktok-1.jpg",
+        id: "tiktok-29",
+        mediaUrl: generatePostImageUrl("TikTok", "Running+Training", 29),
         platform: "TikTok",
-        baseViews: 8600,
-        baseConversions: 129,
-        targetViews: 24000,
-        targetConversions: 360
+        baseViews: 11200,
+        baseConversions: 168,
+        targetViews: 31000,
+        targetConversions: 465,
+        description: "Elite running training and Oregon nature runs"
       },
       {
-        id: "post-029-2",
-        mediaUrl: "/example-posts/uconn-pride-ig-1.jpg",
+        id: "instagram-23",
+        mediaUrl: generatePostImageUrl("Instagram", "Oregon+Nature", 29),
         platform: "Instagram",
-        baseViews: 6200,
-        baseConversions: 124,
-        targetViews: 16000,
-        targetConversions: 240
+        baseViews: 6900,
+        baseConversions: 138,
+        targetViews: 19000,
+        targetConversions: 380,
+        description: "Oregon trail running and environmental awareness"
       }
     ]
   },
   {
     id: "inf-030",
-    name: "Joshua Martinez",
-    college: "University of Arizona",
+    name: "Daniel Kim",
+    college: "Georgia Institute of Technology",
     year: "Junior",
     orgs: [
-      { org: "Pi Kappa Alpha", role: "President" },
-      { org: "Arizona Student Union", role: "Programming Board Member" }
+      { org: "Georgia Tech Robotics Club", role: "Vice President" },
+      { org: "Korean Student Association", role: "Technology Director" }
     ],
     socials: [
-      { platform: "TikTok", handle: "@joshuauofa", followers: 19800 },
-      { platform: "Instagram", handle: "@josh.arizona", followers: 17200 },
-      { platform: "Snapchat", handle: "@joshmart", followers: 10400 }
+      { platform: "LinkedIn", handle: "daniel-kim-gatech", followers: 6200 },
+      { platform: "TikTok", handle: "@danieltech", followers: 8600 },
+      { platform: "GitHub", handle: "dkim-gatech", followers: 1800 }
     ],
-    interests: ["Desert Life", "Party Scene", "Greek Life", "Southwestern Culture"],
-    lat: 32.2319,
-    lng: -110.9501,
-    engagement: "high",
+    interests: ["Robotics", "AI/ML", "Engineering", "Korean Culture"],
+    lat: 33.7756,
+    lng: -84.3963,
+    engagement: "medium",
     fitScore: 89,
-    explanation: "Desert party culture leader - ideal for beverage brands, festival/event promotion, and southwestern lifestyle products.",
+    explanation: "Georgia Tech engineering student with strong technical background - excellent for engineering tools, tech education, and STEM-focused brands targeting technical students.",
     examplePosts: [
       {
-        id: "post-030-1",
-        mediaUrl: "/example-posts/arizona-desert-party-tiktok-1.jpg",
-        platform: "TikTok",
-        baseViews: 14200,
-        baseConversions: 213,
-        targetViews: 40000,
-        targetConversions: 600
+        id: "linkedin-7",
+        mediaUrl: generatePostImageUrl("LinkedIn", "GT+Engineering", 30),
+        platform: "LinkedIn",
+        baseViews: 4100,
+        baseConversions: 164,
+        targetViews: 11500,
+        targetConversions: 460,
+        description: "Engineering innovations and Georgia Tech research"
       },
       {
-        id: "post-030-2",
-        mediaUrl: "/example-posts/southwestern-lifestyle-ig-1.jpg",
-        platform: "Instagram",
-        baseViews: 9800,
-        baseConversions: 196,
-        targetViews: 26000,
-        targetConversions: 390
+        id: "tiktok-30",
+        mediaUrl: generatePostImageUrl("TikTok", "Tech+Projects", 30),
+        platform: "TikTok",
+        baseViews: 6500,
+        baseConversions: 97,
+        targetViews: 18000,
+        targetConversions: 270,
+        description: "Cool engineering projects and tech tutorials"
       }
     ]
   }
 ];
 
-// Helper functions for working with the influencer data
-export function getInfluencerById(id: string): Influencer | undefined {
-  return influencers.find(inf => inf.id === id);
-}
+// Helper functions for working with influencer data
+export const getInfluencersByIds = (ids: string[]): Influencer[] => {
+  return influencers.filter(inf => ids.includes(inf.id));
+};
 
-export function getInfluencersByIds(ids: string[]): Influencer[] {
-  return ids.map(getInfluencerById).filter((inf): inf is Influencer => inf !== undefined);
-}
+export const calculateTotalFollowers = (influencersList: Influencer[]): number => {
+  return influencersList.reduce((total, influencer) => {
+    return total + influencer.socials.reduce((sum, social) => sum + social.followers, 0);
+  }, 0);
+};
 
-export function calculateTotalFollowers(influencer: Influencer): number {
-  return influencer.socials.reduce((total, social) => total + social.followers, 0);
-}
+export const sortInfluencersByFitScore = (influencersList: Influencer[]): Influencer[] => {
+  return [...influencersList].sort((a, b) => b.fitScore - a.fitScore);
+};
 
-export function sortInfluencersByFitScore(influencers: Influencer[]): Influencer[] {
-  return [...influencers].sort((a, b) => b.fitScore - a.fitScore);
-}
+export const sortInfluencersByFollowers = (influencersList: Influencer[]): Influencer[] => {
+  return [...influencersList].sort((a, b) => {
+    const aTotal = a.socials.reduce((sum, social) => sum + social.followers, 0);
+    const bTotal = b.socials.reduce((sum, social) => sum + social.followers, 0);
+    return bTotal - aTotal;
+  });
+};
 
-export function sortInfluencersByFollowers(influencers: Influencer[]): Influencer[] {
-  return [...influencers].sort((a, b) => calculateTotalFollowers(b) - calculateTotalFollowers(a));
-}
+export const filterInfluencersByMinFollowers = (influencersList: Influencer[], minFollowers: number): Influencer[] => {
+  return influencersList.filter(influencer => {
+    const totalFollowers = influencer.socials.reduce((sum, social) => sum + social.followers, 0);
+    return totalFollowers >= minFollowers;
+  });
+};
 
-export function filterInfluencersByMinFollowers(influencers: Influencer[], minFollowers: number): Influencer[] {
-  return influencers.filter(inf => calculateTotalFollowers(inf) >= minFollowers);
-}
-
-export function filterInfluencersByInterests(influencers: Influencer[], interests: string[]): Influencer[] {
-  if (interests.length === 0) return influencers;
-  return influencers.filter(inf => 
+export const filterInfluencersByInterests = (influencersList: Influencer[], interests: string[]): Influencer[] => {
+  if (interests.length === 0) return influencersList;
+  
+  return influencersList.filter(influencer =>
     interests.some(interest => 
-      inf.interests.some(infInterest => 
-        infInterest.toLowerCase().includes(interest.toLowerCase())
+      influencer.interests.some(inf_interest => 
+        inf_interest.toLowerCase().includes(interest.toLowerCase())
       )
     )
   );
-}
+};
 
-// Format follower counts for display
-export function formatFollowerCount(count: number): string {
+export const formatFollowerCount = (count: number): string => {
   if (count >= 1000000) {
     return `${(count / 1000000).toFixed(1)}M`;
   } else if (count >= 1000) {
     return `${(count / 1000).toFixed(1)}K`;
   }
   return count.toString();
-}
+};
 
-// Get influencer tier badge
-export function getInfluencerTier(totalFollowers: number): string {
-  if (totalFollowers >= 50000) return "Mid-tier";
-  if (totalFollowers >= 10000) return "Micro";
-  return "Nano";
-}
+export const getInfluencerTier = (totalFollowers: number): string => {
+  if (totalFollowers >= 50000) return "Macro";
+  if (totalFollowers >= 10000) return "Mid-tier";
+  return "Micro";
+};
