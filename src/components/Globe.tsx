@@ -38,7 +38,7 @@ const countryOutlines = [
 ];
 
 // Convert lat/lng to 3D sphere coordinates
-const latLngToVector3 = (lat: number, lng: number, radius: number = 2.5): THREE.Vector3 => {
+const latLngToVector3 = (lat: number, lng: number, radius: number = 4): THREE.Vector3 => {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lng + 180) * (Math.PI / 180);
   
@@ -64,15 +64,15 @@ function CountryOutlines() {
       
       for (let i = 0; i < outline.length; i++) {
         const [lng, lat] = outline[i];
-        points.push(latLngToVector3(lat, lng, 2.51)); // Slightly above globe surface
+        points.push(latLngToVector3(lat, lng, 4.02)); // Slightly above globe surface
       }
 
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       const material = new THREE.LineBasicMaterial({ 
-        color: 0x666666, 
-        opacity: 0.6, 
+        color: 0x888888, // Grey color for country outlines
+        opacity: 0.8, 
         transparent: true,
-        linewidth: 1
+        linewidth: 2
       });
       
       const line = new THREE.Line(geometry, material);
@@ -97,13 +97,13 @@ function GlobeContent({ influencers, onInfluencerClick }: { influencers: Influen
   return (
     <group ref={groupRef}>
       {/* Main Globe */}
-      <Sphere ref={meshRef} args={[2.5, 64, 64]}>
+      <Sphere ref={meshRef} args={[4, 64, 64]}>
         <meshStandardMaterial
-          color="#1a1a2e"
-          roughness={0.8}
-          metalness={0.1}
+          color="#1e293b" // Dark blue-grey for better visibility on black
+          roughness={0.6}
+          metalness={0.2}
           transparent
-          opacity={0.9}
+          opacity={0.85}
         />
       </Sphere>
 
@@ -112,7 +112,7 @@ function GlobeContent({ influencers, onInfluencerClick }: { influencers: Influen
 
       {/* Influencer Dots */}
       {influencers.map((influencer) => {
-        const position = latLngToVector3(influencer.lat, influencer.lng, 2.52);
+        const position = latLngToVector3(influencer.lat, influencer.lng, 4.05);
         
         return (
           <group key={influencer.id}>
@@ -120,17 +120,17 @@ function GlobeContent({ influencers, onInfluencerClick }: { influencers: Influen
               position={[position.x, position.y, position.z]}
               onClick={() => onInfluencerClick(influencer)}
             >
-              <sphereGeometry args={[0.03, 16, 16]} />
+              <sphereGeometry args={[0.06, 16, 16]} />
               <meshStandardMaterial
                 color={
-                  influencer.fitScore >= 90 ? "#00ff88" :
-                  influencer.fitScore >= 80 ? "#ffaa00" : "#ff6b6b"
+                  influencer.fitScore >= 90 ? "#10b981" : // emerald-500
+                  influencer.fitScore >= 80 ? "#f59e0b" : "#ef4444" // amber-500 : red-500
                 }
                 emissive={
-                  influencer.fitScore >= 90 ? "#004422" :
-                  influencer.fitScore >= 80 ? "#442200" : "#442222"
+                  influencer.fitScore >= 90 ? "#064e3b" : // dark emerald
+                  influencer.fitScore >= 80 ? "#78350f" : "#7f1d1d" // dark amber : dark red
                 }
-                emissiveIntensity={0.3}
+                emissiveIntensity={0.4}
               />
             </mesh>
             
@@ -140,11 +140,11 @@ function GlobeContent({ influencers, onInfluencerClick }: { influencers: Influen
                 position={[position.x, position.y, position.z]}
                 rotation={[Math.PI / 2, 0, 0]}
               >
-                <ringGeometry args={[0.05, 0.08, 16]} />
+                <ringGeometry args={[0.08, 0.12, 16]} />
                 <meshBasicMaterial
-                  color={influencer.fitScore >= 90 ? "#00ff88" : "#ffaa00"}
+                  color={influencer.fitScore >= 90 ? "#10b981" : "#f59e0b"}
                   transparent
-                  opacity={0.4}
+                  opacity={0.5}
                 />
               </mesh>
             )}
@@ -173,14 +173,14 @@ export default function Globe({
   };
 
   return (
-    <div className={`relative ${className}`} style={{ height: '100%', minHeight: '400px' }}>
+    <div className={`relative ${className}`} style={{ height: '100%', minHeight: '600px' }}>
       <Canvas
-        camera={{ position: [0, 0, 8], fov: 45 }}
+        camera={{ position: [0, 0, 12], fov: 50 }}
         style={{ background: 'transparent' }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} />
-        <pointLight position={[-5, -5, -5]} intensity={0.3} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[10, 10, 10]} intensity={1.2} />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} />
         
         <GlobeContent 
           influencers={influencers} 
@@ -190,8 +190,8 @@ export default function Globe({
         <OrbitControls 
           enableZoom={true}
           enablePan={false}
-          minDistance={4}
-          maxDistance={12}
+          minDistance={8}
+          maxDistance={20}
           autoRotate={false}
           rotateSpeed={0.5}
         />
@@ -199,12 +199,12 @@ export default function Globe({
 
       {/* Selected influencer overlay */}
       {selectedInfluencer && (
-        <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm rounded-lg p-4 text-white min-w-[250px]">
+        <div className="absolute top-4 right-4 bg-black/90 backdrop-blur-sm rounded-lg p-4 text-white min-w-[280px] border border-gray-700">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold">{selectedInfluencer.name}</h3>
+            <h3 className="font-semibold text-lg">{selectedInfluencer.name}</h3>
             <button
               onClick={() => setSelectedInfluencer(null)}
-              className="text-gray-400 hover:text-white"
+              className="text-gray-400 hover:text-white text-xl"
             >
               ×
             </button>

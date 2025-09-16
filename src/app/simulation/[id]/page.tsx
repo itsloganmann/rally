@@ -27,7 +27,7 @@ export default function CampaignSimulation() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toasts, addToast, removeToast } = useToast();
-  
+
   const selectedIds = searchParams.get('ids')?.split(',') || [];
   const selectedInfluencers = useMemo(() => getInfluencersByIds(selectedIds), [selectedIds]);
   
@@ -147,13 +147,13 @@ export default function CampaignSimulation() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       
-      {/* Header */}
+        {/* Header */}
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href="/brands/recommendations" className="text-blue-400 hover:text-blue-300">
               ← Back
-            </Link>
+          </Link>
             <div>
               <h1 className="text-3xl font-bold">Campaign Simulation</h1>
               <p className="text-gray-400">
@@ -163,14 +163,14 @@ export default function CampaignSimulation() {
           </div>
           
           {!isStarted && (
-            <button
+                    <button
               onClick={startSimulation}
               className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition-colors"
-            >
+                    >
               Deploy Campaign
-            </button>
-          )}
-        </div>
+                    </button>
+                  )}
+                </div>
 
         {/* Metrics Overview */}
         <div className="grid grid-cols-4 gap-6 mb-8">
@@ -187,7 +187,7 @@ export default function CampaignSimulation() {
               {totalMetrics.views.toLocaleString()}
             </div>
             <div className="text-gray-400">Total Views</div>
-          </div>
+              </div>
           <div className="bg-gray-800 p-6 rounded-lg">
             <div className="text-2xl font-bold">
               {totalMetrics.conversions.toLocaleString()}
@@ -212,11 +212,11 @@ export default function CampaignSimulation() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
                       {animatedPost.influencer.name.split(' ').map(n => n[0]).join('')}
-                    </div>
+                  </div>
                     <div>
                       <div className="font-semibold text-sm">{animatedPost.influencer.name}</div>
                       <div className="text-xs text-gray-400">{animatedPost.influencer.college}</div>
-                    </div>
+                  </div>
                   </div>
                 </div>
 
@@ -240,8 +240,8 @@ export default function CampaignSimulation() {
                                 <div class="text-2xl mb-2">📱</div>
                                 <div class="text-sm font-semibold">${animatedPost.post.platform} Post</div>
                                 <div class="text-xs opacity-75">${animatedPost.post.description}</div>
-                              </div>
-                            </div>
+                          </div>
+                        </div>
                           `;
                         }
                       }}
@@ -251,14 +251,14 @@ export default function CampaignSimulation() {
                   {/* Platform badge */}
                   <div className="absolute top-2 right-2 bg-black bg-opacity-75 px-2 py-1 rounded text-xs font-semibold">
                     {animatedPost.post.platform}
-                  </div>
-
+                </div>
+                
                   {/* Engagement overlay */}
                   <div className="absolute bottom-2 left-2 bg-black bg-opacity-75 px-2 py-1 rounded text-xs">
                     {animatedPost.post.description}
                   </div>
                 </div>
-
+                
                 {/* Metrics */}
                 <div className="p-4 space-y-3">
                   <div>
@@ -280,15 +280,15 @@ export default function CampaignSimulation() {
                         ? ((animatedPost.metrics.conversions / animatedPost.metrics.views) * 100).toFixed(1)
                         : '0.0'
                       }%
-                    </div>
                   </div>
-
+                  </div>
+                  
                   {/* Progress bar */}
                   <div className="mt-4">
                     <div className="flex justify-between text-xs text-gray-400 mb-1">
                       <span>Progress</span>
                       <span>{Math.round((animatedPost.metrics.views / animatedPost.targetViews) * 100)}%</span>
-                    </div>
+                  </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
                         className="bg-blue-500 h-2 rounded-full transition-all duration-500"
@@ -306,14 +306,14 @@ export default function CampaignSimulation() {
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       <span>Target Reached</span>
-                    </div>
+                  </div>
                   )}
                 </div>
-              </motion.div>
+            </motion.div>
             ))}
-          </AnimatePresence>
-        </div>
-      </div>
+      </AnimatePresence>
+              </div>
+            </div>
     </div>
   );
 }
