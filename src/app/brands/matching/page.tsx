@@ -76,8 +76,9 @@ export default function MatchingLoader() {
                   }}
                 />
                 <div className="absolute inset-[8px] rounded-full border border-white/10 bg-white/5 backdrop-blur" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs text-white/70">Matching</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center leading-tight">
+                  <span className="text-[10px] uppercase tracking-wide text-white/70">Matching</span>
+                  <span className="text-lg font-semibold">{progress}%</span>
                 </div>
               </div>
             </div>
@@ -111,7 +112,7 @@ export default function MatchingLoader() {
             ))}
           </div>
 
-          <div className="mt-6 text-center text-xs text-white/60">Preparing recommendations · {progress}%</div>
+          <div className="mt-6 text-center text-xs text-white/60">Preparing recommendations</div>
         </div>
       </section>
     </div>
