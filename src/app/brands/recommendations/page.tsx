@@ -2,11 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import { influencers, type Influencer, calculateTotalFollowers, sortInfluencersByFitScore, sortInfluencersByFollowers, filterInfluencersByMinFollowers, filterInfluencersByInterests, formatFollowerCount, getInfluencerTier } from "../../../lib/influencers";
-
-// Dynamically import Globe to avoid SSR issues
-const Globe = dynamic(() => import('../../../components/Globe'), { ssr: false });
 
 export default function Recommendations() {
   const router = useRouter();
@@ -19,36 +15,31 @@ export default function Recommendations() {
   // Guard: only require that the wizard was visited, not full completion
   useEffect(() => {
     try {
-      const seen = localStorage.getItem("rally_campaign_wizard_seen") === "true";
-      if (!seen) router.replace("/brands/campaigns/new");
-    } catch {
-      router.replace("/brands/campaigns/new");
+      const stored = localStorage.getItem("rally_brand_onboarding");
+      if (!stored) {
+        router.replace("/brands/onboarding");
+        return;
+      }
+    } catch (error) {
+      console.error('Failed to load brand onboarding state:', error);
+      router.replace("/brands/onboarding");
     }
   }, [router]);
 
-  // Get all unique interests for filter
-  const allInterests = useMemo(() => {
-    const interests = new Set<string>();
+  // Get available interests for filter
+  const availableInterests = useMemo(() => {
+    const allInterests = new Set<string>();
     influencers.forEach(inf => {
-      inf.interests.forEach(interest => interests.add(interest));
+      inf.interests.forEach(interest => allInterests.add(interest));
     });
-    return Array.from(interests).sort();
+    return Array.from(allInterests).sort();
   }, []);
 
-  // Filter and sort influencers
-  const sortedInfluencers = useMemo(() => {
-    let filtered = influencers;
+  // Apply filters and sorting
+  const filteredAndSortedInfluencers = useMemo(() => {
+    let filtered = filterInfluencersByMinFollowers(influencers, minFollowers);
+    filtered = filterInfluencersByInterests(filtered, interestFilter);
     
-    // Apply filters
-    if (minFollowers > 0) {
-      filtered = filterInfluencersByMinFollowers(filtered, minFollowers);
-    }
-    
-    if (interestFilter.length > 0) {
-      filtered = filterInfluencersByInterests(filtered, interestFilter);
-    }
-
-    // Sort
     if (sort === "fit") {
       return sortInfluencersByFitScore(filtered);
     } else {
@@ -56,190 +47,149 @@ export default function Recommendations() {
     }
   }, [sort, minFollowers, interestFilter]);
 
-  const handleInfluencerSelect = (influencerId: string) => {
-    const newSelected = new Set(selectedInfluencers);
-    if (newSelected.has(influencerId)) {
-      newSelected.delete(influencerId);
-    } else {
-      newSelected.add(influencerId);
-    }
-    setSelectedInfluencers(newSelected);
-  };
-
-  const handleGlobeInfluencerClick = (influencer: Influencer) => {
-    setFocusedInfluencer(influencer);
-    // Scroll to the influencer card
-    const element = document.getElementById(`influencer-${influencer.id}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
-  const handleDeployCampaign = () => {
-    if (selectedInfluencers.size === 0) return;
-    
-    // Save selected influencers to localStorage
-    try {
-      localStorage.setItem("rally_selected_influencers", JSON.stringify({
-        ids: Array.from(selectedInfluencers),
-        timestamp: new Date().toISOString()
-      }));
-    } catch {}
-    
-    router.push("/simulation/campaign-demo");
+  const toggleInfluencerSelection = (id: string) => {
+    setSelectedInfluencers(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   };
 
   const toggleInterestFilter = (interest: string) => {
-    setInterestFilter(prev => 
-      prev.includes(interest) 
-        ? prev.filter(i => i !== interest)
-        : [...prev, interest]
-    );
+    setInterestFilter(prev => {
+      if (prev.includes(interest)) {
+        return prev.filter(i => i !== interest);
+      } else {
+        return [...prev, interest];
+      }
+    });
+  };
+
+  const handleDeploySelected = () => {
+    if (selectedInfluencers.size === 0) return;
+    
+    const selectedIds = Array.from(selectedInfluencers);
+    router.push(`/simulation/campaign-demo?ids=${selectedIds.join(',')}`);
   };
 
   return (
-    <div className="font-sans text-foreground bg-background min-h-screen">
-      <div className="mx-auto max-w-7xl px-6 pt-12 pb-24">
-        <div className="flex items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
-              Top Matches
-            </h1>
-            <p className="text-white/70">
-              AI-matched by semantic similarity, campus fit, and brand alignment.
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-white/60">
-              {selectedInfluencers.size} selected
-            </span>
-            {selectedInfluencers.size > 0 && (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Top Matches</h1>
+              <p className="text-gray-400">AI-matched by semantic similarity, campus fit, and brand alignment.</p>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold">{selectedInfluencers.size} selected</div>
               <button
-                onClick={handleDeployCampaign}
-                className="rounded-full px-6 py-2 text-sm font-medium text-white"
-                style={{
-                  background: "linear-gradient(90deg, var(--accent-start), var(--accent-end))",
-                  backgroundSize: "200% 100%",
-                  animation: "shimmer 4s linear infinite, pulseGlow 4s ease-in-out infinite",
-                }}
+                onClick={handleDeploySelected}
+                disabled={selectedInfluencers.size === 0}
+                className="mt-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed px-6 py-2 rounded-lg font-semibold transition-colors"
               >
-                Deploy Campaign ({selectedInfluencers.size})
+                Deploy Campaign
               </button>
-            )}
+            </div>
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Controls */}
         <div className="mb-8 space-y-4">
-          <div className="flex items-center gap-6 flex-wrap">
+          {/* Sort and filter controls */}
+          <div className="flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2">
-              <span className="text-xs text-white/60">Sort by</span>
-              <div className="flex gap-2">
-                {(["fit", "followers"] as const).map((k) => (
-                  <button 
-                    key={k} 
-                    className={`rounded-full border border-white/10 px-3 py-1.5 text-sm ${
-                      sort === k ? "bg-white/20" : "bg-white/5 hover:bg-white/10"
-                    }`} 
-                    onClick={() => setSort(k)}
-                  >
-                    {k === "fit" ? "Fit Score" : "Followers"}
-                  </button>
-                ))}
-              </div>
+              <span className="text-sm text-gray-400">Sort by:</span>
+              <button
+                onClick={() => setSort("fit")}
+                className={`px-3 py-1 rounded text-sm ${sort === "fit" ? "bg-blue-600 text-white" : "bg-gray-700 text-gray-300"}`}
+              >
+                Fit Score
+              </button>
+              <button
+                onClick={() => setSort("followers")}
+                className={`px-3 py-1 rounded text-sm ${sort === "followers" ? "bg-blue-600 text-white" : "bg-gray-700 text-gray-300"}`}
+              >
+                Followers
+              </button>
             </div>
             
             <div className="flex items-center gap-2">
-              <label className="text-xs text-white/60">Min followers</label>
-              <input 
-                type="number" 
-                value={minFollowers} 
-                onChange={(e) => setMinFollowers(e.target.value ? Number(e.target.value) : 0)} 
-                className="w-24 rounded-lg border border-white/10 bg-black/30 px-3 py-1 text-sm" 
+              <span className="text-sm text-gray-400">Min followers:</span>
+              <input
+                type="number"
+                value={minFollowers}
+                onChange={(e) => setMinFollowers(Number(e.target.value))}
+                className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm w-20"
                 placeholder="0"
               />
             </div>
           </div>
 
-          {/* Interest filter tags */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-white/60">Interests:</span>
-            {allInterests.slice(0, 8).map(interest => (
-              <button
-                key={interest}
-                onClick={() => toggleInterestFilter(interest)}
-                className={`rounded-full border border-white/10 px-2 py-1 text-xs ${
-                  interestFilter.includes(interest) 
-                    ? "bg-white/20 text-white" 
-                    : "bg-white/5 text-white/70 hover:bg-white/10"
-                }`}
-              >
-                {interest}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Main content: Globe + List */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Globe */}
-          <div className="lg:col-span-2">
-            <div className="sticky top-8">
-              <Globe 
-                className="w-full h-[500px]" 
-                influencers={sortedInfluencers}
-                onInfluencerClick={handleGlobeInfluencerClick}
-              />
-              {focusedInfluencer && (
-                <div className="mt-4 p-4 rounded-lg border border-white/10 bg-white/5">
-                  <div className="text-sm font-medium">{focusedInfluencer.name}</div>
-                  <div className="text-xs text-white/60">{focusedInfluencer.college}</div>
-                  <div className="text-xs text-white/50 mt-1">
-                    Fit Score: {focusedInfluencer.fitScore}%
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Influencer List */}
-          <div className="lg:col-span-3">
-            <div className="space-y-6">
-              {sortedInfluencers.map((influencer) => (
-                <InfluencerCard 
-                  key={influencer.id}
-                  influencer={influencer}
-                  isSelected={selectedInfluencers.has(influencer.id)}
-                  isFocused={focusedInfluencer?.id === influencer.id}
-                  onSelect={() => handleInfluencerSelect(influencer.id)}
-                />
+          {/* Interest filters */}
+          <div>
+            <span className="text-sm text-gray-400 mb-2 block">Interests:</span>
+            <div className="flex flex-wrap gap-2">
+              {availableInterests.slice(0, 15).map(interest => (
+                <button
+                  key={interest}
+                  onClick={() => toggleInterestFilter(interest)}
+                  className={`px-3 py-1 rounded text-sm ${
+                    interestFilter.includes(interest) 
+                      ? "bg-blue-600 text-white" 
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  }`}
+                >
+                  {interest}
+                </button>
               ))}
-              
-              {sortedInfluencers.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="text-lg font-medium">No influencers match your filters</div>
-                  <div className="text-sm text-white/70 mt-2">
-                    Try adjusting your minimum followers or interest filters.
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
+
+        {/* Influencer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredAndSortedInfluencers.map(influencer => (
+            <InfluencerCard
+              key={influencer.id}
+              influencer={influencer}
+              isSelected={selectedInfluencers.has(influencer.id)}
+              onSelect={() => toggleInfluencerSelection(influencer.id)}
+            />
+          ))}
+        </div>
+
+        {filteredAndSortedInfluencers.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 text-lg">No influencers match your current filters</div>
+            <button
+              onClick={() => {
+                setMinFollowers(0);
+                setInterestFilter([]);
+              }}
+              className="mt-4 text-blue-400 hover:text-blue-300 underline"
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function InfluencerCard({ 
-  influencer, 
-  isSelected, 
-  isFocused,
-  onSelect 
-}: { 
-  influencer: Influencer; 
+function InfluencerCard({
+  influencer,
+  isSelected,
+  onSelect
+}: {
+  influencer: Influencer;
   isSelected: boolean;
-  isFocused: boolean;
   onSelect: () => void;
 }) {
   const totalFollowers = influencer.socials.reduce((sum, social) => sum + social.followers, 0);
@@ -247,109 +197,91 @@ function InfluencerCard({
   const formattedFollowers = formatFollowerCount(totalFollowers);
 
   return (
-    <div 
-      id={`influencer-${influencer.id}`}
-      className={`relative rounded-2xl border p-6 backdrop-blur transition-all ${
-        isFocused 
-          ? "border-cyan-400/50 bg-cyan-400/10 ring-2 ring-cyan-400/30" 
-          : isSelected 
-            ? "border-green-400/50 bg-green-400/10"
-            : "border-white/10 bg-white/5 hover:border-white/20"
-      }`}
-    >
-      {(isSelected || isFocused) && (
-        <div className="absolute -inset-1 -z-10 rounded-2xl opacity-30 blur-2xl" 
-             style={{ background: isFocused ? "var(--cyan-400)" : "var(--green-400)" }} />
-      )}
-      
-      <div className="flex items-start justify-between gap-4 mb-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="text-lg font-medium">{influencer.name}</div>
-            <span className="rounded-full bg-white/10 px-2 py-1 text-xs">{tier}</span>
-          </div>
-          <div className="text-sm text-white/60">
-            {influencer.college} • {influencer.year}
-          </div>
-          {influencer.orgs.length > 0 && (
-            <div className="text-xs text-white/50 mt-1">
-              {influencer.orgs[0].role} at {influencer.orgs[0].org}
-            </div>
-          )}
-        </div>
-        
-        <button
-          onClick={onSelect}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-            isSelected 
-              ? "bg-green-600 text-white" 
-              : "border border-white/20 bg-white/5 text-white/80 hover:bg-white/10"
-          }`}
-        >
-          {isSelected ? "Selected" : "Select"}
-        </button>
-      </div>
-
-      {/* Fit Score */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between text-sm mb-1">
-          <span className="text-white/60">Brand Fit Score</span>
-          <span className="font-medium">{influencer.fitScore}%</span>
-        </div>
-        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-          <div 
-            className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-600" 
-            style={{ width: `${influencer.fitScore}%` }}
-          />
-        </div>
-        <div className="text-xs text-white/50 mt-1">
-          {influencer.explanation}
-        </div>
-      </div>
-
-      {/* Reach Stats */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
+    <div className={`bg-gray-800 rounded-lg p-6 border-2 transition-all ${
+      isSelected ? "border-blue-500 bg-blue-900/20" : "border-gray-700 hover:border-gray-600"
+    }`}>
+      {/* Header */}
+      <div className="flex items-start justify-between mb-4">
         <div>
-          <div className="text-xs text-white/60">Total Reach</div>
-          <div className="font-medium">{formattedFollowers}</div>
+          <h3 className="font-semibold text-lg">{influencer.name}</h3>
+          <p className="text-sm text-gray-400">{influencer.college} • {influencer.year}</p>
         </div>
-        <div>
-          <div className="text-xs text-white/60">Engagement</div>
-          <div className="font-medium capitalize">{influencer.engagement}</div>
+        <div className="flex items-center gap-2">
+          <span className={`px-2 py-1 rounded text-xs ${
+            tier === "Macro" ? "bg-purple-600" : 
+            tier === "Mid-tier" ? "bg-blue-600" : "bg-green-600"
+          }`}>
+            {tier}
+          </span>
+          <button
+            onClick={onSelect}
+            className={`px-4 py-2 rounded font-semibold text-sm transition-colors ${
+              isSelected 
+                ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                : "bg-gray-700 hover:bg-gray-600 text-gray-300"
+            }`}
+          >
+            {isSelected ? "Selected" : "Select"}
+          </button>
         </div>
-      </div>
-
-      {/* Social Platforms */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-        {influencer.socials.slice(0, 4).map((social, idx) => (
-          <div key={idx} className="rounded-lg border border-white/10 bg-black/30 p-2">
-            <div className="text-xs text-white/60">{social.platform}</div>
-            <div className="text-xs font-medium">{social.handle}</div>
-            <div className="text-xs text-white/50">
-              {formatFollowerCount(social.followers)} followers
-            </div>
-          </div>
-        ))}
       </div>
 
       {/* Organizations */}
       <div className="mb-4">
-        <div className="text-xs text-white/60 mb-2">Organizations</div>
-        <div className="flex flex-wrap gap-2">
+        <div className="text-sm text-gray-500 mb-1">Organizations:</div>
+        <div className="space-y-1">
           {influencer.orgs.map((org, idx) => (
-            <span key={idx} className="rounded-full bg-white/10 px-2 py-1 text-xs">
-              {org.role} • {org.org}
-            </span>
+            <div key={idx} className="text-sm">
+              <span className="font-medium">{org.role}</span> • {org.org}
+            </div>
           ))}
         </div>
       </div>
 
+      {/* Brand Fit Score */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium">Brand Fit Score</span>
+          <span className="text-lg font-bold">{influencer.fitScore}%</span>
+        </div>
+        <div className="w-full bg-gray-700 rounded-full h-2">
+          <div 
+            className={`h-2 rounded-full ${
+              influencer.fitScore >= 90 ? "bg-green-500" :
+              influencer.fitScore >= 80 ? "bg-yellow-500" : "bg-red-500"
+            }`}
+            style={{ width: `${influencer.fitScore}%` }}
+          />
+        </div>
+        <p className="text-xs text-gray-400 mt-2">{influencer.explanation}</p>
+      </div>
+
+      {/* Social Stats */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm text-gray-400">Total Reach</span>
+          <span className="text-sm font-medium">{formattedFollowers}</span>
+        </div>
+        <div className="text-sm text-gray-400">Engagement: <span className="capitalize">{influencer.engagement}</span></div>
+      </div>
+
+      {/* Social Platforms */}
+      <div className="grid grid-cols-2 gap-2">
+        {influencer.socials.slice(0, 4).map((social, idx) => (
+          <div key={idx} className="bg-gray-700 rounded p-2 text-xs">
+            <div className="font-medium">{social.platform}</div>
+            <div className="text-gray-400">@{social.handle}</div>
+            <div className="text-gray-300">{formatFollowerCount(social.followers)} followers</div>
+          </div>
+        ))}
+      </div>
+
       {/* Interests */}
-      <div>
-        <div className="text-xs text-white/60 mb-2">Interests</div>
+      <div className="mt-4">
+        <div className="text-sm text-gray-500 mb-1">Interests:</div>
         <div className="flex flex-wrap gap-1">
-          {influencer.interests.map((interest) => (
-            <span key={interest} className="rounded-full bg-white/10 px-2 py-0.5 text-xs">
+          {influencer.interests.slice(0, 4).map((interest, idx) => (
+            <span key={idx} className="bg-gray-700 px-2 py-0.5 rounded text-xs">
               {interest}
             </span>
           ))}
