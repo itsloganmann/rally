@@ -1,325 +1,209 @@
-export default function Home() {
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+
+export default function TunnelLandingPage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="font-sans text-foreground bg-background min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-        >
-          <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full opacity-30 blur-3xl"
-               style={{
-                 background:
-                   "conic-gradient(from 90deg at 50% 50%, var(--accent-start), var(--accent-end), var(--accent-start))",
-                 animation: "spinSlow 30s linear infinite"
-               }}
-          />
-          <div className="absolute -bottom-48 -right-48 h-[560px] w-[560px] rounded-full opacity-20 blur-3xl"
-               style={{
-                 background:
-                   "radial-gradient(ellipse at center, var(--accent-end), transparent 60%)"
-               }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_60%)]" />
-        </div>
-
-        <div className="mx-auto max-w-7xl px-6 pt-24 pb-16 md:pt-32 md:pb-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1 text-xs text-white/70 bg-white/5 backdrop-blur">
-                Campus marketplace • AI matching
-              </span>
-              <h1 className="mt-5 text-4xl md:text-6xl font-semibold tracking-tight">
-                Rally matches students and brands for elite campus campaigns
-              </h1>
-              <p className="mt-5 text-white/70 max-w-xl">
-                Apply once with your resume and socials. Rally’s vector matching aligns
-                your campus influence with brand campaign needs—so the best gigs find you.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <a
-                  href="/students/onboarding"
-                  className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-white shadow-lg"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, var(--accent-start), var(--accent-end))",
-                    backgroundSize: "200% 100%",
-                    animation: "shimmer 4s linear infinite, pulseGlow 4s ease-in-out infinite"
-                  }}
-                >
-                  Apply as Student
-                </a>
-                <a
-                  href="/brands/onboarding"
-                  className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium border border-white/15 text-white hover:bg-white/5 transition"
-                >
-                  Find Student Ambassadors
-                </a>
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 glass">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <span className="text-black font-bold text-lg">T</span>
               </div>
-
-              <div className="mt-10 grid grid-cols-3 gap-6 text-center">
-                <Stat label="Campaigns posted" value="5,000+" />
-                <Stat label="Avg payout" value="$250+" />
-                <Stat label="Colleges" value="300+" />
+              <span className="text-xl font-semibold">Tunnel</span>
+            </div>
+            
+            <div className="hidden md:flex items-center gap-8">
+              <Link href="#home" className="hover:text-cyan-400 transition-colors">Home</Link>
+              <Link href="#about" className="hover:text-cyan-400 transition-colors">About</Link>
+              <Link href="#pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link>
+              <div className="relative group">
+                <button className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
+                  Discovery
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
               </div>
             </div>
 
-            <div className="relative">
-              <div className="absolute -inset-2 rounded-3xl opacity-40 blur-2xl"
-                   style={{
-                     background:
-                       "linear-gradient(90deg, var(--accent-start), var(--accent-end))"
-                   }}
-              />
-              <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-                <div className="flex items-center gap-2 text-xs text-white/60">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Rally AI
+            <div className="flex items-center gap-4">
+              <Link href="/auth">
+                <button className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
+                  Login
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="relative min-h-screen flex items-center justify-center">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-cyan-400/20 to-blue-600/20 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        </div>
+
+        {/* Latest Update Banner */}
+        <div className="absolute top-24 left-1/2 transform -translate-x-1/2">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 text-sm"
+          >
+            <span className="text-gray-400">Latest update</span>
+            <span>Cloudflare Workers AI Support Is Here!</span>
+            <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </motion.div>
+        </div>
+
+        {/* Main Content */}
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
+          >
+            AI agents for simulated
+            <br />
+            <span className="text-gradient">market research</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto"
+          >
+            Get a market analysis in minutes, not months.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <Link href="/launch">
+              <button className="btn-hover bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-2 mx-auto">
+                Explore Tunnel
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Bottom Preview Section */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="glass rounded-2xl p-6 border border-white/10"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center">
+                <span className="text-black font-bold text-sm">T</span>
+              </div>
+              <span className="font-semibold">Tunnel</span>
+              <div className="ml-auto flex items-center gap-2 text-sm text-gray-400">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                Share Simulation
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+              <span>← Projects View</span>
+              <span className="bg-gray-800 px-3 py-1 rounded">ANALYSIS 21VE</span>
+              <span className="bg-blue-600 px-3 py-1 rounded">Business Overall</span>
+              <span>Global</span>
+              <div className="ml-auto flex items-center gap-2">
+                <span>• 199 Selected Users</span>
+                <span>• 174 Other Users</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-4 gap-6">
+              <div className="col-span-3">
+                <div className="relative h-64 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl overflow-hidden">
+                  {/* Globe placeholder */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-48 h-48 border border-cyan-400/30 rounded-full flex items-center justify-center">
+                      <div className="w-32 h-32 border border-cyan-400/50 rounded-full flex items-center justify-center">
+                        <svg className="w-8 h-8 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="mt-4 space-y-3">
-                  {[
-                    "Energy drink launching needs frat social chairs.",
-                    "New fashion app seeking 10 UCLA ambassadors.",
-                    "Crypto wallet internship for econ/CS majors.",
-                    "Gaming company pursuing campus tournament shoutouts.",
-                    "Sustainable brand needs eco-conscious campus influencers",
-                  ].map((line, i) => (
-                    <ChatBubble key={i} text={line} index={i} />
-                  ))}
+              </div>
+
+              <div className="space-y-4">
+                <div className="glass rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full" />
+                    <span className="text-sm font-semibold">MISSION STATUS</span>
+                    <span className="ml-auto text-sm text-gray-400">ACTIVE</span>
+                  </div>
+                  <div className="text-sm text-gray-400 mb-2">Impact Score</div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-gray-800 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-cyan-400 to-blue-600 h-2 rounded-full w-2/3" />
+                    </div>
+                    <span className="text-sm">54</span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">Status: MODERATE</div>
+                </div>
+
+                <div className="glass rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                    <span className="text-sm font-semibold">AGENT ACTIVITY</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                    <div>
+                      <div className="text-lg font-bold">2</div>
+                      <div className="text-gray-400">High</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">23</div>
+                      <div className="text-gray-400">Medium</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">0</div>
+                      <div className="text-gray-400">Low</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
-
-      {/* Features */}
-      <section id="features" className="relative py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FeatureCard
-              title="Work with top brands"
-              desc="Partner with startups and household names on launches, events, and on‑campus promos."
-              Icon={() => (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-cyan-300">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" fill="currentColor"/>
-                </svg>
-              )}
-            />
-            <FeatureCard
-              title="Earn serious payouts"
-              desc="Transparent budgets. One‑click contracts and Stripe Connect payouts."
-              Icon={() => (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-indigo-300">
-                  <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm.5 5a1.5 1.5 0 00-3 0v1H8a1 1 0 100 2h1.5v4H8a1 1 0 100 2h1.5v1a1.5 1.5 0 003 0v-1H16a1 1 0 100-2h-3.5V9H16a1 1 0 100-2h-3.5V6z" fill="currentColor"/>
-                </svg>
-              )}
-            />
-            <FeatureCard
-              title="Grow your influence"
-              desc="Build a portfolio of campaigns. Boost your reputation with ratings and wins."
-              Icon={() => (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-violet-300">
-                  <path d="M3 13h4l3 7 4-14 3 7h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Opportunities Marquee */}
-      <section className="relative py-8">
-        <div className="mx-auto max-w-7xl px-0 md:px-6">
-          <div className="relative overflow-hidden">
-            <div className="flex gap-4 whitespace-nowrap will-change-transform" style={{ animation: "marquee 30s linear infinite" }}>
-              {[...Array(2)].flatMap((_, loopIndex) => (
-                opportunities.map((o, i) => (
-                  <Opportunity key={`${loopIndex}-${i}`} {...o} />
-                ))
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Matching Engine */}
-      <section id="engine" className="relative py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight">
-              Vector matching that understands students and campaigns
-            </h2>
-            <p className="mt-5 text-white/70 max-w-xl">
-              Rally embeds student profiles and campaign briefs into a shared vector space.
-              We rank by cosine similarity and filter by campus, orgs, and budget to surface
-              the most relevant matches.
-            </p>
-          </div>
-          <div className="relative">
-            <div className="absolute -inset-1 rounded-2xl opacity-50 blur-2xl" style={{ background: "linear-gradient(90deg, var(--accent-start), var(--accent-end))" }} />
-            <div className="relative rounded-2xl border border-white/10 bg-[#0c0c12] p-5">
-              <div className="text-xs text-white/50">engine.ts</div>
-              <pre className="mt-3 overflow-auto rounded-lg bg-black/50 p-4 text-xs leading-relaxed text-white/80">
-{`const studentEmbedding = embed({
-  college: "Ohio State University",
-  clubs: ["Delta Sigma Pi", "Block O"],
-  socials: [{ platform: "TikTok", followers: 18000 }],
-  interests: ["events", "sports", "food"],
-});
-
-const campaignEmbedding = embed({
-  goal: "awareness",
-  deliverables: ["TikTok video", "event promo"],
-  target: { colleges: ["Ohio State University"], min_followers: 5000 },
-});
-
-const score = cosineSimilarity(studentEmbedding, campaignEmbedding);
-// -> 0.87  (strong match)
-`}
-              </pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="relative py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <Testimonial key={i} {...t} />
-            ))}
-          </div>
-          <div className="mt-12 flex items-center justify-center">
-            <a
-              href="/students/onboarding"
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-white shadow-lg"
-              style={{
-                background:
-                  "linear-gradient(90deg, var(--accent-start), var(--accent-end))",
-                backgroundSize: "200% 100%",
-                animation: "shimmer 4s linear infinite, pulseGlow 4s ease-in-out infinite"
-              }}
-            >
-              Apply today
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-10">
-        <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/60">
-          <div className="flex items-center gap-3">
-            <div className="h-2.5 w-2.5 rounded-full" style={{ background: "linear-gradient(90deg, var(--accent-start), var(--accent-end))" }} />
-            Rally · San Francisco, CA
-          </div>
-          <div className="flex items-center gap-6">
-            <a href="#features" className="hover:text-white">Features</a>
-            <a href="#engine" className="hover:text-white">Matching</a>
-            <a href="#apply" className="hover:text-white">Apply</a>
-          </div>
-          <div>© {new Date().getFullYear()} Rally</div>
-        </div>
-      </footer>
+      </main>
     </div>
   );
 }
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
-      <div className="text-2xl font-semibold">{value}</div>
-      <div className="text-xs text-white/70 mt-1">{label}</div>
-    </div>
-  );
-}
-
-function ChatBubble({ text, index }: { text: string; index: number }) {
-  return (
-    <div
-      className="w-full rounded-xl border border-white/10 bg-white/10 p-3 text-sm"
-      style={{ animation: `float 6s ease-in-out ${index * 0.2}s infinite` }}
-    >
-      {text}
-    </div>
-  );
-}
-
-function FeatureCard({ title, desc, Icon }: { title: string; desc: string; Icon: () => JSX.Element }) {
-  return (
-    <div className="relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-      <div className="absolute -inset-1 -z-10 rounded-2xl opacity-40 blur-2xl" style={{ background: "linear-gradient(90deg, var(--accent-start), var(--accent-end))" }} />
-      <div className="flex items-start gap-4">
-        <div className="h-12 w-12 shrink-0 rounded-xl bg-white/10 flex items-center justify-center">
-          <Icon />
-        </div>
-        <div>
-          <h3 className="text-lg font-medium">{title}</h3>
-          <p className="mt-2 text-sm text-white/70">{desc}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type OpportunityProps = {
-  role: string;
-  type: string;
-  pay: string;
-  brand: string;
-};
-
-function Opportunity({ role, type, pay, brand }: OpportunityProps) {
-  return (
-    <div className="mx-2 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80">
-      <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs">{type}</span>
-      <span className="font-medium">{role}</span>
-      <span className="text-white/50">·</span>
-      <span>{brand}</span>
-      <span className="text-white/60">{pay}</span>
-    </div>
-  );
-}
-
-const opportunities: OpportunityProps[] = [
-  { role: "TikTok Campus Ambassador", type: "Remote", pay: "$200/video", brand: "Spark Seltzer" },
-  { role: "Event Promo Lead", type: "On‑Campus", pay: "$400/event", brand: "Arcade Energy" },
-  { role: "IG Story Pack", type: "Remote", pay: "$150/post", brand: "StudyWise" },
-  { role: "Launch Street Team", type: "On‑Campus", pay: "$25/hr", brand: "Nori Noodles" },
-  { role: "Tabling Captain", type: "On‑Campus", pay: "$300/day", brand: "Luna Labs" },
-  { role: "Giveaway Host", type: "Remote", pay: "$250/campaign", brand: "Atlas Finance" },
-];
-
-type TestimonialProps = { quote: string; name: string; title: string };
-
-function Testimonial({ quote, name, title }: TestimonialProps) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-      <p className="text-white/80">“{quote}”</p>
-      <div className="mt-4 text-sm text-white/60">{name} · {title}</div>
-    </div>
-  );
-}
-
-const testimonials: TestimonialProps[] = [
-  {
-    quote:
-      "I applied once and had three brand intros by Friday. Payments were instant.",
-    name: "Maya P.",
-    title: "PR Chair, USC",
-  },
-  {
-    quote:
-      "The matching nailed our event launch. We filled the street team in 48 hours.",
-    name: "Ben S.",
-    title: "Growth Lead, CPG Startup",
-  },
-  {
-    quote:
-      "Finally a platform that understands campus orgs and real reach, not vanity metrics.",
-    name: "Alexa R.",
-    title: "President, Delta Sigma Pi",
-  },
-];
