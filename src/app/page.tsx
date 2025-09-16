@@ -58,13 +58,15 @@ export default function RallyLandingPage() {
       {/* Hero Section */}
       <main className="relative min-h-screen flex items-center justify-center">
         {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-cyan-400/20 to-blue-600/20 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute inset-0 overflow-hidden z-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          {/* Dark overlay for better text contrast */}
+          <div className="absolute inset-0 bg-black/40 z-10" />
         </div>
 
         {/* Latest Update Banner */}
-        <div className="absolute top-24 left-1/2 transform -translate-x-1/2">
+        <div className="absolute top-24 left-1/2 transform -translate-x-1/2 z-20">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -79,23 +81,29 @@ export default function RallyLandingPage() {
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+        <div className="relative z-20 text-center max-w-4xl mx-auto px-6 mt-20 md:mt-28 lg:mt-36">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
+            className="text-6xl md:text-8xl font-bold mb-6 leading-tight text-white drop-shadow-2xl"
+            style={{ 
+              textShadow: '0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5)' 
+            }}
           >
             Connect brands with
             <br />
-            <span className="text-gradient">authentic campus voices</span>
+            <span className="text-gradient drop-shadow-2xl">authentic campus voices</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto"
+            className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto drop-shadow-lg"
+            style={{ 
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.6)' 
+            }}
           >
             Rally connects college students and campus micro‑influencers with brands through a smart two‑sided marketplace using AI-powered resume parsing and vector database semantic matching.
           </motion.p>
@@ -116,12 +124,17 @@ export default function RallyLandingPage() {
           </motion.div>
         </div>
 
-        {/* Bottom Preview Section */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-6">
+        {/* Bottom Preview Section moved below hero */}
+      </main>
+
+      {/* Preview Section */}
+      <section className="relative z-20 w-full px-6 pb-16 pt-8">
+        <div className="max-w-6xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1, delay: 0.2 }}
             className="glass rounded-2xl p-6 border border-white/10"
           >
             <div className="flex items-center gap-2 mb-4">
@@ -208,7 +221,7 @@ export default function RallyLandingPage() {
             </div>
           </motion.div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }
