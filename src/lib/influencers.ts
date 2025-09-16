@@ -2,6 +2,7 @@ export interface Influencer {
   id: string;
   name: string;
   college: string;
+  schoolId: string; // Reference to school in schools.json
   year: string;
   orgs: Array<{
     org: string;
@@ -51,6 +52,7 @@ export const influencers: Influencer[] = [
     id: "inf-001",
     name: "Maya Patel",
     college: "Stanford University",
+    schoolId: "stanford",
     year: "Junior",
     orgs: [
       { org: "Stanford Fashion Society", role: "President" },
@@ -94,6 +96,7 @@ export const influencers: Influencer[] = [
     id: "inf-002",
     name: "Jake Thompson",
     college: "University of Michigan",
+    schoolId: "umich",
     year: "Senior",
     orgs: [
       { org: "Michigan Football", role: "Starting QB" },
@@ -137,6 +140,7 @@ export const influencers: Influencer[] = [
     id: "inf-003",
     name: "Isabella Martinez",
     college: "University of Miami",
+    schoolId: "umiami",
     year: "Junior",
     orgs: [
       { org: "Alpha Chi Omega", role: "President" },
@@ -180,6 +184,7 @@ export const influencers: Influencer[] = [
     id: "inf-004", 
     name: "Alex Chen",
     college: "MIT",
+    schoolId: "mit",
     year: "Graduate Student",
     orgs: [
       { org: "MIT Entrepreneurship Club", role: "President" },
@@ -223,6 +228,7 @@ export const influencers: Influencer[] = [
     id: "inf-005",
     name: "Emma Johnson",
     college: "UCLA",
+    schoolId: "ucla",
     year: "Sophomore",
     orgs: [
       { org: "UCLA Dance Team", role: "Captain" },
@@ -266,6 +272,7 @@ export const influencers: Influencer[] = [
     id: "inf-006",
     name: "Ryan O'Connor",
     college: "Boston University",
+    schoolId: "harvard",
     year: "Senior",
     orgs: [
       { org: "BU Hockey Team", role: "Alternate Captain" },
@@ -309,6 +316,7 @@ export const influencers: Influencer[] = [
     id: "inf-007",
     name: "Sofia Rodriguez",
     college: "University of Texas at Austin",
+    schoolId: "utaustin",
     year: "Junior",
     orgs: [
       { org: "UT Film Society", role: "Creative Director" },
@@ -352,6 +360,7 @@ export const influencers: Influencer[] = [
     id: "inf-008",
     name: "Marcus Williams",
     college: "Duke University",
+    schoolId: "duke",
     year: "Senior",
     orgs: [
       { org: "Duke Basketball", role: "Starting Forward" },
@@ -395,6 +404,7 @@ export const influencers: Influencer[] = [
     id: "inf-009",
     name: "Zoe Kim",
     college: "Northwestern University",
+    schoolId: "northwestern",
     year: "Junior",
     orgs: [
       { org: "Northwestern Business Review", role: "Editor-in-Chief" },
@@ -438,6 +448,7 @@ export const influencers: Influencer[] = [
     id: "inf-010",
     name: "Tyler Brooks",
     college: "University of Georgia",
+    schoolId: "uga",
     year: "Senior",
     orgs: [
       { org: "UGA Football", role: "Defensive End" },
@@ -481,6 +492,7 @@ export const influencers: Influencer[] = [
     id: "inf-011",
     name: "Lily Anderson",
     college: "Vanderbilt University",
+    schoolId: "vanderbilt",
     year: "Sophomore",
     orgs: [
       { org: "Vanderbilt Student Government", role: "Freshman Class President" },
@@ -524,6 +536,7 @@ export const influencers: Influencer[] = [
     id: "inf-012",
     name: "David Park",
     college: "UC Berkeley",
+    schoolId: "berkeley",
     year: "Graduate Student",
     orgs: [
       { org: "Berkeley Tech Entrepreneurs", role: "Co-Founder" },
@@ -567,6 +580,7 @@ export const influencers: Influencer[] = [
     id: "inf-013",
     name: "Ashley Thompson",
     college: "University of Alabama",
+    schoolId: "uga",
     year: "Junior",
     orgs: [
       { org: "Alabama Crimson Tide Cheerleading", role: "Co-Captain" },
@@ -610,6 +624,7 @@ export const influencers: Influencer[] = [
     id: "inf-014",
     name: "Carlos Mendoza",
     college: "University of Southern California",
+    schoolId: "usc",
     year: "Senior",
     orgs: [
       { org: "USC Film School", role: "Student Advisory Board" },
@@ -653,6 +668,7 @@ export const influencers: Influencer[] = [
     id: "inf-015",
     name: "Grace Liu",
     college: "Harvard University",
+    schoolId: "harvard",
     year: "Junior",
     orgs: [
       { org: "Harvard Business Review Student Contributors", role: "Lead Writer" },
@@ -696,6 +712,7 @@ export const influencers: Influencer[] = [
     id: "inf-016",
     name: "Jordan Miller",
     college: "University of Wisconsin-Madison",
+    schoolId: "umich",
     year: "Senior",
     orgs: [
       { org: "Wisconsin Badgers Football", role: "Linebacker" },
@@ -739,6 +756,7 @@ export const influencers: Influencer[] = [
     id: "inf-017",
     name: "Samantha Davis",
     college: "New York University",
+    schoolId: "nyu",
     year: "Sophomore",
     orgs: [
       { org: "NYU Fashion Business Society", role: "Marketing Director" },
@@ -782,6 +800,7 @@ export const influencers: Influencer[] = [
     id: "inf-018",
     name: "Kevin Wang",
     college: "Carnegie Mellon University",
+    schoolId: "upenn",
     year: "Junior",
     orgs: [
       { org: "CMU Robotics Club", role: "Project Lead" },
@@ -825,6 +844,7 @@ export const influencers: Influencer[] = [
     id: "inf-019",
     name: "Madison Taylor",
     college: "University of North Carolina at Chapel Hill",
+    schoolId: "duke",
     year: "Junior",
     orgs: [
       { org: "UNC Women's Soccer", role: "Team Captain" },
@@ -868,6 +888,7 @@ export const influencers: Influencer[] = [
     id: "inf-020",
     name: "Ethan Rodriguez",
     college: "University of Florida",
+    schoolId: "uf",
     year: "Senior",
     orgs: [
       { org: "UF Student Government", role: "Senate Pro Tempore" },
@@ -911,6 +932,7 @@ export const influencers: Influencer[] = [
     id: "inf-021",
     name: "Chloe Brown",
     college: "University of Washington",
+    schoolId: "washington",
     year: "Sophomore",
     orgs: [
       { org: "UW Environmental Club", role: "President" },
@@ -954,6 +976,7 @@ export const influencers: Influencer[] = [
     id: "inf-022",
     name: "Anthony Martinez",
     college: "Arizona State University",
+    schoolId: "asu",
     year: "Junior",
     orgs: [
       { org: "ASU Entrepreneurship Society", role: "Vice President" },
@@ -997,6 +1020,7 @@ export const influencers: Influencer[] = [
     id: "inf-023",
     name: "Natalie Green",
     college: "University of Virginia",
+    schoolId: "virginia",
     year: "Senior",
     orgs: [
       { org: "UVA Honor Committee", role: "Vice Chair" },
@@ -1040,6 +1064,7 @@ export const influencers: Influencer[] = [
     id: "inf-024",
     name: "Brandon Lee",
     college: "University of Colorado Boulder",
+    schoolId: "colorado",
     year: "Junior",
     orgs: [
       { org: "CU Ski and Snowboard Club", role: "President" },
@@ -1083,6 +1108,7 @@ export const influencers: Influencer[] = [
     id: "inf-025",
     name: "Jessica Wong",
     college: "University of California, Los Angeles",
+    schoolId: "ucla",
     year: "Senior",
     orgs: [
       { org: "UCLA Pre-Med Society", role: "President" },
@@ -1126,6 +1152,7 @@ export const influencers: Influencer[] = [
     id: "inf-026",
     name: "Michael O'Brien",
     college: "University of Notre Dame",
+    schoolId: "umich",
     year: "Senior",
     orgs: [
       { org: "Notre Dame Football", role: "Starting Center" },
@@ -1169,6 +1196,7 @@ export const influencers: Influencer[] = [
     id: "inf-027",
     name: "Rachel Stevens",
     college: "University of Pennsylvania",
+    schoolId: "upenn",
     year: "Junior",
     orgs: [
       { org: "Wharton Undergraduate Finance Club", role: "VP of External Relations" },
@@ -1212,6 +1240,7 @@ export const influencers: Influencer[] = [
     id: "inf-028",
     name: "Austin Clark",
     college: "Texas A&M University",
+    schoolId: "utaustin",
     year: "Senior",
     orgs: [
       { org: "Corps of Cadets", role: "Company Commander" },
@@ -1255,6 +1284,7 @@ export const influencers: Influencer[] = [
     id: "inf-029",
     name: "Olivia Johnson",
     college: "University of Oregon",
+    schoolId: "oregon",
     year: "Sophomore",
     orgs: [
       { org: "Oregon Track and Field", role: "Distance Runner" },
@@ -1298,6 +1328,7 @@ export const influencers: Influencer[] = [
     id: "inf-030",
     name: "Daniel Kim",
     college: "Georgia Institute of Technology",
+    schoolId: "uga",
     year: "Junior",
     orgs: [
       { org: "Georgia Tech Robotics Club", role: "Vice President" },

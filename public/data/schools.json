@@ -1,0 +1,242 @@
+[
+  {
+    "id": "stanford",
+    "name": "Stanford University",
+    "city": "Stanford",
+    "state": "CA",
+    "lat": 37.4275,
+    "lng": -122.1697
+  },
+  {
+    "id": "harvard",
+    "name": "Harvard University",
+    "city": "Cambridge",
+    "state": "MA",
+    "lat": 42.3770,
+    "lng": -71.1167
+  },
+  {
+    "id": "mit",
+    "name": "Massachusetts Institute of Technology",
+    "city": "Cambridge",
+    "state": "MA",
+    "lat": 42.3601,
+    "lng": -71.0942
+  },
+  {
+    "id": "berkeley",
+    "name": "University of California, Berkeley",
+    "city": "Berkeley",
+    "state": "CA",
+    "lat": 37.8719,
+    "lng": -122.2585
+  },
+  {
+    "id": "ucla",
+    "name": "University of California, Los Angeles",
+    "city": "Los Angeles",
+    "state": "CA",
+    "lat": 34.0689,
+    "lng": -118.4452
+  },
+  {
+    "id": "usc",
+    "name": "University of Southern California",
+    "city": "Los Angeles",
+    "state": "CA",
+    "lat": 34.0224,
+    "lng": -118.2851
+  },
+  {
+    "id": "nyu",
+    "name": "New York University",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.7295,
+    "lng": -73.9965
+  },
+  {
+    "id": "columbia",
+    "name": "Columbia University",
+    "city": "New York",
+    "state": "NY",
+    "lat": 40.8075,
+    "lng": -73.9626
+  },
+  {
+    "id": "yale",
+    "name": "Yale University",
+    "city": "New Haven",
+    "state": "CT",
+    "lat": 41.3163,
+    "lng": -72.9223
+  },
+  {
+    "id": "princeton",
+    "name": "Princeton University",
+    "city": "Princeton",
+    "state": "NJ",
+    "lat": 40.3430,
+    "lng": -74.6514
+  },
+  {
+    "id": "chicago",
+    "name": "University of Chicago",
+    "city": "Chicago",
+    "state": "IL",
+    "lat": 41.7886,
+    "lng": -87.5987
+  },
+  {
+    "id": "northwestern",
+    "name": "Northwestern University",
+    "city": "Evanston",
+    "state": "IL",
+    "lat": 42.0564,
+    "lng": -87.6753
+  },
+  {
+    "id": "duke",
+    "name": "Duke University",
+    "city": "Durham",
+    "state": "NC",
+    "lat": 36.0014,
+    "lng": -78.9382
+  },
+  {
+    "id": "upenn",
+    "name": "University of Pennsylvania",
+    "city": "Philadelphia",
+    "state": "PA",
+    "lat": 39.9522,
+    "lng": -75.1932
+  },
+  {
+    "id": "vanderbilt",
+    "name": "Vanderbilt University",
+    "city": "Nashville",
+    "state": "TN",
+    "lat": 36.1447,
+    "lng": -86.8027
+  },
+  {
+    "id": "rice",
+    "name": "Rice University",
+    "city": "Houston",
+    "state": "TX",
+    "lat": 29.7174,
+    "lng": -95.4018
+  },
+  {
+    "id": "utaustin",
+    "name": "University of Texas at Austin",
+    "city": "Austin",
+    "state": "TX",
+    "lat": 30.2849,
+    "lng": -97.7341
+  },
+  {
+    "id": "umich",
+    "name": "University of Michigan",
+    "city": "Ann Arbor",
+    "state": "MI",
+    "lat": 42.2780,
+    "lng": -83.7382
+  },
+  {
+    "id": "umiami",
+    "name": "University of Miami",
+    "city": "Coral Gables",
+    "state": "FL",
+    "lat": 25.7217,
+    "lng": -80.2794
+  },
+  {
+    "id": "uf",
+    "name": "University of Florida",
+    "city": "Gainesville",
+    "state": "FL",
+    "lat": 29.6436,
+    "lng": -82.3549
+  },
+  {
+    "id": "fsu",
+    "name": "Florida State University",
+    "city": "Tallahassee",
+    "state": "FL",
+    "lat": 30.4418,
+    "lng": -84.2807
+  },
+  {
+    "id": "uga",
+    "name": "University of Georgia",
+    "city": "Athens",
+    "state": "GA",
+    "lat": 33.9519,
+    "lng": -83.3576
+  },
+  {
+    "id": "emory",
+    "name": "Emory University",
+    "city": "Atlanta",
+    "state": "GA",
+    "lat": 33.7963,
+    "lng": -84.3240
+  },
+  {
+    "id": "washington",
+    "name": "University of Washington",
+    "city": "Seattle",
+    "state": "WA",
+    "lat": 47.6553,
+    "lng": -122.3035
+  },
+  {
+    "id": "oregon",
+    "name": "University of Oregon",
+    "city": "Eugene",
+    "state": "OR",
+    "lat": 44.0445,
+    "lng": -123.0722
+  },
+  {
+    "id": "colorado",
+    "name": "University of Colorado Boulder",
+    "city": "Boulder",
+    "state": "CO",
+    "lat": 40.0076,
+    "lng": -105.2659
+  },
+  {
+    "id": "arizona",
+    "name": "University of Arizona",
+    "city": "Tucson",
+    "state": "AZ",
+    "lat": 32.2319,
+    "lng": -110.9501
+  },
+  {
+    "id": "asu",
+    "name": "Arizona State University",
+    "city": "Tempe",
+    "state": "AZ",
+    "lat": 33.4242,
+    "lng": -111.9281
+  },
+  {
+    "id": "virginia",
+    "name": "University of Virginia",
+    "city": "Charlottesville",
+    "state": "VA",
+    "lat": 38.0336,
+    "lng": -78.5080
+  },
+  {
+    "id": "vtech",
+    "name": "Virginia Tech",
+    "city": "Blacksburg",
+    "state": "VA",
+    "lat": 37.2284,
+    "lng": -80.4234
+  }
+]
