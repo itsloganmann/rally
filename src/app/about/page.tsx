@@ -18,24 +18,67 @@ export default function AboutPage() {
         </p>
       </section>
 
-      {/* Content */}
-      <section className="px-6 pb-16">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
+      {/* Mission */}
+      <section className="px-6 pb-12">
+        <div className="max-w-4xl mx-auto glass rounded-2xl p-6 border border-white/10">
+          <h2 className="text-xl font-semibold mb-2">Our mission</h2>
+          <p className="text-gray-300 text-sm">
+            Make campus collaboration effortless. We help brands launch high‑signal, local campaigns
+            by connecting with credible student ambassadors—measured by organizations, roles, and real engagement.
+          </p>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="px-6 pb-12">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
           <div className="glass rounded-xl p-6">
-            <h3 className="font-semibold mb-2">AI Matching</h3>
-            <p className="text-gray-300 text-sm">Embeddings align campaign goals with student profiles for high‑fit matches.</p>
+            <div className="text-sm text-white/70 mb-2">Step 1</div>
+            <h3 className="font-semibold mb-1">Create profiles</h3>
+            <p className="text-gray-300 text-sm">Students add colleges, orgs, and socials. Brands set goals and deliverables.</p>
           </div>
           <div className="glass rounded-xl p-6">
-            <h3 className="font-semibold mb-2">Zero Friction</h3>
-            <p className="text-gray-300 text-sm">Simple onboarding for both brands and students with clear deliverables.</p>
+            <div className="text-sm text-white/70 mb-2">Step 2</div>
+            <h3 className="font-semibold mb-1">AI Matching</h3>
+            <p className="text-gray-300 text-sm">Embeddings align campaign briefs with student vectors via cosine similarity.</p>
           </div>
           <div className="glass rounded-xl p-6">
-            <h3 className="font-semibold mb-2">Payouts</h3>
-            <p className="text-gray-300 text-sm">Stripe Connect for secure payments and transparent tracking.</p>
+            <div className="text-sm text-white/70 mb-2">Step 3</div>
+            <h3 className="font-semibold mb-1">Launch + payout</h3>
+            <p className="text-gray-300 text-sm">Contracts, deliverables, and Stripe Connect payouts—tracked end‑to‑end.</p>
           </div>
         </div>
       </section>
+
+      {/* Stats */}
+      <section className="px-6 pb-12">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatCard label="Avg payout" value="$250+" />
+          <StatCard label="Active campaigns" value="400+" />
+          <StatCard label="Campuses" value="300+" />
+          <StatCard label="Match success" value="92%" />
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="px-6 pb-16 text-center">
+        <a
+          href="/platform"
+          className="inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-black bg-white btn-hover"
+        >
+          Explore the platform
+        </a>
+      </section>
     </main>
+  );
+}
+
+function StatCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="glass rounded-xl p-5 text-center">
+      <div className="text-2xl font-bold mb-1">{value}</div>
+      <div className="text-white/70 text-xs uppercase tracking-wide">{label}</div>
+    </div>
   );
 }
 

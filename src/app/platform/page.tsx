@@ -18,7 +18,7 @@ export default function PlatformPage() {
       </section>
 
       {/* Panels */}
-      <section className="px-6 pb-16">
+      <section className="px-6 pb-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
           <div className="glass rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-2">For Brands</h2>
@@ -51,7 +51,43 @@ export default function PlatformPage() {
           </div>
         </div>
       </section>
+
+      {/* Features */}
+      <section className="px-6 pb-12">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+          <Feature title="Vector Matching" desc="Profiles and campaigns live in shared vector space for precise results." />
+          <Feature title="Filters that matter" desc="College, clubs, orgs, follower tiers, and timelines built‑in." />
+          <Feature title="Payments + Contracts" desc="Stripe Connect payouts and transparent execution tracking." />
+        </div>
+      </section>
+
+      {/* How it works strip */}
+      <section className="px-6 pb-16">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-4">
+          <Step title="Create" subtitle="Profiles & Campaigns" />
+          <Step title="Match" subtitle="Cosine similarity + filters" />
+          <Step title="Launch" subtitle="Deliverables & payout" />
+        </div>
+      </section>
     </main>
+  );
+}
+
+function Feature({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="glass rounded-xl p-6">
+      <div className="text-lg font-semibold mb-1">{title}</div>
+      <div className="text-gray-300 text-sm">{desc}</div>
+    </div>
+  );
+}
+
+function Step({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/5 p-5 text-center">
+      <div className="text-xl font-semibold">{title}</div>
+      <div className="text-white/70 text-xs mt-1">{subtitle}</div>
+    </div>
   );
 }
 
