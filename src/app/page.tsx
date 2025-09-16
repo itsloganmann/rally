@@ -28,9 +28,9 @@ export default function RallyLandingPage() {
             </div>
             
             <div className="hidden md:flex items-center gap-8">
-              <Link href="#home" className="hover:text-cyan-400 transition-colors">Home</Link>
-              <Link href="#about" className="hover:text-cyan-400 transition-colors">About</Link>
-              <Link href="#pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link>
+              <Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link>
+              <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
+              <Link href="/pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link>
               <div className="relative group">
                 <button className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
                   Platform
