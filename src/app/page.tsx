@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function TunnelLandingPage() {
+export default function RallyLandingPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   useEffect(() => {
@@ -22,9 +22,9 @@ export default function TunnelLandingPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-lg">T</span>
+                <span className="text-black font-bold text-lg">R</span>
               </div>
-              <span className="text-xl font-semibold">Tunnel</span>
+              <span className="text-xl font-semibold">Rally</span>
             </div>
             
             <div className="hidden md:flex items-center gap-8">
@@ -33,7 +33,7 @@ export default function TunnelLandingPage() {
               <Link href="#pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link>
               <div className="relative group">
                 <button className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
-                  Discovery
+                  Platform
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -71,7 +71,7 @@ export default function TunnelLandingPage() {
             className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 text-sm"
           >
             <span className="text-gray-400">Latest update</span>
-            <span>Cloudflare Workers AI Support Is Here!</span>
+            <span>AI-Powered Matching Is Here!</span>
             <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -86,9 +86,9 @@ export default function TunnelLandingPage() {
             transition={{ duration: 0.8 }}
             className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
           >
-            AI agents for simulated
+            Connect brands with
             <br />
-            <span className="text-gradient">market research</span>
+            <span className="text-gradient">authentic campus voices</span>
           </motion.h1>
           
           <motion.p 
@@ -97,7 +97,7 @@ export default function TunnelLandingPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto"
           >
-            Get a market analysis in minutes, not months.
+            Rally connects college students and campus micro‑influencers with brands through a smart two‑sided marketplace using AI-powered resume parsing and vector database semantic matching.
           </motion.p>
 
           <motion.div
@@ -105,9 +105,9 @@ export default function TunnelLandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <Link href="/launch">
+            <Link href="/brands/onboarding">
               <button className="btn-hover bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-2 mx-auto">
-                Explore Tunnel
+                Get Started
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -126,23 +126,23 @@ export default function TunnelLandingPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-sm">T</span>
+                <span className="text-black font-bold text-sm">R</span>
               </div>
-              <span className="font-semibold">Tunnel</span>
+              <span className="font-semibold">Rally</span>
               <div className="ml-auto flex items-center gap-2 text-sm text-gray-400">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                Share Simulation
+                Live Matching
               </div>
             </div>
 
             <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-              <span>← Projects View</span>
-              <span className="bg-gray-800 px-3 py-1 rounded">ANALYSIS 21VE</span>
-              <span className="bg-blue-600 px-3 py-1 rounded">Business Overall</span>
+              <span>← Brand Dashboard</span>
+              <span className="bg-gray-800 px-3 py-1 rounded">CAMPAIGN MATCH</span>
+              <span className="bg-blue-600 px-3 py-1 rounded">Fashion Brand Demo</span>
               <span>Global</span>
               <div className="ml-auto flex items-center gap-2">
-                <span>• 199 Selected Users</span>
-                <span>• 174 Other Users</span>
+                <span>• 127 Matched Influencers</span>
+                <span>• 892K Total Reach</span>
               </div>
             </div>
 
@@ -158,6 +158,11 @@ export default function TunnelLandingPage() {
                         </svg>
                       </div>
                     </div>
+                    {/* Simulate dots */}
+                    <div className="absolute top-16 left-20 w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                    <div className="absolute top-32 right-16 w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+                    <div className="absolute bottom-20 left-32 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+                    <div className="absolute bottom-16 right-20 w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
                   </div>
                 </div>
               </div>
@@ -166,36 +171,36 @@ export default function TunnelLandingPage() {
                 <div className="glass rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-2 h-2 bg-green-400 rounded-full" />
-                    <span className="text-sm font-semibold">MISSION STATUS</span>
+                    <span className="text-sm font-semibold">MATCH STATUS</span>
                     <span className="ml-auto text-sm text-gray-400">ACTIVE</span>
                   </div>
-                  <div className="text-sm text-gray-400 mb-2">Impact Score</div>
+                  <div className="text-sm text-gray-400 mb-2">Fit Score</div>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-gray-800 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-cyan-400 to-blue-600 h-2 rounded-full w-2/3" />
+                      <div className="bg-gradient-to-r from-cyan-400 to-blue-600 h-2 rounded-full w-5/6" />
                     </div>
-                    <span className="text-sm">54</span>
+                    <span className="text-sm">94</span>
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">Status: MODERATE</div>
+                  <div className="text-xs text-gray-500 mt-1">Status: EXCELLENT</div>
                 </div>
 
                 <div className="glass rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-2 h-2 bg-blue-400 rounded-full" />
-                    <span className="text-sm font-semibold">AGENT ACTIVITY</span>
+                    <span className="text-sm font-semibold">REACH BREAKDOWN</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center text-xs">
                     <div>
-                      <div className="text-lg font-bold">2</div>
+                      <div className="text-lg font-bold">12</div>
                       <div className="text-gray-400">High</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold">23</div>
+                      <div className="text-lg font-bold">86</div>
                       <div className="text-gray-400">Medium</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold">0</div>
-                      <div className="text-gray-400">Low</div>
+                      <div className="text-lg font-bold">29</div>
+                      <div className="text-gray-400">Nano</div>
                     </div>
                   </div>
                 </div>

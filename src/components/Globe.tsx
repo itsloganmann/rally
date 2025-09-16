@@ -4,9 +4,10 @@ import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Sphere, Text } from '@react-three/drei';
 import * as THREE from 'three';
+import { type Influencer } from '../lib/influencers';
 
 // Globe component with interactive dots
-function GlobeContent({ personas, onPersonaClick }: { personas: any[]; onPersonaClick: (persona: any) => void }) {
+function GlobeContent({ influencers, onInfluencerClick }: { influencers: Influencer[]; onInfluencerClick: (influencer: Influencer) => void }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   
@@ -28,16 +29,41 @@ function GlobeContent({ personas, onPersonaClick }: { personas: any[]; onPersona
     );
   };
 
-  // Use persona locations or fall back to default locations
-  const locations = personas.length > 0 ? personas : [
-    { lat: 40.7128, lng: -74.0060, engagement: 'high', city: 'New York', id: 'default-1' },
-    { lat: 34.0522, lng: -118.2437, engagement: 'medium', city: 'Los Angeles', id: 'default-2' },
-    { lat: 51.5074, lng: -0.1278, engagement: 'high', city: 'London', id: 'default-3' },
-    { lat: 48.8566, lng: 2.3522, engagement: 'medium', city: 'Paris', id: 'default-4' },
-    { lat: 35.6762, lng: 139.6503, engagement: 'high', city: 'Tokyo', id: 'default-5' },
-    { lat: -33.8688, lng: 151.2093, engagement: 'low', city: 'Sydney', id: 'default-6' },
-    { lat: 43.6532, lng: -79.3832, engagement: 'high', city: 'Toronto', id: 'default-7' },
-    { lat: 55.7558, lng: 37.6176, engagement: 'low', city: 'Moscow', id: 'default-8' },
+  // Use influencer data or fall back to default locations
+  const locations = influencers.length > 0 ? influencers.map(inf => ({
+    ...inf,
+    city: inf.college
+  })) : [
+    { 
+      id: 'default-1', 
+      lat: 40.7128, 
+      lng: -74.0060, 
+      engagement: 'high' as const, 
+      city: 'New York',
+      name: 'Sample Student',
+      college: 'NYU',
+      fitScore: 85
+    },
+    { 
+      id: 'default-2', 
+      lat: 34.0522, 
+      lng: -118.2437, 
+      engagement: 'medium' as const, 
+      city: 'Los Angeles',
+      name: 'Sample Student',
+      college: 'UCLA', 
+      fitScore: 78
+    },
+    { 
+      id: 'default-3', 
+      lat: 51.5074, 
+      lng: -0.1278, 
+      engagement: 'high' as const, 
+      city: 'London',
+      name: 'Sample Student',
+      college: 'University College London',
+      fitScore: 92
+    },
   ];
 
   return (
@@ -62,7 +88,7 @@ function GlobeContent({ personas, onPersonaClick }: { personas: any[]; onPersona
         />
       </Sphere>
 
-      {/* User location dots */}
+      {/* Influencer location dots */}
       {locations.map((location, index) => {
         const position = latLngToVector3(location.lat, location.lng, 2.05);
         const color = location.engagement === 'high' ? '#22d3ee' : 
@@ -74,7 +100,9 @@ function GlobeContent({ personas, onPersonaClick }: { personas: any[]; onPersona
               position={[position.x, position.y, position.z]}
               onClick={(e) => {
                 e.stopPropagation();
-                onPersonaClick(location);
+                if ('fitScore' in location) {
+                  onInfluencerClick(location as Influencer);
+                }
               }}
               onPointerEnter={(e) => {
                 e.object.scale.setScalar(1.3);
@@ -125,12 +153,12 @@ function GlobeContent({ personas, onPersonaClick }: { personas: any[]; onPersona
 // Main Globe component
 export default function Globe({ 
   className = '', 
-  personas = [], 
-  onPersonaClick 
+  influencers = [], 
+  onInfluencerClick 
 }: { 
   className?: string; 
-  personas?: any[];
-  onPersonaClick?: (persona: any) => void;
+  influencers?: Influencer[];
+  onInfluencerClick?: (influencer: Influencer) => void;
 }) {
   const [mounted, setMounted] = useState(false);
 
@@ -157,7 +185,7 @@ export default function Globe({
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-        <GlobeContent personas={personas} onPersonaClick={onPersonaClick || (() => {})} />
+        <GlobeContent influencers={influencers} onInfluencerClick={onInfluencerClick || (() => {})} />
         <OrbitControls
           enableZoom={true}
           enablePan={false}

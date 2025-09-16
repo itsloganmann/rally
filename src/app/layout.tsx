@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Rally – Campus brand–student matching",
   description:
-    "A two-sided marketplace connecting college students and micro‑influencers with brands and startups. Smart matching powered by vector embeddings.",
+    "Rally connects college students and campus micro‑influencers with brands through a smart two‑sided marketplace using AI-powered resume parsing and a vector DB for semantic matching.",
 };
 
 export default function RootLayout({
