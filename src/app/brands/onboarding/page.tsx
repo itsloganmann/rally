@@ -34,7 +34,7 @@ export default function BrandOnboarding() {
       localStorage.setItem("rally_brand_profile", JSON.stringify(profile));
       localStorage.setItem("rally_brand_onboarded", "true");
     } catch {}
-    router.push("/brands/recommendations");
+    router.push("/brands/campaigns/new");
   }
 
   return (
