@@ -18,6 +18,11 @@ export default function AuthPage() {
     }, 1500);
   };
 
+  const handleSignUp = () => {
+    // For demo purposes, just simulate signup and redirect to dashboard
+    handleLogin('email');
+  };
+
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center">
       {/* Background */}
@@ -117,7 +122,10 @@ export default function AuthPage() {
           <div className="text-center mt-6">
             <p className="text-gray-400 text-sm">
               Don't have an account?{' '}
-              <button className="text-white hover:text-cyan-400 transition-colors underline">
+              <button 
+                onClick={handleSignUp}
+                className="text-white hover:text-cyan-400 transition-colors underline"
+              >
                 Sign up
               </button>
             </p>

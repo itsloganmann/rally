@@ -6,7 +6,7 @@ import { OrbitControls, Sphere, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Globe component with interactive dots
-function GlobeContent({ users }: { users: any[] }) {
+function GlobeContent({ personas, onPersonaClick }: { personas: any[]; onPersonaClick: (persona: any) => void }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   
@@ -28,18 +28,16 @@ function GlobeContent({ users }: { users: any[] }) {
     );
   };
 
-  // Sample user locations with coordinates
-  const userLocations = [
-    { lat: 40.7128, lng: -74.0060, users: 25, city: 'New York' },
-    { lat: 34.0522, lng: -118.2437, users: 18, city: 'Los Angeles' },
-    { lat: 51.5074, lng: -0.1278, users: 32, city: 'London' },
-    { lat: 48.8566, lng: 2.3522, users: 15, city: 'Paris' },
-    { lat: 35.6762, lng: 139.6503, users: 28, city: 'Tokyo' },
-    { lat: -33.8688, lng: 151.2093, users: 12, city: 'Sydney' },
-    { lat: 43.6532, lng: -79.3832, users: 22, city: 'Toronto' },
-    { lat: 55.7558, lng: 37.6176, users: 8, city: 'Moscow' },
-    { lat: -23.5505, lng: -46.6333, users: 14, city: 'São Paulo' },
-    { lat: 28.6139, lng: 77.2090, users: 31, city: 'Delhi' },
+  // Use persona locations or fall back to default locations
+  const locations = personas.length > 0 ? personas : [
+    { lat: 40.7128, lng: -74.0060, engagement: 'high', city: 'New York', id: 'default-1' },
+    { lat: 34.0522, lng: -118.2437, engagement: 'medium', city: 'Los Angeles', id: 'default-2' },
+    { lat: 51.5074, lng: -0.1278, engagement: 'high', city: 'London', id: 'default-3' },
+    { lat: 48.8566, lng: 2.3522, engagement: 'medium', city: 'Paris', id: 'default-4' },
+    { lat: 35.6762, lng: 139.6503, engagement: 'high', city: 'Tokyo', id: 'default-5' },
+    { lat: -33.8688, lng: 151.2093, engagement: 'low', city: 'Sydney', id: 'default-6' },
+    { lat: 43.6532, lng: -79.3832, engagement: 'high', city: 'Toronto', id: 'default-7' },
+    { lat: 55.7558, lng: 37.6176, engagement: 'low', city: 'Moscow', id: 'default-8' },
   ];
 
   return (
@@ -65,21 +63,36 @@ function GlobeContent({ users }: { users: any[] }) {
       </Sphere>
 
       {/* User location dots */}
-      {userLocations.map((location, index) => {
+      {locations.map((location, index) => {
         const position = latLngToVector3(location.lat, location.lng, 2.05);
+        const color = location.engagement === 'high' ? '#22d3ee' : 
+                     location.engagement === 'medium' ? '#fbbf24' : '#ef4444';
+        
         return (
-          <group key={index}>
-            <mesh position={[position.x, position.y, position.z]}>
+          <group key={location.id || index}>
+            <mesh 
+              position={[position.x, position.y, position.z]}
+              onClick={(e) => {
+                e.stopPropagation();
+                onPersonaClick(location);
+              }}
+              onPointerEnter={(e) => {
+                e.object.scale.setScalar(1.3);
+                document.body.style.cursor = 'pointer';
+              }}
+              onPointerLeave={(e) => {
+                e.object.scale.setScalar(1);
+                document.body.style.cursor = 'default';
+              }}
+            >
               <sphereGeometry args={[0.03, 8, 8]} />
-              <meshBasicMaterial
-                color={location.users > 20 ? '#22d3ee' : location.users > 10 ? '#fbbf24' : '#ef4444'}
-              />
+              <meshBasicMaterial color={color} />
             </mesh>
             {/* Pulsing ring effect */}
             <mesh position={[position.x, position.y, position.z]}>
               <ringGeometry args={[0.05, 0.08, 16]} />
               <meshBasicMaterial
-                color={location.users > 20 ? '#22d3ee' : location.users > 10 ? '#fbbf24' : '#ef4444'}
+                color={color}
                 transparent
                 opacity={0.5}
                 side={THREE.DoubleSide}
@@ -90,8 +103,8 @@ function GlobeContent({ users }: { users: any[] }) {
       })}
 
       {/* Connection lines between major cities */}
-      {userLocations.slice(0, 5).map((start, i) => {
-        return userLocations.slice(i + 1, 5).map((end, j) => {
+      {locations.slice(0, 5).map((start, i) => {
+        return locations.slice(i + 1, 5).map((end, j) => {
           const startPos = latLngToVector3(start.lat, start.lng, 2.05);
           const endPos = latLngToVector3(end.lat, end.lng, 2.05);
           
@@ -110,7 +123,15 @@ function GlobeContent({ users }: { users: any[] }) {
 }
 
 // Main Globe component
-export default function Globe({ className = '' }: { className?: string }) {
+export default function Globe({ 
+  className = '', 
+  personas = [], 
+  onPersonaClick 
+}: { 
+  className?: string; 
+  personas?: any[];
+  onPersonaClick?: (persona: any) => void;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -136,7 +157,7 @@ export default function Globe({ className = '' }: { className?: string }) {
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-        <GlobeContent users={[]} />
+        <GlobeContent personas={personas} onPersonaClick={onPersonaClick || (() => {})} />
         <OrbitControls
           enableZoom={true}
           enablePan={false}
