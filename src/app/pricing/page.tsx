@@ -4,7 +4,7 @@ export default function PricingPage() {
       {/* Background accents */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-20 left-1/3 w-[28rem] h-[28rem] bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[24rem] h-[24rem] bg-gradient-to-r from紫-600/10 to-pink-600/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[24rem] h-[24rem] bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-full blur-3xl" />
       </div>
 
       {/* Hero */}
