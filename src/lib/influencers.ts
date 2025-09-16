@@ -33,18 +33,32 @@ export interface Influencer {
 
 // Generate placeholder image URLs based on platform and content type
 const generatePostImageUrl = (platform: string, contentType: string, seed: number): string => {
-  const size = platform === 'TikTok' ? '400x600' : '600x600';
+  // Use a simple data URL with solid colors for demo purposes
   const colors = [
-    'ff6b6b,4ecdc4', // coral & teal
-    'a8e6cf,ffd93d', // mint & yellow
-    'ff8b94,b4a7d6', // pink & lavender
-    '87ceeb,ffa07a', // sky blue & salmon
-    '98d8c8,f7dc6f', // seafoam & light gold
-    'dda0dd,87cefa', // plum & light sky blue
+    '#ff6b6b', // coral
+    '#4ecdc4', // teal
+    '#a8e6cf', // mint
+    '#ffd93d', // yellow
+    '#ff8b94', // pink
+    '#b4a7d6', // lavender
+    '#87ceeb', // sky blue
+    '#ffa07a', // salmon
+    '#98d8c8', // seafoam
+    '#f7dc6f', // light gold
   ];
-  const colorPair = colors[seed % colors.length];
   
-  return `https://via.placeholder.com/${size}/${colorPair}/ffffff?text=${encodeURIComponent(contentType)}`;
+  const color = colors[seed % colors.length];
+  const width = platform === 'TikTok' ? 400 : 600;
+  const height = platform === 'TikTok' ? 600 : 600;
+  
+  // Create a simple SVG data URL
+  const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="${color}"/>
+    <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Arial" font-size="24" font-weight="bold">${platform}</text>
+    <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Arial" font-size="16">${contentType}</text>
+  </svg>`;
+  
+  return `data:image/svg+xml;base64,${btoa(svg)}`;
 };
 
 export const influencers: Influencer[] = [

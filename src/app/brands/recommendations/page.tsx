@@ -383,11 +383,32 @@ export default function Recommendations() {
               </div>
             )}
 
+            {/* Influencer List */}
+            <div className="bg-gray-800 rounded-lg p-4 mb-4">
+              <h3 className="text-lg font-semibold mb-4">Influencers ({filteredAndSortedInfluencers.length})</h3>
+              <div className="max-h-96 overflow-y-auto space-y-3">
+                {filteredAndSortedInfluencers.slice(0, 20).map(influencer => (
+                  <InfluencerCard
+                    key={influencer.id}
+                    influencer={influencer}
+                    isSelected={selectedInfluencers.has(influencer.id)}
+                    onSelect={() => toggleInfluencerSelection(influencer.id)}
+                    onFocus={() => setFocusedInfluencer(influencer)}
+                  />
+                ))}
+                {filteredAndSortedInfluencers.length === 0 && (
+                  <div className="text-center py-8 text-gray-400">
+                    No influencers match your current filters
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Results Summary */}
-            <div className="bg-gray-800 rounded-lg p-4 mt-4">
-              <h3 className="text-lg font-semibold mb-2">Results</h3>
+            <div className="bg-gray-800 rounded-lg p-4">
+              <h3 className="text-lg font-semibold mb-2">Campaign Summary</h3>
               <div className="text-sm text-gray-400">
-                {filteredAndSortedInfluencers.length} influencers match your criteria
+                {filteredAndSortedInfluencers.length} influencers available
               </div>
               {selectedInfluencers.size > 0 && (
                 <div className="text-sm text-blue-400 mt-1">
@@ -397,6 +418,72 @@ export default function Recommendations() {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function InfluencerCard({
+  influencer,
+  isSelected,
+  onSelect,
+  onFocus
+}: {
+  influencer: Influencer;
+  isSelected: boolean;
+  onSelect: () => void;
+  onFocus: () => void;
+}) {
+  const totalFollowers = influencer.socials.reduce((sum, social) => sum + social.followers, 0);
+  
+  return (
+    <div 
+      className={`bg-gray-700 rounded-lg p-3 cursor-pointer transition-all ${
+        isSelected ? "border-2 border-blue-500 bg-blue-900/20" : "border border-gray-600 hover:border-gray-500"
+      }`}
+      onClick={onFocus}
+    >
+      {/* Header */}
+      <div className="flex items-start justify-between mb-2">
+        <div>
+          <h4 className="font-semibold text-sm">{influencer.name}</h4>
+          <p className="text-xs text-gray-400">{influencer.college}</p>
+        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect();
+          }}
+          className={`px-2 py-1 rounded text-xs font-semibold transition-colors ${
+            isSelected 
+              ? "bg-green-600 hover:bg-green-700 text-white" 
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
+        >
+          {isSelected ? "✓" : "Select"}
+        </button>
+      </div>
+
+      {/* Fit Score */}
+      <div className="mb-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-gray-400">Fit Score</span>
+          <span className="text-sm font-bold">{influencer.fitScore}%</span>
+        </div>
+        <div className="w-full bg-gray-600 rounded-full h-1 mt-1">
+          <div 
+            className={`h-1 rounded-full ${
+              influencer.fitScore >= 90 ? "bg-green-500" :
+              influencer.fitScore >= 80 ? "bg-yellow-500" : "bg-gray-400"
+            }`}
+            style={{ width: `${influencer.fitScore}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Social Stats */}
+      <div className="text-xs text-gray-400">
+        {formatFollowerCount(totalFollowers)} total reach
       </div>
     </div>
   );

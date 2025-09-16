@@ -28,7 +28,7 @@ export default function CampaignSimulation() {
   const searchParams = useSearchParams();
   const { toasts, addToast, removeToast } = useToast();
 
-  const selectedIds = searchParams.get('ids')?.split(',') || [];
+  const selectedIds = useMemo(() => searchParams.get('ids')?.split(',') || [], [searchParams]);
   const selectedInfluencers = useMemo(() => getInfluencersByIds(selectedIds), [selectedIds]);
   
   const [isStarted, setIsStarted] = useState(false);
@@ -41,7 +41,7 @@ export default function CampaignSimulation() {
 
   // Initialize posts when component mounts
   useEffect(() => {
-    if (selectedInfluencers.length > 0) {
+    if (selectedInfluencers.length > 0 && posts.length === 0) {
       const initialPosts: AnimatedPost[] = [];
       
       selectedInfluencers.forEach(influencer => {
@@ -63,7 +63,7 @@ export default function CampaignSimulation() {
       
       setPosts(initialPosts);
     }
-  }, [selectedInfluencers]);
+  }, [selectedInfluencers, posts.length]);
 
   const totalMetrics = useMemo(() => {
     return posts.reduce((acc, post) => ({
