@@ -1,8 +1,11 @@
 import Link from "next/link";
+import Navigation from "../../components/Navigation";
 
 export default function PlatformPage() {
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen bg-black text-white">
+      <Navigation />
+      <main className="min-h-screen">
       {/* Background accents */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-0 -left-10 w-[28rem] h-[28rem] bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
@@ -69,7 +72,8 @@ export default function PlatformPage() {
           <Step title="Launch" subtitle="Deliverables & payout" />
         </div>
       </section>
-    </main>
+      </main>
+    </div>
   );
 }
 

@@ -31,14 +31,7 @@ export default function RallyLandingPage() {
               <Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link>
               <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
               <Link href="/pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link>
-              <div className="relative group">
-                <button className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
-                  Platform
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-              </div>
+              <Link href="/platform" className="hover:text-cyan-400 transition-colors">Platform</Link>
             </div>
 
             <div className="flex items-center gap-4">

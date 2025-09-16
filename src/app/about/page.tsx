@@ -1,6 +1,10 @@
+import Navigation from "../../components/Navigation";
+
 export default function AboutPage() {
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen bg-black text-white">
+      <Navigation />
+      <main className="min-h-screen">
       {/* Background accents */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-16 -left-16 w-96 h-96 bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
@@ -69,7 +73,8 @@ export default function AboutPage() {
           Explore the platform
         </a>
       </section>
-    </main>
+      </main>
+    </div>
   );
 }
 

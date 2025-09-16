@@ -1,6 +1,10 @@
+import Navigation from "../../components/Navigation";
+
 export default function PricingPage() {
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen bg-black text-white">
+      <Navigation />
+      <main className="min-h-screen">
       {/* Background accents */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-20 left-1/3 w-[28rem] h-[28rem] bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl" />
@@ -85,7 +89,8 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </div>
   );
 }
 
