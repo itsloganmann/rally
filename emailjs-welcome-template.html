@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Rally! 🎉</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #ffffff;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header p {
+      font-size: 18px;
+      opacity: 0.9;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .content {
+      padding: 40px 30px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .greeting {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #ffffff;
+    }
+    
+    .highlight {
+      background: linear-gradient(135deg, #22d3ee, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+    
+    .features {
+      margin: 30px 0;
+    }
+    
+    .features h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    
+    .feature-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .feature-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .feature-icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 12px;
+    }
+    
+    .cta-section {
+      text-align: center;
+      margin: 35px 0;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+    }
+    
+    .footer {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .social-links {
+      margin: 20px 0;
+    }
+    
+    .social-links a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin: 0 8px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.7);
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .footer-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 20px;
+    }
+    
+    .footer-text a {
+      color: #22d3ee;
+      text-decoration: none;
+    }
+    
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      
+      .header {
+        padding: 30px 20px;
+      }
+      
+      .content {
+        padding: 30px 20px;
+      }
+      
+      .header h1 {
+        font-size: 26px;
+      }
+      
+      .cta-button {
+        padding: 12px 25px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">R</div>
+      <h1>🎉 You're on the Rally waitlist!</h1>
+      <p>Welcome to the future of campus marketing</p>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+      <div class="greeting">
+        Hi there! 👋
+      </div>
+      
+      <p>We're <span class="highlight">thrilled</span> to have you join the Rally waitlist! You're now part of an exclusive group that will get early access to our AI-powered campus brand-student matching platform.</p>
+      
+      <div class="features">
+        <h3>✨ What happens next?</h3>
+        <ul class="feature-list">
+          <li>
+            <div class="feature-icon">🚀</div>
+            <span>You'll be among the <strong>first</strong> to access Rally when we launch</span>
+          </li>
+          <li>
+            <div class="feature-icon">📧</div>
+            <span>We'll keep you updated on our progress with exclusive insights</span>
+          </li>
+          <li>
+            <div class="feature-icon">🎁</div>
+            <span>Early-bird pricing and exclusive perks just for waitlisters</span>
+          </li>
+          <li>
+            <div class="feature-icon">🎯</div>
+            <span>Personalized onboarding tailored to your role</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="cta-section">
+        <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9);">Ready to learn more about Rally?</p>
+        <a href="https://rally.com" class="cta-button">
+          Explore Rally →
+        </a>
+      </div>
+      
+      <p style="color: rgba(255, 255, 255, 0.8);">
+        Questions? Just reply to this email - we'd love to hear from you!
+      </p>
+      
+      <p style="margin-top: 25px; color: rgba(255, 255, 255, 0.9);">
+        Best regards,<br>
+        <span class="highlight" style="font-weight: 600;">The Rally Team</span> 🚀
+      </p>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <div class="social-links">
+        <a href="#" title="Twitter" style="display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">X</a>
+        <a href="#" title="LinkedIn" style="display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">in</a>
+        <a href="#" title="Instagram" style="display: flex; align-items: center; justify-content: center; font-size: 16px;">📸</a>
+      </div>
+      
+      <div class="footer-text">
+        <strong>Rally</strong> - Building the future of campus marketing<br>
+        <small>You received this email because you signed up for our waitlist at rally.com</small>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

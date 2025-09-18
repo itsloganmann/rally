@@ -9,6 +9,18 @@
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
+.text-accent-end {
+  color: var(--accent-end);
+}
+
+.from-accent-start {
+  --tw-gradient-from: var(--accent-start);
+}
+
+.to-accent-end {
+  --tw-gradient-to: var(--accent-end);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
