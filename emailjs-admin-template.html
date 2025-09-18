@@ -4,378 +4,148 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Rally Waitlist Signup! 🚀</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-      color: #ffffff;
-      line-height: 1.6;
-      padding: 20px;
-    }
-    
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-    
-    .header {
-      background: linear-gradient(135deg, #10b981, #059669);
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
-      animation: rotate 20s linear infinite;
-    }
-    
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    .logo {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 28px;
-      font-weight: 700;
-      color: white;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 2;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-    
-    .header p {
-      font-size: 16px;
-      opacity: 0.9;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .content {
-      padding: 40px 30px;
-      background: rgba(255, 255, 255, 0.02);
-    }
-    
-    .signup-info {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 15px;
-      padding: 25px;
-      margin: 25px 0;
-    }
-    
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .info-row:last-child {
-      border-bottom: none;
-    }
-    
-    .info-label {
-      font-weight: 600;
-      color: #10b981;
-      min-width: 120px;
-    }
-    
-    .info-value {
-      color: #ffffff;
-      text-align: right;
-      flex: 1;
-      margin-left: 15px;
-    }
-    
-    .highlight {
-      background: linear-gradient(135deg, #10b981, #059669);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 600;
-    }
-    
-    .summary-section {
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 15px;
-      padding: 25px;
-      margin: 25px 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .summary-section h3 {
-      color: #10b981;
-      margin-bottom: 15px;
-      font-size: 18px;
-    }
-    
-    .quick-actions {
-      text-align: center;
-      margin: 35px 0;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .action-button {
-      display: inline-block;
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      text-decoration: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      margin: 5px 10px;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
-    }
-    
-    .action-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4);
-    }
-    
-    .footer {
-      background: rgba(0, 0, 0, 0.2);
-      padding: 30px;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .footer-text {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.6);
-    }
-    
-    .timestamp {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-      text-align: center;
-      margin-top: 20px;
-    }
-    
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      
-      .header {
-        padding: 30px 20px;
-      }
-      
-      .content {
-        padding: 30px 20px;
-      }
-      
-      .info-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .info-value {
-        text-align: left;
-        margin-left: 0;
-        margin-top: 5px;
-      }
-      
-      .action-button {
-        display: block;
-        margin: 10px 0;
-      }
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="logo">R</div>
-      <h1>🎉 New Waitlist Signup!</h1>
-      <p>Someone just joined the Rally waitlist</p>
-    </div>
-    
-    <!-- Content -->
-    <div class="content">
-      <p>Great news! A new user has joined the Rally waitlist. Here are the details:</p>
-      
-      <!-- Signup Information -->
-      <div class="signup-info">
-        <div class="info-row">
-          <div class="info-label">📧 Email:</div>
-          <div class="info-value"><strong>{{user_email}}</strong></div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">👤 Role:</div>
-          <div class="info-value">{{role}}</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">📅 Date:</div>
-          <div class="info-value">{{date}}</div>
-        </div>
-        <div class="info-row">
-          <div class="info-label">🌐 Source:</div>
-          <div class="info-value">{{source}}</div>
-        </div>
-      </div>
-      
-      <!-- Student Details (if applicable) -->
-      {{#college}}
-      <div class="summary-section">
-        <h3>🎓 Student Information</h3>
-        <div class="info-row">
-          <div class="info-label">🏫 College:</div>
-          <div class="info-value">{{college}}</div>
-        </div>
-        {{#clubs}}
-        <div class="info-row">
-          <div class="info-label">🏆 Clubs:</div>
-          <div class="info-value">{{clubs}}</div>
-        </div>
-        {{/clubs}}
-        {{#platform}}
-        <div class="info-row">
-          <div class="info-label">📱 Platform:</div>
-          <div class="info-value">{{platform}}</div>
-        </div>
-        {{/platform}}
-        {{#followers}}
-        <div class="info-row">
-          <div class="info-label">👥 Followers:</div>
-          <div class="info-value">{{followers}}</div>
-        </div>
-        {{/followers}}
-        {{#interests}}
-        <div class="info-row">
-          <div class="info-label">💡 Interests:</div>
-          <div class="info-value">{{interests}}</div>
-        </div>
-        {{/interests}}
-      </div>
-      {{/college}}
-      
-      <!-- Brand Details (if applicable) -->
-      {{#company}}
-      <div class="summary-section">
-        <h3>🏢 Brand Information</h3>
-        <div class="info-row">
-          <div class="info-label">🏢 Company:</div>
-          <div class="info-value">{{company}}</div>
-        </div>
-        {{#industry}}
-        <div class="info-row">
-          <div class="info-label">🏭 Industry:</div>
-          <div class="info-value">{{industry}}</div>
-        </div>
-        {{/industry}}
-        {{#goal}}
-        <div class="info-row">
-          <div class="info-label">🎯 Goal:</div>
-          <div class="info-value">{{goal}}</div>
-        </div>
-        {{/goal}}
-        {{#target_colleges}}
-        <div class="info-row">
-          <div class="info-label">🎓 Target Colleges:</div>
-          <div class="info-value">{{target_colleges}}</div>
-        </div>
-        {{/target_colleges}}
-        {{#deliverables}}
-        <div class="info-row">
-          <div class="info-label">📋 Deliverables:</div>
-          <div class="info-value">{{deliverables}}</div>
-        </div>
-        {{/deliverables}}
-        {{#min_followers}}
-        <div class="info-row">
-          <div class="info-label">👥 Min Followers:</div>
-          <div class="info-value">{{min_followers}}</div>
-        </div>
-        {{/min_followers}}
-        {{#budget}}
-        <div class="info-row">
-          <div class="info-label">💰 Budget:</div>
-          <div class="info-value">{{budget}}</div>
-        </div>
-        {{/budget}}
-      </div>
-      {{/company}}
-      
-      <!-- Summary -->
-      {{#summary}}
-      <div class="summary-section">
-        <h3>📝 Summary</h3>
-        <p style="color: rgba(255, 255, 255, 0.9);">{{summary}}</p>
-      </div>
-      {{/summary}}
-      
-      <!-- Quick Actions -->
-      <div class="quick-actions">
-        <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9);">Quick Actions:</p>
-        <a href="mailto:{{user_email}}" class="action-button">
-          📧 Reply to User
-        </a>
-        <a href="https://dashboard.rally.com/users" class="action-button">
-          👥 View Dashboard
-        </a>
-      </div>
-      
-      <p style="color: rgba(255, 255, 255, 0.8); text-align: center; margin-top: 25px;">
-        This is an automated notification from the Rally waitlist system.
-      </p>
-      
-      <div class="timestamp">
-        Notification sent at {{date}}
-      </div>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-      <div class="footer-text">
-        <strong>Rally Admin Notifications</strong><br>
-        <small>Internal notification system - rallyfounders@gmail.com</small>
-      </div>
-    </div>
-  </div>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background-color: #0f0f23; color: #ffffff;">
+  <!-- Wrapper table for email client compatibility -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #0f0f23;">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <!-- Main container -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width: 100%; max-width: 600px; background-color: #1a1a2e; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px 30px; text-align: center;">
+              <!-- Logo -->
+              <div style="width: 60px; height: 60px; background-color: rgba(255,255,255,0.2); border-radius: 12px; margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center;">
+                <span style="font-size: 24px; font-weight: bold; color: white;">R</span>
+              </div>
+              
+              <h1 style="margin: 0 0 10px; font-size: 28px; font-weight: 700; color: white; line-height: 1.2;">
+                🚀 New Rally Waitlist Signup!
+              </h1>
+              
+              <p style="margin: 0; font-size: 16px; color: rgba(255,255,255,0.9); font-weight: 400;">
+                Someone just joined our waitlist
+              </p>
+            </td>
+          </tr>
+
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px 30px;">
+              <!-- Alert icon -->
+              <div style="text-align: center; margin-bottom: 30px;">
+                <p style="margin: 0 0 20px; font-size: 32px; color: #10b981;">
+                  🎯
+                </p>
+                <p style="margin: 0; font-size: 18px; color: #10b981; font-weight: 600;">
+                  New Signup Alert!
+                </p>
+              </div>
+
+              <!-- User info card -->
+              <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: 12px; padding: 25px; margin: 25px 0; border: 1px solid rgba(16, 185, 129, 0.2); border-left: 4px solid #10b981;">
+                <h3 style="margin: 0 0 20px; font-size: 18px; font-weight: 600; color: #ffffff;">
+                  User Details:
+                </h3>
+                
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td style="padding: 8px 0; width: 30%;">
+                      <strong style="color: #10b981; font-size: 14px;">Email:</strong>
+                    </td>
+                    <td style="padding: 8px 0;">
+                      <span style="color: rgba(255,255,255,0.9); font-size: 14px; font-family: 'Courier New', monospace; background-color: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px;">{{user_email}}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; width: 30%;">
+                      <strong style="color: #10b981; font-size: 14px;">Role:</strong>
+                    </td>
+                    <td style="padding: 8px 0;">
+                      <span style="color: rgba(255,255,255,0.9); font-size: 14px; text-transform: capitalize;">{{user_role}}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px 0; width: 30%;">
+                      <strong style="color: #10b981; font-size: 14px;">Timestamp:</strong>
+                    </td>
+                    <td style="padding: 8px 0;">
+                      <span style="color: rgba(255,255,255,0.9); font-size: 14px; font-family: 'Courier New', monospace;">{{timestamp}}</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Quick stats -->
+              <div style="background-color: rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; margin: 25px 0; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="margin: 0 0 20px; font-size: 18px; font-weight: 600; color: #ffffff; text-align: center;">
+                  Waitlist Growth 📈
+                </h3>
+                
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td style="text-align: center; padding: 10px; background-color: rgba(16, 185, 129, 0.1); border-radius: 8px; margin: 5px;">
+                      <div style="font-size: 24px; font-weight: 700; color: #10b981; margin-bottom: 5px;">+1</div>
+                      <div style="font-size: 12px; color: rgba(255,255,255,0.6);">New Signup</div>
+                    </td>
+                    <td style="width: 20px;"></td>
+                    <td style="text-align: center; padding: 10px; background-color: rgba(99, 102, 241, 0.1); border-radius: 8px; margin: 5px;">
+                      <div style="font-size: 24px; font-weight: 700; color: #6366f1; margin-bottom: 5px;">🔥</div>
+                      <div style="font-size: 12px; color: rgba(255,255,255,0.6);">Growing Fast</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Action items -->
+              <div style="background-color: rgba(99, 102, 241, 0.1); border-radius: 12px; padding: 20px; margin: 25px 0; border-left: 4px solid #6366f1;">
+                <h4 style="margin: 0 0 15px; font-size: 16px; font-weight: 600; color: #6366f1;">
+                  Next Steps:
+                </h4>
+                <ul style="margin: 0; padding-left: 20px; color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.6;">
+                  <li style="margin-bottom: 8px;">Review user profile and interests</li>
+                  <li style="margin-bottom: 8px;">Consider personalized follow-up outreach</li>
+                  <li style="margin-bottom: 8px;">Track engagement patterns for launch preparation</li>
+                  <li style="margin-bottom: 0;">Monitor waitlist growth metrics</li>
+                </ul>
+              </div>
+
+              <!-- CTA Buttons -->
+              <div style="text-align: center; margin: 30px 0;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                  <tr>
+                    <td style="padding: 0 10px;">
+                      <a href="https://dashboard.rally.com" style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px;">
+                        View Dashboard
+                      </a>
+                    </td>
+                    <td style="padding: 0 10px;">
+                      <a href="mailto:{{user_email}}" style="display: inline-block; background-color: rgba(255,255,255,0.1); color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid rgba(255,255,255,0.2);">
+                        Reply to User
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: rgba(255,255,255,0.03); padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
+              <p style="margin: 0 0 10px; font-size: 14px; color: rgba(255,255,255,0.6);">
+                Rally Admin Notification System
+              </p>
+              <p style="margin: 0; font-size: 12px; color: rgba(255,255,255,0.4);">
+                This notification was sent to: {{to_email}}
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>

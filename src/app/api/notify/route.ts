@@ -113,6 +113,7 @@ export async function POST(request: NextRequest) {
       .replace(/\{\{user_email\}\}/g, email)
       .replace(/\{\{user_role\}\}/g, userRole)
       .replace(/\{\{to_email\}\}/g, adminEmail)
+      .replace(/\{\{timestamp\}\}/g, new Date().toISOString())
 
     // Prepare emails
     const welcomeMsg = {
