@@ -10,7 +10,7 @@ const TEAM_MEMBERS = [
     role: "Co-Founder & CEO",
     school: "UCSB Computer Engineering",
     linkedin: "https://www.linkedin.com/in/logansmann/",
-    image: "/team/logan.jpg", // You'll need to add these images
+    image: "/team/logan.png",
     bio: "Full-stack developer with expertise in AI/ML and scalable web applications. Passionate about connecting brands with authentic campus voices through innovative technology.",
     expertise: ["AI/ML", "Full-Stack Development", "Product Strategy"]
   },
@@ -19,7 +19,7 @@ const TEAM_MEMBERS = [
     role: "Co-Founder & CTO",
     school: "UCSB Computer Engineering",
     linkedin: "https://www.linkedin.com/in/ajit-saravanan-871968273/",
-    image: "/team/ajit.jpg",
+    image: "/team/ajit.png",
     bio: "Systems architect and backend specialist focused on building robust, scalable infrastructure. Expert in vector databases and semantic matching algorithms.",
     expertise: ["Backend Architecture", "Vector Databases", "System Design"]
   },
@@ -28,7 +28,7 @@ const TEAM_MEMBERS = [
     role: "Co-Founder & Head of Engineering", 
     school: "Stanford Computer Science",
     linkedin: "https://www.linkedin.com/in/aadi-chauhan-5a440521b/",
-    image: "/team/aadi.jpg",
+    image: "/team/aadi.png",
     bio: "Computer science researcher with deep expertise in machine learning and natural language processing. Drives the AI matching engine that powers Rally.",
     expertise: ["Machine Learning", "NLP", "Algorithm Design"]
   },
@@ -37,7 +37,7 @@ const TEAM_MEMBERS = [
     role: "Co-Founder & Head of Strategy",
     school: "Stanford Management Science & Engineering", 
     linkedin: "https://www.linkedin.com/in/aarnav-nagabhirava-801322243/",
-    image: "/team/aarnav.jpg",
+    image: "/team/aarnav.png",
     bio: "Business strategist with expertise in marketplace dynamics and growth operations. Leads go-to-market strategy and partnership development.",
     expertise: ["Business Strategy", "Growth Operations", "Market Analysis"]
   }
@@ -63,9 +63,7 @@ function TeamMember({ member }: { member: typeof TEAM_MEMBERS[0] }) {
             {member.name.split(' ').map(n => n[0]).join('')}
           </div>
         )}
-        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br from-accent-start to-accent-end rounded-full flex items-center justify-center">
-          <span className="text-xs">🚀</span>
-        </div>
+
       </div>
       
       <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>

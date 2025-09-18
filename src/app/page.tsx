@@ -31,37 +31,37 @@ interface StatProps {
   sourceUrl: string
 }
 
-// Updated stats with real, functional data
+// Market-relevant data points from top-tier sources
 const STATS: StatProps[] = [
   {
-    number: "11x",
-    label: "higher ROI than traditional ads",
-    source: "Influencer Marketing Hub 2024",
-    sourceUrl: "https://influencermarketinghub.com/influencer-marketing-benchmark-report-2024/"
-  },
-  {
-    number: "89%",
-    label: "of Gen Z discovers brands via social",
-    source: "Deloitte Global Marketing Trends",
-    sourceUrl: "https://www2.deloitte.com/us/en/insights/topics/marketing-and-sales-operations/global-marketing-trends.html"
-  },
-  {
-    number: "4.2x",
-    label: "engagement rate for micro-influencers",
-    source: "Later Influence Report 2024",
-    sourceUrl: "https://later.com/blog/micro-influencer-marketing/"
-  },
-  {
-    number: "$21B",
-    label: "creator economy market size by 2025",
+    number: "$480B",
+    label: "creator economy market by 2027",
     source: "Goldman Sachs Research",
-    sourceUrl: "https://www.goldmansachs.com/insights/pages/the-creator-economy.html"
+    sourceUrl: "https://www.goldmansachs.com/insights/articles/the-creator-economy-could-approach-half-a-trillion-dollars-by-2027"
   },
   {
-    number: "73%",
-    label: "of students open to brand partnerships",
-    source: "Campus Marketing Study 2024",
-    sourceUrl: "https://www.campusmarketingresearch.com/student-brand-partnerships"
+    number: "62%",
+    label: "of Gen Z will check other brands",
+    source: "McKinsey Consumer Research",
+    sourceUrl: "https://www.mckinsey.com/~/media/mckinsey/email/genz/2023/04/2023-04-04b.html"
+  },
+  {
+    number: "$70B",
+    label: "paid to creators in 3 years",
+    source: "YouTube via NZS Capital",
+    sourceUrl: "https://www.nzscapital.com/sitalweek/sitalweek-455"
+  },
+  {
+    number: "3x",
+    label: "higher engagement for micro-influencers",
+    source: "HypeAuditor 2025 Report",
+    sourceUrl: "https://hypeauditor.com/state-of-influencer-marketing-2025/"
+  },
+  {
+    number: "63%",
+    label: "of Gen Z influenced by social ads",
+    source: "Deloitte Digital Media Trends",
+    sourceUrl: "https://www.deloitte.com/us/en/about/press-room/digital-media-trends-consumption-habits-survey.html"
   }
 ]
 
@@ -163,10 +163,15 @@ function StatCard({ number, label, source, sourceUrl }: StatProps) {
   )
 }
 
-function FeatureCard({ icon, title, description }: { icon: string, title: string, description: string }) {
+function FeatureCard({ icon, title, description, delay = 0 }: { icon: string, title: string, description: string, delay?: number }) {
   return (
     <div className="glass rounded-xl p-6 text-center fade-in hover:scale-105 transition-all duration-300">
-      <div className="text-3xl mb-4 animate-bounce">{icon}</div>
+      <div 
+        className="text-3xl mb-4 mt-3 animate-bounce"
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        {icon}
+      </div>
       <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
       <p className="text-white/70 text-sm">{description}</p>
     </div>
@@ -260,6 +265,24 @@ export default function WaitlistPage() {
     setStatusMessage('')
 
     try {
+      // Check if EmailJS is configured
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      const adminTemplateId = process.env.NEXT_PUBLIC_EMAILJS_ADMIN_TEMPLATE_ID
+      const userTemplateId = process.env.NEXT_PUBLIC_EMAILJS_USER_TEMPLATE_ID
+
+      if (!serviceId || !publicKey || !adminTemplateId || !userTemplateId) {
+        console.error('Missing EmailJS configuration:', {
+          serviceId: !!serviceId,
+          publicKey: !!publicKey,
+          adminTemplateId: !!adminTemplateId,
+          userTemplateId: !!userTemplateId
+        })
+        setSubmitStatus('error')
+        setStatusMessage('Email service not configured. Please contact support.')
+        return
+      }
+
       const templateParams = {
         user_email: formData.email,
         role: formData.role || 'Not specified',
@@ -283,31 +306,47 @@ export default function WaitlistPage() {
 
       // Send admin notification
       await send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_ADMIN_TEMPLATE_ID!,
+        serviceId,
+        adminTemplateId,
         {
           ...templateParams,
           to_email: 'rallyfounders@gmail.com'
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        publicKey
       )
 
       // Send user confirmation
       await send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_USER_TEMPLATE_ID!,
+        serviceId,
+        userTemplateId,
         templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        publicKey
       )
 
       setSubmitStatus('success')
       setStatusMessage(`Thanks for joining the waitlist! Check your email for confirmation.`)
       setLastSubmit(now)
       
-    } catch (error) {
-      console.error('Email send failed:', error)
+    } catch (error: any) {
+      console.error('Email send failed:', {
+        error,
+        status: error?.status,
+        text: error?.text,
+        message: error?.message
+      })
+      
+      let errorMessage = 'Something went wrong. Please try again or contact us directly.'
+      
+      if (error?.status === 403) {
+        errorMessage = 'Email service configuration issue. Please contact support.'
+      } else if (error?.status === 401) {
+        errorMessage = 'Authentication failed. Please contact support.'
+      } else if (error?.status === 429) {
+        errorMessage = 'Too many requests. Please wait a moment and try again.'
+      }
+      
       setSubmitStatus('error')
-      setStatusMessage('Something went wrong. Please try again or contact us directly.')
+      setStatusMessage(errorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -637,7 +676,7 @@ export default function WaitlistPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {FEATURES.map((feature, index) => (
-                  <FeatureCard key={index} {...feature} />
+                  <FeatureCard key={index} {...feature} delay={index * 200} />
                 ))}
               </div>
             </div>
