@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { send } from '@emailjs/browser'
+
 import Link from 'next/link'
 
 // Types
@@ -266,66 +266,26 @@ export default function WaitlistPage() {
     setStatusMessage('')
 
     try {
-      // Check if EmailJS is configured
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      const adminTemplateId = process.env.NEXT_PUBLIC_EMAILJS_ADMIN_TEMPLATE_ID
-      const userTemplateId = process.env.NEXT_PUBLIC_EMAILJS_USER_TEMPLATE_ID
-
-      if (!serviceId || !publicKey || !adminTemplateId || !userTemplateId) {
-        console.error('Missing EmailJS configuration:', {
-          serviceId: !!serviceId,
-          publicKey: !!publicKey,
-          adminTemplateId: !!adminTemplateId,
-          userTemplateId: !!userTemplateId
-        })
-        setSubmitStatus('error')
-        setStatusMessage('Email service not configured. Please contact support.')
-        return
-      }
-
-      const templateParams = {
-        user_email: formData.email,
-        role: formData.role || 'Not specified',
-        date: new Date().toISOString(),
-        source: 'rally-waitlist',
-        summary: generateSummary(formData),
-        reply_to: formData.email,
-        college: formData.college || '',
-        clubs: formData.clubs || '',
-        platform: formData.platform || '',
-        followers: formData.followers || '',
-        interests: formData.interests || '',
-        company: formData.company || '',
-        industry: formData.industry || '',
-        goal: formData.goal || '',
-        target_colleges: formData.target_colleges || '',
-        deliverables: formData.deliverables || '',
-        min_followers: formData.min_followers || '',
-        budget: formData.budget || ''
-      }
-
-      // Send admin notification
-      await send(
-        serviceId,
-        adminTemplateId,
-        {
-          ...templateParams,
-          to_email: 'rallyfounders@gmail.com'
+      // Send notification via our API
+      const response = await fetch('/api/notify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        publicKey
-      )
+        body: JSON.stringify({
+          email: formData.email,
+          role: formData.role || 'Not specified'
+        })
+      })
 
-      // Send user confirmation
-      await send(
-        serviceId,
-        userTemplateId,
-        templateParams,
-        publicKey
-      )
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send notification')
+      }
 
       setSubmitStatus('success')
-      setStatusMessage(`Thanks for joining the waitlist! Check your email for confirmation.`)
+      setStatusMessage(result.message || 'Thanks for joining the waitlist! Check your email for confirmation.')
       setLastSubmit(now)
       
     } catch (error: unknown) {
