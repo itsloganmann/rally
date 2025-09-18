@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Rally – Campus brand–student matching",
-  description:
-    "Rally connects college students and campus micro‑influencers with brands through a smart two‑sided marketplace using AI-powered resume parsing and a vector DB for semantic matching.",
+  title: "Rally Waitlist | Coming Soon",
+  description: "Join the Rally waitlist to get early access to the AI-powered campus brand-student matching platform. Connect college students and micro-influencers with brands through smart semantic matching.",
+  keywords: "campus marketing, influencer matching, student brands, college marketing, AI matching",
+  authors: [{ name: "Rally" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Rally Waitlist | Coming Soon",
+    description: "Join the Rally waitlist to get early access to the AI-powered campus brand-student matching platform.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -25,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
         {children}
       </body>
     </html>

@@ -1,220 +1,629 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react'
+import { send } from '@emailjs/browser'
 
-export default function RallyLandingPage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  
+// Types
+interface FormData {
+  email: string
+  role: 'brand' | 'influencer' | ''
+  // Influencer fields
+  college?: string
+  clubs?: string
+  platform?: string
+  followers?: string
+  interests?: string
+  // Brand fields
+  company?: string
+  industry?: string
+  goal?: string
+  target_colleges?: string
+  deliverables?: string
+  min_followers?: string
+  budget?: string
+}
+
+interface StatProps {
+  number: string
+  label: string
+  source: string
+  sourceUrl: string
+}
+
+// Stats data with real citations
+const STATS: StatProps[] = [
+  {
+    number: "11x",
+    label: "higher engagement than traditional ads",
+    source: "Influencer Marketing Hub",
+    sourceUrl: "https://influencermarketinghub.com/influencer-marketing-benchmark-report/"
+  },
+  {
+    number: "89%",
+    label: "of Gen Z discovers brands through social",
+    source: "Deloitte",
+    sourceUrl: "https://www2.deloitte.com/us/en/insights/topics/marketing-and-sales-operations/global-marketing-trends.html"
+  },
+  {
+    number: "67%",
+    label: "of brands struggle to find authentic creators",
+    source: "Creator Economy Report",
+    sourceUrl: "https://www.creatoreconomy.so/report"
+  },
+  {
+    number: "$21B",
+    label: "creator economy market size by 2025",
+    source: "Goldman Sachs",
+    sourceUrl: "https://www.goldmansachs.com/insights/pages/the-creator-economy.html"
+  }
+]
+
+// Features data
+const FEATURES = [
+  {
+    icon: "🎯",
+    title: "AI-Powered Matching",
+    description: "Smart vector embeddings connect the right students with the perfect brand campaigns"
+  },
+  {
+    icon: "🏫",
+    title: "Campus-First Focus",
+    description: "Built specifically for college students and campus micro-influencers"
+  },
+  {
+    icon: "⚡",
+    title: "Lightning Fast Onboarding",
+    description: "Get matched and start earning in minutes, not weeks"
+  },
+  {
+    icon: "💰",
+    title: "Secure Payments",
+    description: "Automated contracts and payouts via Stripe for peace of mind"
+  }
+]
+
+function StatCard({ number, label, source, sourceUrl }: StatProps) {
+  const [isVisible, setIsVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-lg">R</span>
-              </div>
-              <span className="text-xl font-semibold">Rally</span>
-            </div>
-            
-            <div className="hidden md:flex items-center gap-8">
-              <Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link>
-              <Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link>
-              <Link href="/pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link>
-              <Link href="/platform" className="hover:text-cyan-400 transition-colors">Platform</Link>
-            </div>
+    <div ref={ref} className="text-center fade-in">
+      <div className={`text-4xl md:text-5xl font-bold text-gradient mb-2 ${isVisible ? 'stat-number' : ''}`}>
+        {number}
+      </div>
+      <div className="text-sm text-white/80 mb-1">{label}</div>
+      <a 
+        href={sourceUrl} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-xs text-white/60 hover:text-white/80 transition-colors underline"
+      >
+        {source} ↗
+      </a>
+    </div>
+  )
+}
 
-            <div className="flex items-center gap-4">
-              <Link href="/auth">
-                <button className="flex items-center gap-1 hover:text-cyan-400 transition-colors">
-                  Login
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-              </Link>
-            </div>
+function FeatureCard({ icon, title, description }: { icon: string, title: string, description: string }) {
+  return (
+    <div className="glass rounded-xl p-6 text-center fade-in">
+      <div className="text-3xl mb-4">{icon}</div>
+      <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
+      <p className="text-white/70 text-sm">{description}</p>
+    </div>
+  )
+}
+
+export default function WaitlistPage() {
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    role: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [statusMessage, setStatusMessage] = useState('')
+  const [showOptionalFields, setShowOptionalFields] = useState(false)
+
+  // Honeypot field for spam protection
+  const [honeypot, setHoneypot] = useState('')
+
+  // Rate limiting
+  const [lastSubmit, setLastSubmit] = useState<number | null>(null)
+
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const handleRoleSelect = (role: 'brand' | 'influencer') => {
+    setFormData(prev => ({ ...prev, role }))
+    setShowOptionalFields(true)
+  }
+
+  const generateSummary = (data: FormData): string => {
+    const parts: string[] = []
+    
+    if (data.role) parts.push(`Role: ${data.role}`)
+    
+    if (data.role === 'influencer') {
+      if (data.college) parts.push(`College: ${data.college}`)
+      if (data.clubs) parts.push(`Clubs: ${data.clubs}`)
+      if (data.platform) parts.push(`Platform: ${data.platform}`)
+      if (data.followers) parts.push(`Followers: ${data.followers}`)
+      if (data.interests) parts.push(`Interests: ${data.interests}`)
+    } else if (data.role === 'brand') {
+      if (data.company) parts.push(`Company: ${data.company}`)
+      if (data.industry) parts.push(`Industry: ${data.industry}`)
+      if (data.goal) parts.push(`Goal: ${data.goal}`)
+      if (data.target_colleges) parts.push(`Target colleges: ${data.target_colleges}`)
+      if (data.deliverables) parts.push(`Deliverables: ${data.deliverables}`)
+      if (data.min_followers) parts.push(`Min followers: ${data.min_followers}`)
+      if (data.budget) parts.push(`Budget: ${data.budget}`)
+    }
+    
+    return parts.length > 1 ? parts.join(', ') : 'Email only signup'
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Check honeypot
+    if (honeypot) {
+      console.log('Bot detected')
+      return
+    }
+
+    // Rate limiting check
+    const now = Date.now()
+    if (lastSubmit && now - lastSubmit < 5000) { // 5 second cooldown
+      setStatusMessage('Please wait a moment before submitting again.')
+      return
+    }
+
+    if (!formData.email || !formData.email.includes('@')) {
+      setStatusMessage('Please enter a valid email address.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    setStatusMessage('')
+
+    try {
+      const templateParams = {
+        user_email: formData.email,
+        role: formData.role || 'Not specified',
+        date: new Date().toISOString(),
+        source: 'rally-waitlist',
+        summary: generateSummary(formData),
+        reply_to: formData.email,
+        // All optional fields
+        college: formData.college || '',
+        clubs: formData.clubs || '',
+        platform: formData.platform || '',
+        followers: formData.followers || '',
+        interests: formData.interests || '',
+        company: formData.company || '',
+        industry: formData.industry || '',
+        goal: formData.goal || '',
+        target_colleges: formData.target_colleges || '',
+        deliverables: formData.deliverables || '',
+        min_followers: formData.min_followers || '',
+        budget: formData.budget || ''
+      }
+
+      // Send admin notification
+      await send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_ADMIN_TEMPLATE_ID!,
+        {
+          ...templateParams,
+          to_email: 'rallyfounders@gmail.com'
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      )
+
+      // Send user confirmation
+      await send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_USER_TEMPLATE_ID!,
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      )
+
+      setSubmitStatus('success')
+      setStatusMessage(`Thanks for joining the waitlist! Check your email for confirmation.`)
+      setLastSubmit(now)
+      
+    } catch (error) {
+      console.error('Email send failed:', error)
+      setSubmitStatus('error')
+      setStatusMessage('Something went wrong. Please try again or contact us directly.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handlePrimaryCTA = () => {
+    const emailInput = document.getElementById('email') as HTMLInputElement
+    if (!formData.email) {
+      emailInput?.focus()
+    } else {
+      handleSubmit({ preventDefault: () => {} } as React.FormEvent)
+    }
+  }
+
+  if (submitStatus === 'success') {
+    return (
+      <main className="min-h-screen relative">
+        {/* Background orbs */}
+        <div className="bg-orbs">
+          <div className="orb-conic"></div>
+          <div className="orb-radial"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+          <div className="glass rounded-2xl p-8 max-w-md w-full text-center fade-in">
+            <div className="success-checkmark"></div>
+            <h2 className="text-2xl font-bold text-white mb-4">You&apos;re on the list! 🎉</h2>
+            <p className="text-white/80 mb-6">
+              Thanks for joining Rally, <span className="text-gradient font-semibold">{formData.email}</span>. 
+              We&apos;ll be in touch soon with early access and exclusive campus perks.
+            </p>
+            
+            <button
+              onClick={() => setShowOptionalFields(true)}
+              className="text-white/70 hover:text-white text-sm underline mb-4 block mx-auto"
+            >
+              Add more details
+            </button>
+
+            <button
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'Rally Waitlist',
+                    text: 'Join me on the Rally waitlist for AI-powered campus brand matching!',
+                    url: window.location.href
+                  })
+                } else {
+                  navigator.clipboard.writeText(window.location.href)
+                  alert('Link copied to clipboard!')
+                }
+              }}
+              className="text-accent-end hover:text-white text-sm transition-colors"
+            >
+              Share Rally with a friend →
+            </button>
+
+            {showOptionalFields && (
+              <details className="optional-details mt-6 text-left">
+                <summary>Optional: help us match you better</summary>
+                <div className="details-content mt-4 space-y-4">
+                  {/* Role selector and optional fields would go here */}
+                  <p className="text-white/60 text-sm">
+                    You can add more details by refreshing and filling out the form again.
+                  </p>
+                </div>
+              </details>
+            )}
           </div>
         </div>
-      </nav>
 
-      {/* Hero Section */}
-      <main className="relative min-h-screen flex items-center justify-center">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden z-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-cyan-400/10 to-blue-600/10 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-          {/* Dark overlay for better text contrast */}
-          <div className="absolute inset-0 bg-black/40 z-10" />
+        {/* Status for screen readers */}
+        <div 
+          role="status" 
+          aria-live="polite" 
+          className="sr-only"
+        >
+          Successfully joined the Rally waitlist
         </div>
-
-        {/* Latest Update Banner */}
-        <div className="absolute top-24 left-1/2 transform -translate-x-1/2 z-20">
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 text-sm"
-          >
-            <span className="text-gray-400">Latest update</span>
-            <span>AI-Powered Matching Is Here!</span>
-            <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </motion.div>
-        </div>
-
-        {/* Main Content */}
-        <div className="relative z-20 text-center max-w-4xl mx-auto px-6 mt-20 md:mt-28 lg:mt-36">
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-6xl md:text-8xl font-bold mb-6 leading-tight text-white drop-shadow-2xl"
-            style={{ 
-              textShadow: '0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5)' 
-            }}
-          >
-            Connect brands with
-            <br />
-            <span className="text-gradient drop-shadow-2xl">authentic campus voices</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto drop-shadow-lg"
-            style={{ 
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.6)' 
-            }}
-          >
-            Rally connects college students and campus micro‑influencers with brands through a smart two‑sided marketplace using AI-powered resume parsing and vector database semantic matching.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <Link href="/brands/onboarding">
-              <button className="btn-hover bg-white text-black px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-2 mx-auto">
-                Get Started
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Bottom Preview Section moved below hero */}
       </main>
+    )
+  }
 
-      {/* Preview Section */}
-      <section className="relative z-20 w-full px-6 pb-16 pt-8">
-        <div className="max-w-6xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="glass rounded-2xl p-6 border border-white/10"
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-sm">R</span>
-              </div>
-              <span className="font-semibold">Rally</span>
-              <div className="ml-auto flex items-center gap-2 text-sm text-gray-400">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                Live Matching
-              </div>
+  return (
+    <main className="min-h-screen relative">
+      {/* Background orbs */}
+      <div className="bg-orbs">
+        <div className="orb-conic"></div>
+        <div className="orb-radial"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent"></div>
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="flex items-center justify-center min-h-screen p-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="mb-6">
+              <span className="inline-block px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6 fade-in">
+                Campus marketplace • AI matching
+              </span>
             </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 fade-in text-glow">
+              Rally matches students and brands for elite{' '}
+              <span className="text-gradient">campus campaigns</span>
+            </h1>
 
-            <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-              <span>← Brand Dashboard</span>
-              <span className="bg-gray-800 px-3 py-1 rounded">CAMPAIGN MATCH</span>
-              <span className="bg-blue-600 px-3 py-1 rounded">Fashion Brand Demo</span>
-              <span>Global</span>
-              <div className="ml-auto flex items-center gap-2">
-                <span>• 127 Matched Influencers</span>
-                <span>• 892K Total Reach</span>
-              </div>
-            </div>
+            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto fade-in">
+              Apply once with your resume and socials. Smart vector matching brings the right campaigns to you.
+            </p>
 
-            <div className="grid grid-cols-4 gap-6">
-              <div className="col-span-3">
-                <div className="relative h-64 bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl overflow-hidden">
-                  {/* Globe placeholder */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-48 h-48 border border-cyan-400/30 rounded-full flex items-center justify-center">
-                      <div className="w-32 h-32 border border-cyan-400/50 rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                      </div>
-                    </div>
-                    {/* Simulate dots */}
-                    <div className="absolute top-16 left-20 w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-                    <div className="absolute top-32 right-16 w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-                    <div className="absolute bottom-20 left-32 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-                    <div className="absolute bottom-16 right-20 w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
+            {/* Primary CTA */}
+            <button
+              onClick={handlePrimaryCTA}
+              className="btn-primary text-lg px-8 py-4 mb-8 fade-in"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Securing your spot...' : 'Secure My Spot'}
+            </button>
+
+            {/* Waitlist Form */}
+            <div className="glass rounded-2xl p-8 max-w-md mx-auto fade-in">
+              <h2 className="text-2xl font-bold text-white mb-2">Join the waitlist</h2>
+              <p className="text-white/70 mb-6">Get early access and exclusive updates.</p>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Honeypot field */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  style={{ display: 'none' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+
+                {/* Email field */}
+                <div className="form-field">
+                  <label htmlFor="email" className="form-label">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="your.email@college.edu"
+                    className="form-input"
+                    required
+                    autoComplete="email"
+                  />
+                </div>
+
+                {/* Role selector */}
+                <div className="form-field">
+                  <label className="form-label">I am a... (optional)</label>
+                  <div className="role-selector">
+                    <button
+                      type="button"
+                      onClick={() => handleRoleSelect('influencer')}
+                      className={`role-option ${formData.role === 'influencer' ? 'active' : ''}`}
+                    >
+                      Student
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleRoleSelect('brand')}
+                      className={`role-option ${formData.role === 'brand' ? 'active' : ''}`}
+                    >
+                      Brand
+                    </button>
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-4">
-                <div className="glass rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full" />
-                    <span className="text-sm font-semibold">MATCH STATUS</span>
-                    <span className="ml-auto text-sm text-gray-400">ACTIVE</span>
-                  </div>
-                  <div className="text-sm text-gray-400 mb-2">Fit Score</div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-gray-800 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-cyan-400 to-blue-600 h-2 rounded-full w-5/6" />
-                    </div>
-                    <span className="text-sm">94</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1">Status: EXCELLENT</div>
-                </div>
+                {/* Optional details */}
+                {showOptionalFields && (
+                  <details className="optional-details" open>
+                    <summary>Optional: help us match you better</summary>
+                    <div className="details-content mt-4 space-y-4">
+                      {formData.role === 'influencer' && (
+                        <>
+                          <div className="grid-2">
+                            <input
+                              type="text"
+                              value={formData.college || ''}
+                              onChange={(e) => handleInputChange('college', e.target.value)}
+                              placeholder="College"
+                              className="form-input"
+                            />
+                            <input
+                              type="text"
+                              value={formData.clubs || ''}
+                              onChange={(e) => handleInputChange('clubs', e.target.value)}
+                              placeholder="Clubs/Orgs"
+                              className="form-input"
+                            />
+                          </div>
+                          <div className="grid-3">
+                            <input
+                              type="text"
+                              value={formData.platform || ''}
+                              onChange={(e) => handleInputChange('platform', e.target.value)}
+                              placeholder="Primary platform"
+                              className="form-input"
+                            />
+                            <input
+                              type="number"
+                              value={formData.followers || ''}
+                              onChange={(e) => handleInputChange('followers', e.target.value)}
+                              placeholder="Followers"
+                              min="0"
+                              className="form-input"
+                            />
+                            <input
+                              type="text"
+                              value={formData.interests || ''}
+                              onChange={(e) => handleInputChange('interests', e.target.value)}
+                              placeholder="Interests"
+                              className="form-input"
+                            />
+                          </div>
+                        </>
+                      )}
 
-                <div className="glass rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full" />
-                    <span className="text-sm font-semibold">REACH BREAKDOWN</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                    <div>
-                      <div className="text-lg font-bold">12</div>
-                      <div className="text-gray-400">High</div>
+                      {formData.role === 'brand' && (
+                        <>
+                          <div className="grid-2">
+                            <input
+                              type="text"
+                              value={formData.company || ''}
+                              onChange={(e) => handleInputChange('company', e.target.value)}
+                              placeholder="Company"
+                              className="form-input"
+                            />
+                            <input
+                              type="text"
+                              value={formData.industry || ''}
+                              onChange={(e) => handleInputChange('industry', e.target.value)}
+                              placeholder="Industry"
+                              className="form-input"
+                            />
+                          </div>
+                          <div className="grid-3">
+                            <input
+                              type="text"
+                              value={formData.goal || ''}
+                              onChange={(e) => handleInputChange('goal', e.target.value)}
+                              placeholder="Campaign goal"
+                              className="form-input"
+                            />
+                            <input
+                              type="text"
+                              value={formData.target_colleges || ''}
+                              onChange={(e) => handleInputChange('target_colleges', e.target.value)}
+                              placeholder="Target colleges"
+                              className="form-input"
+                            />
+                            <input
+                              type="text"
+                              value={formData.deliverables || ''}
+                              onChange={(e) => handleInputChange('deliverables', e.target.value)}
+                              placeholder="Deliverables"
+                              className="form-input"
+                            />
+                          </div>
+                          <div className="grid-2">
+                            <input
+                              type="number"
+                              value={formData.min_followers || ''}
+                              onChange={(e) => handleInputChange('min_followers', e.target.value)}
+                              placeholder="Min followers"
+                              min="0"
+                              className="form-input"
+                            />
+                            <input
+                              type="text"
+                              value={formData.budget || ''}
+                              onChange={(e) => handleInputChange('budget', e.target.value)}
+                              placeholder="Budget"
+                              className="form-input"
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
-                    <div>
-                      <div className="text-lg font-bold">86</div>
-                      <div className="text-gray-400">Medium</div>
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold">29</div>
-                      <div className="text-gray-400">Nano</div>
-                    </div>
-                  </div>
+                  </details>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn-primary w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Securing Your Spot...' : 'Secure My Spot'}
+                </button>
+
+                <small className="text-white/60 text-xs text-center block">
+                  By joining, you agree to our{' '}
+                  <a href="#" className="text-white/80 hover:text-white">Privacy Policy</a>.
+                </small>
+              </form>
+
+              {/* Status message */}
+              {statusMessage && (
+                <div 
+                  className={`mt-4 p-3 rounded-lg text-sm ${
+                    submitStatus === 'error' ? 'bg-red-500/20 text-red-200' : 'bg-green-500/20 text-green-200'
+                  }`}
+                >
+                  {statusMessage}
                 </div>
-              </div>
+              )}
             </div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
-  );
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {STATS.map((stat, index) => (
+                <StatCard key={index} {...stat} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12 fade-in">
+              Why Rally?
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {FEATURES.map((feature, index) => (
+                <FeatureCard key={index} {...feature} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="py-12 px-4 border-t border-white/10">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="flex justify-center space-x-8 mb-6">
+              {/* Placeholder for social links */}
+              <div className="w-8 h-8 rounded bg-white/10"></div>
+              <div className="w-8 h-8 rounded bg-white/10"></div>
+              <div className="w-8 h-8 rounded bg-white/10"></div>
+            </div>
+            <p className="text-white/60 text-sm">
+              © 2024 Rally. Building the future of campus marketing.
+            </p>
+          </div>
+        </footer>
+      </div>
+
+      {/* Status for screen readers */}
+      <div 
+        role="status" 
+        aria-live="polite" 
+        className="sr-only"
+      >
+        {statusMessage}
+      </div>
+    </main>
+  )
 }
