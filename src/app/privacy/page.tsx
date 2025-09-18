@@ -152,7 +152,7 @@ export default function PrivacyPolicyPage() {
                   <li>Right to withdraw consent</li>
                 </ul>
                 <p className="text-white/80 mb-4">
-                  To exercise these rights, please contact us at privacy@rally.com.
+                  To exercise these rights, please contact us at rallyfounders@gmail.com.
                 </p>
               </section>
 
@@ -194,14 +194,8 @@ export default function PrivacyPolicyPage() {
               <section className="mb-8">
                 <h2 className="text-2xl font-semibold text-white mb-4">13. Contact Information</h2>
                 <p className="text-white/80 mb-4">
-                  If you have any questions about this Privacy Policy or our privacy practices, please contact us at:
+                  If you have any questions about this Privacy Policy or our privacy practices, please contact us at rallyfounders@gmail.com.
                 </p>
-                <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-                  <p className="text-white/90 mb-2"><strong>Rally</strong></p>
-                  <p className="text-white/80 mb-1">Email: privacy@rally.com</p>
-                  <p className="text-white/80 mb-1">General Inquiries: rallyfounders@gmail.com</p>
-                  <p className="text-white/80">Website: <Link href="/" className="text-accent-end hover:underline">rally.com</Link></p>
-                </div>
               </section>
 
               <div className="text-center mt-12 pt-8 border-t border-white/10">
