@@ -412,13 +412,13 @@ function SocialStep({ profile, setProfile }: {
   function setHandle(key: keyof Socials, handle: string) {
     setProfile((p) => ({
       ...p,
-      socials: { ...p.socials, [key]: { ...(p.socials[key] as any), handle } },
+      socials: { ...p.socials, [key]: { ...(p.socials[key] as { handle?: string; followers?: number }), handle } },
     }));
   }
   function setFollowers(key: keyof Socials, followers: number | undefined) {
     setProfile((p) => ({
       ...p,
-      socials: { ...p.socials, [key]: { ...(p.socials[key] as any), followers } },
+      socials: { ...p.socials, [key]: { ...(p.socials[key] as { handle?: string; followers?: number }), followers } },
     }));
   }
   function onFile(file?: File) {

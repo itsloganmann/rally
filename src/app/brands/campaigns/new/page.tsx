@@ -227,12 +227,12 @@ export default function NewCampaign() {
 }
 
 
-function validForStep(step: number, c: Campaign): boolean {
-  if (step === 0) return !!c.goal;
-  if (step === 1) return (c.filters.colleges?.length || 0) > 0 && !!c.filters.tier;
-  if (step === 2) return (c.deliverables?.length || 0) > 0;
-  if (step === 3) return !!c.budget.model && !!c.budget.timeline && typeof c.budget.amount === "number" && (c.budget.amount || 0) > 0;
-  return true;
-}
+// function validForStep(step: number, c: Campaign): boolean {
+//   if (step === 0) return !!c.goal;
+//   if (step === 1) return (c.filters.colleges?.length || 0) > 0 && !!c.filters.tier;
+//   if (step === 2) return (c.deliverables?.length || 0) > 0;
+//   if (step === 3) return !!c.budget.model && !!c.budget.timeline && typeof c.budget.amount === "number" && (c.budget.amount || 0) > 0;
+//   return true;
+// }
 
 

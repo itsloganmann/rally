@@ -120,7 +120,7 @@ export default function StudentDashboard() {
           {deals.length === 0 && (
             <div className="md:col-span-2 rounded-2xl border border-dashed border-white/10 bg-white/5 p-10 text-center">
               <div className="text-lg font-medium">No opportunities match your filters (yet)</div>
-              <div className="mt-2 text-sm text-white/70">Try clearing search or switching location to "All".</div>
+              <div className="mt-2 text-sm text-white/70">Try clearing search or switching location to &quot;All&quot;.</div>
             </div>
           )}
           {deals.map((d) => (
@@ -164,16 +164,16 @@ export default function StudentDashboard() {
   );
 }
 
-function ReputationCard({ title, active }: { title: string; active: boolean }) {
-  return (
-    <div className={`rounded-2xl border border-white/10 p-5 ${active ? "bg-white/10" : "bg-white/5"}`}>
-      <div className="flex items-center gap-2">
-        <div className={`h-2.5 w-2.5 rounded-full ${active ? "bg-emerald-400" : "bg-white/20"}`} />
-        <div className="text-sm text-white/80">{title}</div>
-      </div>
-    </div>
-  );
-}
+// function ReputationCard({ title, active }: { title: string; active: boolean }) {
+//   return (
+//     <div className={`rounded-2xl border border-white/10 p-5 ${active ? "bg-white/10" : "bg-white/5"}`}>
+//       <div className="flex items-center gap-2">
+//         <div className={`h-2.5 w-2.5 rounded-full ${active ? "bg-emerald-400" : "bg-white/20"}`} />
+//         <div className="text-sm text-white/80">{title}</div>
+//       </div>
+//     </div>
+//   );
+// }
 
 function filterAndSortDeals(
   deals: Deal[],
