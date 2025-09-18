@@ -89,68 +89,7 @@ const FEATURES = [
   }
 ]
 
-// Loading Screen Component
-function LoadingScreen({ isLoading }: { isLoading: boolean }) {
-  const [progress, setProgress] = useState(0)
-  const [loadingText, setLoadingText] = useState("Initializing Rally...")
 
-  useEffect(() => {
-    if (!isLoading) return
-
-    const texts = [
-      "Initializing Rally...",
-      "Loading AI matching engine...",
-      "Connecting to campus networks...", 
-      "Preparing your experience..."
-    ]
-
-    let textIndex = 0
-    const textInterval = setInterval(() => {
-      setLoadingText(texts[textIndex])
-      textIndex = (textIndex + 1) % texts.length
-    }, 800)
-
-    const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) return 100
-        return prev + Math.random() * 15
-      })
-    }, 100)
-
-    return () => {
-      clearInterval(textInterval)
-      clearInterval(progressInterval)
-    }
-  }, [isLoading])
-
-  if (!isLoading) return null
-
-  return (
-    <div className="fixed inset-0 z-50 bg-background flex items-center justify-center">
-      <div className="bg-orbs">
-        <div className="orb-conic"></div>
-        <div className="orb-radial"></div>
-      </div>
-      
-      <div className="relative z-10 text-center">
-        <div className="w-20 h-20 bg-gradient-to-br from-accent-start to-accent-end rounded-2xl flex items-center justify-center mb-8 mx-auto animate-pulse">
-          <span className="text-white font-bold text-2xl">R</span>
-        </div>
-        
-        <h2 className="text-2xl font-bold text-white mb-4">{loadingText}</h2>
-        
-        <div className="w-80 h-2 bg-white/10 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-accent-start to-accent-end transition-all duration-300 ease-out"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        
-        <p className="text-white/60 text-sm mt-4">{Math.round(progress)}% complete</p>
-      </div>
-    </div>
-  )
-}
 
 // Konami Code Easter Egg
 function useKonamiCode() {
@@ -235,7 +174,6 @@ function FeatureCard({ icon, title, description }: { icon: string, title: string
 }
 
 export default function WaitlistPage() {
-  const [isLoading, setIsLoading] = useState(true)
   const [formData, setFormData] = useState<FormData>({
     email: '',
     role: ''
@@ -248,14 +186,6 @@ export default function WaitlistPage() {
   const [lastSubmit, setLastSubmit] = useState<number | null>(null)
   const [clickCount, setClickCount] = useState(0)
   const konamiActivated = useKonamiCode()
-
-  // Loading screen effect
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2500)
-    return () => clearTimeout(timer)
-  }, [])
 
   // Logo click easter egg
   const handleLogoClick = () => {
@@ -273,6 +203,13 @@ export default function WaitlistPage() {
   const handleRoleSelect = (role: 'brand' | 'influencer') => {
     setFormData(prev => ({ ...prev, role }))
     setShowOptionalFields(true)
+  }
+
+  const getEmailPlaceholder = () => {
+    if (formData.role === 'brand') {
+      return 'your.email@brand.com'
+    }
+    return 'your.email@college.edu'
   }
 
   const generateSummary = (data: FormData): string => {
@@ -434,15 +371,13 @@ export default function WaitlistPage() {
 
   return (
     <>
-      <LoadingScreen isLoading={isLoading} />
-      
       {konamiActivated && (
         <div className="fixed top-4 right-4 z-40 bg-gradient-to-r from-accent-start to-accent-end p-4 rounded-lg text-white font-bold animate-bounce">
           🎮 Konami Code Activated! You&apos;re a legend! 🎮
         </div>
       )}
 
-      <main className={`min-h-screen relative transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+      <main className="min-h-screen relative">
         <div className="bg-orbs">
           <div className="orb-conic"></div>
           <div className="orb-radial"></div>
@@ -510,17 +445,17 @@ export default function WaitlistPage() {
                     <label htmlFor="email" className="form-label">
                       Email Address
                     </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      placeholder="your.email@college.edu"
-                      className="form-input"
-                      required
-                      autoComplete="email"
-                    />
+                                         <input
+                       type="email"
+                       id="email"
+                       name="email"
+                       value={formData.email}
+                       onChange={(e) => handleInputChange('email', e.target.value)}
+                       placeholder={getEmailPlaceholder()}
+                       className="form-input"
+                       required
+                       autoComplete="email"
+                     />
                   </div>
 
                   <div className="form-field">
@@ -664,10 +599,10 @@ export default function WaitlistPage() {
                     {isSubmitting ? 'Securing Your Spot...' : 'Secure My Spot'}
                   </button>
 
-                  <small className="text-white/60 text-xs text-center block">
-                    By joining, you agree to our{' '}
-                    <a href="#" className="text-white/80 hover:text-white">Privacy Policy</a>.
-                  </small>
+                                     <small className="text-white/60 text-xs text-center block">
+                     By joining, you agree to our{' '}
+                     <Link href="/privacy" className="text-white/80 hover:text-white underline">Privacy Policy</Link>.
+                   </small>
                 </form>
 
                 {statusMessage && (
