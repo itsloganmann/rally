@@ -92,20 +92,21 @@ const FEATURES = [
 
 
 // Konami Code Easter Egg
+const KONAMI_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
+
 function useKonamiCode() {
   const [konamiActivated, setKonamiActivated] = useState(false)
   const sequence = useRef<string[]>([])
-  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA']
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       sequence.current.push(e.code)
-      if (sequence.current.length > konamiCode.length) {
+      if (sequence.current.length > KONAMI_CODE.length) {
         sequence.current.shift()
       }
       
-      if (sequence.current.length === konamiCode.length && 
-          sequence.current.every((key, index) => key === konamiCode[index])) {
+      if (sequence.current.length === KONAMI_CODE.length && 
+          sequence.current.every((key, index) => key === KONAMI_CODE[index])) {
         setKonamiActivated(true)
         setTimeout(() => setKonamiActivated(false), 3000)
       }
@@ -113,7 +114,7 @@ function useKonamiCode() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [konamiCode])
+  }, [])
 
   return konamiActivated
 }
@@ -327,22 +328,20 @@ export default function WaitlistPage() {
       setStatusMessage(`Thanks for joining the waitlist! Check your email for confirmation.`)
       setLastSubmit(now)
       
-    } catch (error: any) {
-      console.error('Email send failed:', {
-        error,
-        status: error?.status,
-        text: error?.text,
-        message: error?.message
-      })
+    } catch (error: unknown) {
+      console.error('Email send failed:', error)
       
       let errorMessage = 'Something went wrong. Please try again or contact us directly.'
       
-      if (error?.status === 403) {
-        errorMessage = 'Email service configuration issue. Please contact support.'
-      } else if (error?.status === 401) {
-        errorMessage = 'Authentication failed. Please contact support.'
-      } else if (error?.status === 429) {
-        errorMessage = 'Too many requests. Please wait a moment and try again.'
+      if (error && typeof error === 'object' && 'status' in error) {
+        const status = (error as { status?: number }).status
+        if (status === 403) {
+          errorMessage = 'Email service configuration issue. Please contact support.'
+        } else if (status === 401) {
+          errorMessage = 'Authentication failed. Please contact support.'
+        } else if (status === 429) {
+          errorMessage = 'Too many requests. Please wait a moment and try again.'
+        }
       }
       
       setSubmitStatus('error')
