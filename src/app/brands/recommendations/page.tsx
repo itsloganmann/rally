@@ -211,7 +211,7 @@ export default function Recommendations() {
             </div>
 
             {/* Globe */}
-            <div className="bg-gray-800 rounded-lg p-4">
+            <div className="bg-gray-800 rounded-lg p-2 h-[600px]">
               <Globe
                 influencers={filteredAndSortedInfluencers}
                 schools={schools}

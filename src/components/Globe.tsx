@@ -83,11 +83,16 @@ export default function Globe({
         const Globe = (await import('globe.gl')).default;
         const THREE = await import('three');
 
-        const globe = new Globe(containerRef.current!)
+        // Get container dimensions for responsive sizing
+        const container = containerRef.current!;
+        const containerRect = container.getBoundingClientRect();
+        const size = Math.min(containerRect.width, containerRect.height);
+
+        const globe = new Globe(container)
           .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
           .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-          .width(600)
-          .height(600);
+          .width(containerRect.width)
+          .height(containerRect.height);
 
         // Configure globe material for dark theme
         const material = globe.globeMaterial() as any;
@@ -121,6 +126,23 @@ export default function Globe({
     };
 
     initGlobe();
+  }, [isLoaded]);
+
+  // Handle window resize
+  useEffect(() => {
+    if (!globeRef.current || !containerRef.current) return;
+
+    const handleResize = () => {
+      const container = containerRef.current!;
+      const containerRect = container.getBoundingClientRect();
+      
+      globeRef.current!
+        .width(containerRect.width)
+        .height(containerRect.height);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [isLoaded]);
 
   // Update countries polygons
@@ -228,11 +250,11 @@ export default function Globe({
   }, [searchSchool, schools, onSchoolClick]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full h-full">
       <div 
         ref={containerRef}
-        className="w-full h-[600px] rounded-lg overflow-hidden bg-black"
-        style={{ minHeight: '600px' }}
+        className="w-full h-full rounded-lg overflow-hidden bg-black flex items-center justify-center"
+        style={{ minHeight: '400px' }}
       />
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-black rounded-lg">
